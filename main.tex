@@ -50,14 +50,20 @@ style=alphabetic,
 ]{biblatex}
 % THEOREMS AND DEFINITIONS
 \usepackage{amsthm}
+% Definition
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+%Remark
 \theoremstyle{remark}
-\theoremstyle{theorem}
 \newtheorem*{remark}{Remark}
+%Theorem
+\theoremstyle{theorem}
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
+%Corollary
+\theoremstyle{corollary}
+\newtheorem{corollary}{Corollary}[theorem]
+
 
 
 \addbibresource{references.bib} % The filename of the bibliography

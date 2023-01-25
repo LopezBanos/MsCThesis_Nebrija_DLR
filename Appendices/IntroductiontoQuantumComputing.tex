@@ -1,13 +1,13 @@
 % Appendix A
 
 \chapter{Introduction to Quantum Computing} % Main appendix title
-This appendix serve as a quick introduction to quantum computing. We explain the basics concepts without going deeply in their physical meaning or historical approach. If you already know the basics of quantum computing you can skip this section. Additionally, for a reader interested in getting a deeper understanding of the topics, see \cite{W.Bryon1992HilbertFunctions} (for Hilbert Spaces) and \cite{Nielsen2010QuantumInformation} (for quantum computing).\\
+This appendix serve as a quick introduction to quantum computing. We explain the basics concepts without going deeply in their physical meaning or historical approach. If you already know the basics of quantum computing you can skip this section. Additionally, for a reader interested in getting a deeper understanding of the topics, see \cite{W.Bryon1992HilbertFunctions},  \cite{Scherer2019MathematicsComputing} (for Hilbert Spaces) and \cite{Nielsen2010QuantumInformation} (for quantum computing).\\
 
 
 \label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
 
 \section{Hilbert Space}
-Here, we begin defining the vector space where quantum computing takes place, the Hilbert space, $\mathcal{H}$.
+We begin defining the vector space where quantum computing takes place, the Hilbert space, $\mathbb{H}$.
 \begin{definition}[Hilbert Space]
 A Hilbert space is a special type of linear vector space whose elements are complex-valued \textit{square integrable}\footnote{A function $\psi(x)$ is said to be \textit{square integrable} on a given interval $\left[a, b\right]$ if $\int_{a}^{b}\|\psi(x)\|^{2}dx$ exist with a finite value.} functions, $\psi(x)$, of a real variable $x$, defined on the closed interval $\left[a, b\right]$, equipped with a \textit{complete inner product}, $(\cdot,\cdot)$, in $\mathbb{C}^{n}$.
 \end{definition}
@@ -16,26 +16,39 @@ Given two functions of the Hilbert space, $\psi_{1}$ and $\psi_{2}$, the inner p
 \begin{equation}
     \left(\psi_{1}, \psi_{2}\right) \equiv \int^{b}_{a} \psi_{1}^{*}(x)\psi_{2}(x)dx
 \end{equation}
-so that given \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{C}^{n}$ and \{$\alpha, \beta\} \in \mathbb{C}$, it satisfies:
+\end{definition}
+\begin{corollary}
+Given the functions \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{C}^{n}$ and \{$\alpha, \beta\} \in \mathbb{C}$, the inner product of the associated Hilbert space satisfies:
 \begin{itemize}
     \item Closed operation: $(\psi_{1},\psi_{2})\in \mathbb{C}^{n}$
     \item Conjugate symmetry: $(\psi_{1},\psi_{2}) = (\psi_{2},\psi_{1})^{*}$
     \item Linear with respect the second vector: $(\psi_{1},\lambda \cdot \psi_{2} + \beta\cdot\psi_{3}) = \lambda(\psi_{1},\psi_{2}) + \beta(\psi_{1},\psi_{3})$
     \item Anti-linear with respect the first vector: $(\lambda \cdot \psi_{1} + \beta \cdot \psi_{2}, \psi_{3}) = \lambda^{*}(\psi_{1},\psi_{3}) + \beta^{*} (\psi_{2},\psi_{3})$
     \item Positive definiteness: $(\psi, \psi) = \lVert \psi \rVert^{2} \in \left[0,\infty\right)$\footnote{The quantity $\lVert \psi \rVert^{2}$ is called the norm of $\psi$. If $\lVert \psi \rVert^{2}$ that does not imply $\psi(x) = 0$ for all $x$ in $\left[a,b\right]$. The function can have nonzero values at some points and the integral will remain zero. The integral roughly computes the area in a given interval, so, if there is just a point not null in the interval the area captured by a point is zero, so its contributions to the integral is zero.} 
-    \item Distance: $d \equiv \left|\psi_{2} - \psi_{1}\right| = \sqrt{(\psi_{2}-\psi_{1},\psi_{2}-\psi_{1})}$
-\end{itemize}
+\end{itemize}    
+\end{corollary}
+\begin{definition}[Distance]
+    The distance defined by this inner product is given by
+    \begin{equation}
+      d \equiv \left|\psi_{2} - \psi_{1}\right| = \sqrt{(\psi_{2}-\psi_{1},\psi_{2}-\psi_{1})}  
+    \end{equation}
 \end{definition}
 \begin{definition}[Completeness of a space]
-A complete space is one in which any Cauchy sequence of that space is convergent, i.e., tends towards a value inside the given space.
+A complete space is one in which any Cauchy sequence -- of that space -- is convergent, i.e., tends towards a value inside the given space.
 \end{definition}
+\begin{flushleft}
+    Suppose that our space is not complete, i.e., some Cauchy sequences are not convergent. Then, the evolution of an initial state \footnote{The formulae for the evolution of an state is explained in further sections.}, $\ket{\psi(0)}$, under a given constant hamiltonian is not guaranteed.
+    \begin{equation}
+        \ket{\psi(t)} = e^{-\frac{i\mathcal{H}}{\hbar}t}\ket{\psi(0)} = \lim_{n \to \infty} \sum_{i = 0}^{n}\frac{(-it)^{k}}{k!h^{k}}\mathcal{H}^{k}\ket{\psi(0)}
+    \end{equation}
+    
+\end{flushleft}
 \begin{definition}[Completeness of an orthonormal set of functions]
 A set of orthonormal functions $\{\psi_{i}\}$ is complete if any function $\psi(x)$ in Hilbert space can be written as a linear combination of the $\psi_{i}(x)$\footnote{Here we do not ask for point convergence, we weaken the converge criterion to mean convergence. Otherwise, there would not exist a complete set of orthonormal function in the Hilbert space.}:
 \begin{equation}
     \lim_{n\to \infty}\| \psi(x) - \sum_{i=1}^{n}c_{i}\psi_{i}(x)\|^{2}dx = 0
 \end{equation}
 \end{definition}
-The following theorem states that the space of square-integrable functions, is complete.
 \begin{theorem}[Riesz-Fischer]
 Assume the functions $\psi_{1}(x),\psi_{2}(x),...$ are elements of Hilbert space. If
 \begin{equation}
@@ -62,17 +75,56 @@ In the present work we work with a particular Hilbert space, a finite Hilbert sp
 In a separable Hilbert space, it can be proved that there exist an orthonormal basis. So for a finite Hilbert space -- which is a countable space -- the orthogonal basis is guaranteed.
 \end{flushleft}
 \section{Notation}
-Despite Hilbert spaces are the mathematical background of quantum physics, one can do quantum computing without knowing what a Hilbert space is.\\
-The most common notation for quantum computing -- also for quantum mechanics -- is the Bra-Ket notation.
 \begin{definition}[Dirac's Bra-Ket Notation]
-(Add Dual space definition)
+The inner product of an n-dimensional Hilbert space defines a linear map from $\mathbb{H}$ to $\mathbb{C}$
+\begin{align*}
+  \tau: \mathbb{H}\longrightarrow& \mathbb{C}^{n} \\
+  \tau(\psi) \longrightarrow& \begin{bmatrix}
+           \alpha_{1} \\
+           \vdots \\
+           \alpha_{n}
+         \end{bmatrix}
+\end{align*}  
+Conversely, 
+\begin{align*}
+  \bar{\tau}: \mathbb{H}^{*}\longrightarrow& \mathbb{C}^{n} \\
+  \bar{\tau}(\varphi) \longrightarrow& \begin{bmatrix}
+           \alpha_{1}^{*}, & \hdots &, \alpha_{n}^{*}
+         \end{bmatrix}
+\end{align*}  
+where $\mathbb{H}^{*}$ denotes the dual space. The dual space $\mathbb{H}^{*}$ is also a Hilbert space with the same dimension as $\mathbb{H}$. \\
+\begin{itemize}
+    \item Elements of a Hilbert space, $\mathbb{H}$ are called \textit{ket-vectors} 
+\begin{equation}
+    \psi \equiv \ket{\psi} =  \begin{bmatrix}
+           \alpha_{1} \\
+           \vdots \\
+           \alpha_{n}
+         \end{bmatrix}
+\end{equation}
+\item Elements of a dual Hilbert space $\mathbb{H}^{*}$ are called \textit{bra-vectors}
+\begin{equation}
+    \psi^{*} \equiv \bra{\psi} =  \begin{bmatrix}
+           \alpha_{1}^{*}, & \hdots &, \alpha_{n}^{*}
+         \end{bmatrix}
+\end{equation}
+\end{itemize}
 \end{definition}
 \begin{flushleft}
-Quantum computing calculations do not require to know all the fine details of the dual space. It is enough knowing the matrix form of a Bra -- row vector -- and a ket ......
+    Notice that a Bra-vector is just the transpose conjugate of a Ket-vector. This is the handy way of mapping a Ket vector of a given Hilbert space into its Bra vector on the associate dual Hilbert space.
+\end{flushleft}
+\begin{corollary}
+    In Bra-Ket notation, a set of vectors $\{\ket{\psi_{j}}\}$ is said to span $\mathbb{H}$ if we can express any vector $\ket{\psi}$ of that space as a liner combination of the vectors in the given set
+    \begin{equation}
+        \ket{\psi} = \sum_{j}\alpha_{j}\ket{\psi_{j}}
+    \end{equation}
+    where the coefficients of the combination $\alpha_{j}$ are complex numbers. In particular, if the set of vectors $\{\ket{\psi_{j}}\}$ are linearly independent and the number of vector in that set is equal to the dimension of our space. Then this set of vector is a basis set of our space and the previous expression is the so-called basis expansion of $\ket{\psi}$.
+\end{corollary}
+\begin{flushleft}
 \end{flushleft}
 \section{Quantum bits}
-A \textit{bit} is the smallest unit of information of classical computing. Analogously, a \textit{qubit} is the smallest unit of information for quantum computing. The following section treats bits and qubits as abstract mathematical objects without their physical implementation. In further sections, we describe some implementations of a physical qubit.\\
-A classical bit has two possibles states usually named $\ket{0}$ or $\ket{1}$\footnote{The name of the states of a bit or qubit is not important. It is just a way of labelling those states.}. However, a quantum bit is a linear combination of states -- \textit{superposition} -- $\{\ket{0}, \ket{1}\}$. The general state of a qubit can be conceived as a vector in a two-dimensional complex vector space, with $\alpha, \beta \in \mathbb{C}$:
+A \textit{bit} is the smallest unit of information of classical computing. Analogously, a \textit{qubit} is the smallest unit of information for quantum computing. The following section treats bits and qubits as abstract mathematical objects without their physical implementation. In further sections, we describe some implementations of a physical qubit.\\\\
+A classical bit has two possibles states commonly named $\ket{0}$ or $\ket{1}$\footnote{The name of the states of a bit or qubit is not important. It is just a way of labelling those states.}. However, a quantum bit is a linear combination of states -- \textit{superposition} -- $\{\ket{0}, \ket{1}\}$. The general state of a qubit can be conceived as a vector in a two-dimensional complex vector space, with $\alpha, \beta \in \mathbb{C}$:
 \begin{equation}
     \ket{\psi} = \alpha \ket{0} + \beta \ket{1} = \alpha \begin{bmatrix}
            1 \\
@@ -85,7 +137,7 @@ A classical bit has two possibles states usually named $\ket{0}$ or $\ket{1}$\fo
            1 
          \end{bmatrix}
 \end{equation}
-where $\|\alpha\|^{2} + \|\beta\|^{2}$ = 1, i.e, the state of a qubit is normalized..
+where $\|\alpha\|^{2} + \|\beta\|^{2}$ = 1, i.e, the state of a qubit is normalized.\\
 The last expression can be written in term of two parameters,
 \begin{equation}
     \ket{\psi} = \cos{\frac{\theta}{2}}\ket{0} + e^{i\phi}\sin{\frac{\theta}{2}}\ket{1}
@@ -133,7 +185,16 @@ The normalization condition for a n-qubit system can be written by
 \boxed{\sum_{x\in \{0,1\}^{n}}\|\alpha_{x}\|^{2} = 1}
 \end{equation}
 \subsection{Measurements}
-We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\| \alpha\|^{2}$ and $\| \beta\|^{2}$ respectively.\\\\
+Quantum mechanics makes predictions about microscopic objects taking into account their statistics\footnote{Measurements with an ensemble of equally prepare states gives quantities distributed around a mean value with a given frequency.}. This predictions have implications for macroscopic world.
+\begin{definition}[Observable]
+    Given the state of a system $\ket{\psi}$, an \textit{observable} -- represented with an operator $\hat{A}$ -- is the physical quantity we can measure associated with the operator $\hat{A}$. 
+\end{definition}
+\begin{definition}[Expectation Value]
+    The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
+\end{definition}
+\begin{flushleft}
+We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\| \alpha\|^{2}$ and $\| \beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.\\\\    
+\end{flushleft}
 In a measurement, the general state of the qubit collapse to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with $100\%$ probability, i.e., measurements collapse a qubit into one of the basis states destroying superposition.
 \blockquote{\textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}\\
 \cite{Nielsen2010QuantumInformation}}
@@ -142,7 +203,15 @@ Suppose we have the following two-qubit state, called \textit{Bell state}\footno
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)
 \end{equation}
 If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothers Einstein.} \\
-
+\subsection{Operators}
+\begin{definition}[Unitary Operator]
+    An operator U on $\mathbb{H}$ is unitary if
+    \begin{equation}
+        \braket{U\psi|U\varhi} = \braket{\psi|\varphi} \; \forall \ket{\psi},\ket{\varphi} \in \mathbb{H}
+    \end{equation}
+\end{definition}
+One of the paradigm of universal quantum computing is the gate model. This approach substitute classical logic gates such as AND, OR , XOR, NOT ... by its quantum equivalent. This quantum gates are represented by unitary matrices, in this way the inner product is preserved.\\\\
+Equivalently, a quantum gate is 
 \section{Schrödinger Equation}
 The Schrödinger Equation cannot be derived, it just can be arrived and tested experimentally. The mathematical expression is
 \begin{equation}
