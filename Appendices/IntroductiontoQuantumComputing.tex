@@ -142,22 +142,41 @@ The last expression can be written in term of two parameters,
 \begin{equation}
     \ket{\psi} = \cos{\frac{\theta}{2}}\ket{0} + e^{i\phi}\sin{\frac{\theta}{2}}\ket{1}
 \end{equation}
-that represent the angles of the Bloch Sphere \footnote{A Bloch sphere is a geometric representation of the state of a single qubit where each axis contain two orthogonal states, e.g., the Z-axis has the orthogonal states $\{\ket{0},\ket{1}\}$.}.\\
+that represent the angles of the Bloch Sphere \footnote{A Bloch sphere is a geometric representation of the state of a single qubit where each axis contains two orthogonal states, e.g., the Z-axis has the orthogonal states $\{\ket{0},\ket{1}\}$.}.\\
 The states $\ket{0}$ and $\ket{1}$ form a computational basis states (orthonormal basis) for the $\mathbb{C}^{2}$ vector space. There are infinite single-qubit basis sets for $\mathbb{C}^{2}$, albeit the ones known as \textit{computational basis} are the ones that build the axis of the Bloch Sphere.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=2.0]{Figures/BlochSphere.png}
-    \caption{A Bloch Sphere displaying the state of a single qubit.}
+    \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit. The vector $\vec{n}$ contains the coefficients of the lineal combination of Pauli Matrices that generate the state $\ket{\psi}$.}
     \label{fig:bloch_sphere}
 \end{figure}
+The Pauli matrices represent a rotation\footnote{Pauli matrices are generators of SU(2) group. A complex exponential can be understood as a rotation around a vector $\vec{n}$ where $e^{i\frac{\theta}{2}(\vec{n}\cdot \vec{\sigma})} = \mathbb{I}\cos{\frac{\theta}{2}} + i(\vec{n}\cdot \vec{\sigma})\sin{\frac{\theta}{2}}$.} around a given axis $\{X, Y, Z \}$. The matrix representation is given by,
+\begin{align*}
+X \equiv \sigma_{x} = \sigma_{1} = 
+    \begin{bmatrix}
+           0 & 1 \\
+           1 & 0 
+         \end{bmatrix} \\
+Y \equiv \sigma_{y} = \sigma_{2} = 
+    \begin{bmatrix}
+           0 & -i \\
+           i & 0 
+         \end{bmatrix} \\ 
+Z \equiv \sigma_{z} = \sigma_{3} = 
+    \begin{bmatrix}
+           1 & 0 \\
+           0 & -1 
+         \end{bmatrix}
+\end{align*}
+The eigenvectors of Pauli matrices are the computational basis vectors,
 \begin{align*}
     \Biggl\{\begin{bmatrix}
-           0 \\
-           1 
-         \end{bmatrix}, \begin{bmatrix}
            1 \\
            0 
+         \end{bmatrix}, \begin{bmatrix}
+           0 \\
+           1 
          \end{bmatrix} \Biggr\}\equiv \{\ket{0}, \ket{1}\} \in Z_{basis} \\
          \Biggl\{\begin{bmatrix}
            \frac{1}{\sqrt{2}} \\
@@ -174,6 +193,7 @@ The states $\ket{0}$ and $\ket{1}$ form a computational basis states (orthonorma
            -\frac{i}{\sqrt{2}} 
          \end{bmatrix} \Biggr\}\equiv \{\ket{R}, \ket{L}\} \in Y_{basis}
 \end{align*}
+In this way, if we compute the value for the position of our qubit. We get the polar coordinates representation as one could expect.
 In general, we deal with multiple qubits. The basis for a n-qubit system is just the tensor product of n-single-qubit basis.\\
 Suppose we have two qubits. Then, the $Z\otimes Z-basis$ is $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$ and the state of a two-qubit system is described by the linear combination,
 \begin{equation}
@@ -184,16 +204,32 @@ The normalization condition for a n-qubit system can be written by
 \begin{equation}
 \boxed{\sum_{x\in \{0,1\}^{n}}\|\alpha_{x}\|^{2} = 1}
 \end{equation}
-\subsection{Measurements}
+\subsection{Measurements and Operators}
 Quantum mechanics makes predictions about microscopic objects taking into account their statistics\footnote{Measurements with an ensemble of equally prepare states gives quantities distributed around a mean value with a given frequency.}. This predictions have implications for macroscopic world.
+\begin{definition}[Operator]
+    
+\end{definition}
 \begin{definition}[Observable]
     Given the state of a system $\ket{\psi}$, an \textit{observable} -- represented with an operator $\hat{A}$ -- is the physical quantity we can measure associated with the operator $\hat{A}$. 
 \end{definition}
+\begin{flushleft}
+   As an example consider the \textit{Hamiltonian} of a system, $\hat{\mathcal{H}}$. For the present work, the Hamiltonian of a system represent the total energy of the system. So, the associated eigenvalues are the eigenenergies of the system.  
+\end{flushleft}
+\begin{definition}[Unitary Operator]
+    An operator U on $\mathbb{H}$ is unitary if
+    \begin{equation}
+        \braket{U\psi|U\varphi} = \braket{\psi|\varphi} \; \forall \ket{\psi},\ket{\varphi} \in \mathbb{H}
+    \end{equation}
+\end{definition}
+\begin{flushleft}
+   One of the paradigm of universal quantum computing is the gate model. This approach substitute classical logic gates such as AND, OR , XOR, NOT ... by its quantum analog. This quantum gates are represented by unitary matrices, in this way the inner product is preserved.\\
+Equivalently, a quantum gate is represented by a complex exponential in the form $e^{i\frac{\hat{\mathcal{H}}}{\hbar}t}$ where a given Hamiltonian -- controlled by external fields such as magnetic fields -- controls the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate.
+\end{flushleft}
 \begin{definition}[Expectation Value]
     The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
 \end{definition}
 \begin{flushleft}
-We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\| \alpha\|^{2}$ and $\| \beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.\\\\    
+We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\|\alpha\|^{2}$ and $\|\beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.   
 \end{flushleft}
 In a measurement, the general state of the qubit collapse to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with $100\%$ probability, i.e., measurements collapse a qubit into one of the basis states destroying superposition.
 \blockquote{\textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}\\
@@ -203,15 +239,7 @@ Suppose we have the following two-qubit state, called \textit{Bell state}\footno
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)
 \end{equation}
 If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothers Einstein.} \\
-\subsection{Operators}
-\begin{definition}[Unitary Operator]
-    An operator U on $\mathbb{H}$ is unitary if
-    \begin{equation}
-        \braket{U\psi|U\varhi} = \braket{\psi|\varphi} \; \forall \ket{\psi},\ket{\varphi} \in \mathbb{H}
-    \end{equation}
-\end{definition}
-One of the paradigm of universal quantum computing is the gate model. This approach substitute classical logic gates such as AND, OR , XOR, NOT ... by its quantum equivalent. This quantum gates are represented by unitary matrices, in this way the inner product is preserved.\\\\
-Equivalently, a quantum gate is 
+
 \section{Schrödinger Equation}
 The Schrödinger Equation cannot be derived, it just can be arrived and tested experimentally. The mathematical expression is
 \begin{equation}
