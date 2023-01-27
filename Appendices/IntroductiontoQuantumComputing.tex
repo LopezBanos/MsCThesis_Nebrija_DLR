@@ -88,7 +88,7 @@ The inner product of an n-dimensional Hilbert space defines a linear map from $\
 Conversely, 
 \begin{align*}
   \bar{\tau}: \mathbb{H}^{*}\longrightarrow& \mathbb{C}^{n} \\
-  \bar{\tau}(\varphi) \longrightarrow& \begin{bmatrix}
+  \bar{\tau}(\psi) \longrightarrow& \begin{bmatrix}
            \alpha_{1}^{*}, & \hdots &, \alpha_{n}^{*}
          \end{bmatrix}
 \end{align*}  
@@ -111,7 +111,7 @@ where $\mathbb{H}^{*}$ denotes the dual space. The dual space $\mathbb{H}^{*}$ i
 \end{itemize}
 \end{definition}
 \begin{flushleft}
-    Notice that a Bra-vector is just the transpose conjugate of a Ket-vector. This is the handy way of mapping a Ket vector of a given Hilbert space into its Bra vector on the associate dual Hilbert space.
+    Notice that a Bra-vector is just the transpose conjugate of a Ket-vector. This is the handy way of mapping a Ket-vector of a given Hilbert space into its Bra-vector on the associate dual Hilbert space.
 \end{flushleft}
 \begin{corollary}
     In Bra-Ket notation, a set of vectors $\{\ket{\psi_{j}}\}$ is said to span $\mathbb{H}$ if we can express any vector $\ket{\psi}$ of that space as a liner combination of the vectors in the given set
@@ -147,7 +147,7 @@ The states $\ket{0}$ and $\ket{1}$ form a computational basis states (orthonorma
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=2.0]{Figures/BlochSphere.png}
+    \includegraphics[scale=0.8]{Figures/BlochSphere_Layer 1.pdf}
     \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit. The vector $\vec{n}$ contains the coefficients of the lineal combination of Pauli Matrices that generate the state $\ket{\psi}$.}
     \label{fig:bloch_sphere}
 \end{figure}
@@ -202,15 +202,26 @@ Suppose we have two qubits. Then, the $Z\otimes Z-basis$ is $\{\ket{00},\ket{01}
 where $\|\alpha_{00}\|^{2} + \|\alpha_{01}\|^{2} + \|\alpha_{10}\|^{2} + \|\alpha_{11}\|^{2} = 1$, i.e., the state is normalized.\\
 The normalization condition for a n-qubit system can be written by
 \begin{equation}
-\boxed{\sum_{x\in \{0,1\}^{n}}\|\alpha_{x}\|^{2} = 1}
+\sum_{x\in \{0,1\}^{n}}\|\alpha_{x}\|^{2} = 1
 \end{equation}
 \subsection{Measurements and Operators}
-Quantum mechanics makes predictions about microscopic objects taking into account their statistics\footnote{Measurements with an ensemble of equally prepare states gives quantities distributed around a mean value with a given frequency.}. This predictions have implications for macroscopic world.
+Quantum mechanics makes predictions about microscopic objects taking into account their statistics\footnote{Measurements with an ensemble of equally prepare states gives quantities distributed around a mean value with a given frequency.}. This predictions have implications for macroscopic world. In classical computing a system is unaltered by tiny interactions such as light or heat. However, in quantum computing this environment noise is quite important as it modify the state of the system. This noise is doubled-edged sword as it can be used to modify intentionally the state of a quantum system with what is known as \textit{quantum fluctuations}.
 \begin{definition}[Operator]
-    
+    An operator $\hat{A}$ is a linear map between Hilbert spaces that satisfy,
+    \begin{equation}
+        \braket{\hat{A}^{\dagger}\psi|\varphi} = \braket{\psi|\hat{A}\varphi} \forall \psi,\varphi \in \mathbb{H}
+    \end{equation}
+    where $\hat{A}$ admit a matrix representation and "$\dagger$" means transpose conjugate
 \end{definition}
+\begin{corollary}
+    Given an operator $\hat{A}$, on a finite Hilbert space, the operator is said to be hermitian if
+    \begin{equation}
+        \hat{A}^{\dagger} = \hat{A}
+    \end{equation}
+    Hermitian operators play an important role in quantum physics because their eigenvalues are real and represent measurable physical quantities.
+\end{corollary}
 \begin{definition}[Observable]
-    Given the state of a system $\ket{\psi}$, an \textit{observable} -- represented with an operator $\hat{A}$ -- is the physical quantity we can measure associated with the operator $\hat{A}$. 
+    Given the state of a system $\ket{\psi}$, an \textit{observable} -- represented with an operator $\hat{A}$ -- is the physical quantity we can measure associated with the hermitian operator $\hat{A}$. The possible observables of an operator are its eigenvalues\\
 \end{definition}
 \begin{flushleft}
    As an example consider the \textit{Hamiltonian} of a system, $\hat{\mathcal{H}}$. For the present work, the Hamiltonian of a system represent the total energy of the system. So, the associated eigenvalues are the eigenenergies of the system.  
@@ -218,15 +229,21 @@ Quantum mechanics makes predictions about microscopic objects taking into accoun
 \begin{definition}[Unitary Operator]
     An operator U on $\mathbb{H}$ is unitary if
     \begin{equation}
-        \braket{U\psi|U\varphi} = \braket{\psi|\varphi} \; \forall \ket{\psi},\ket{\varphi} \in \mathbb{H}
+        U^{\dagger}U =\mathbb{I}
     \end{equation}
 \end{definition}
 \begin{flushleft}
-   One of the paradigm of universal quantum computing is the gate model. This approach substitute classical logic gates such as AND, OR , XOR, NOT ... by its quantum analog. This quantum gates are represented by unitary matrices, in this way the inner product is preserved.\\
-Equivalently, a quantum gate is represented by a complex exponential in the form $e^{i\frac{\hat{\mathcal{H}}}{\hbar}t}$ where a given Hamiltonian -- controlled by external fields such as magnetic fields -- controls the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate.
+   One of the paradigm of universal quantum computing is the gate model. This approach substitute classical logic gates -- such as OR, XOR, AND or NOT -- by its quantum analog. This quantum gates are represented by unitary matrices, so that the inner product is preserved.
+\end{flushleft}
+\begin{flushleft}
+Equivalently, a quantum gate is represented by a complex exponential in the form $e^{i\frac{\hat{\mathcal{H}}}{\hbar}t}$ where a given Hamiltonian -- controlled by external fields such as magnetic fields -- leads the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate.
 \end{flushleft}
 \begin{definition}[Expectation Value]
     The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
+        Mathematically,
+    \begin{equation}
+        <\hat{A}>_{\psi} := \braket{\psi |\hat{A}| \psi}
+    \end{equation}
 \end{definition}
 \begin{flushleft}
 We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\|\alpha\|^{2}$ and $\|\beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.   
@@ -234,18 +251,18 @@ We can measure a classical bit to check if it is in the state 0 or 1. However, w
 In a measurement, the general state of the qubit collapse to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with $100\%$ probability, i.e., measurements collapse a qubit into one of the basis states destroying superposition.
 \blockquote{\textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}\\
 \cite{Nielsen2010QuantumInformation}}
-Suppose we have the following two-qubit state, called \textit{Bell state}\footnote{This state is the main ingredient in quantum teleportation.}
+Suppose we have the following two-qubit state, called \textit{Bell state}
 \begin{equation}
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)
 \end{equation}
-If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothers Einstein.} \\
+If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothered Einstein.} \\
 
 \section{Schrödinger Equation}
 The Schrödinger Equation cannot be derived, it just can be arrived and tested experimentally. The mathematical expression is
 \begin{equation}
     \boxed{\hat{\mathcal{H}}\ket{\psi} = i\hbar \frac{\partial}{\partial t}\ket{\psi}}
 \end{equation}
-The Schrödinger equation governs the state and evolution of a system. It is the analogous of Newtonian equation in classical mechanics. \\
+The Schrödinger equation governs the time evolution of pure states. It is the analogous of Newtonian equation in classical mechanics. \\
 The operator $\hat{\mathcal{H}}$ is called the Hamiltonian of the system. 
 \section{Speed-up advantage}
 We end up the introduction to quantum computing by discussing the main features of quantum behavior that speed-up the algorithms versus its classical approach.\\
