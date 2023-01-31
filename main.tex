@@ -64,8 +64,8 @@ style=alphabetic,
 \theoremstyle{corollary}
 \newtheorem{corollary}{Corollary}[theorem]
 
-
-
+\usepackage{physics}
+\usepackage{float}
 \addbibresource{references.bib} % The filename of the bibliography
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
@@ -84,7 +84,7 @@ style=alphabetic,
 	bottom=1.5cm, % Bottom margin
 	%showframe, % Uncomment to show how the type block is set on the page
 }
-
+\captionsetup{justification=raggedright,singlelinecheck=false}
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
@@ -135,14 +135,14 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
  
 \begin{minipage}[t]{0.4\textwidth}
 \begin{flushleft} \large
-\emph{Author:}\\
-\href{http://www.johnsmith.com}{\authorname} % Author name - remove the \href bracket to remove the link
+\emph{\textbf{Author:}}\\
+{\authorname} % Author name - remove the \href bracket to remove the link
 \end{flushleft}
 \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
 \begin{flushright} \large
-\emph{Supervisor:} \\
-\href{http://www.jamessmith.com}{\supname} % Supervisor name - remove the \href bracket to remove the link  
+\emph{\textbf{Supervisor:}} \\
+{\supname} % Supervisor name - remove the \href bracket to remove the link  
 \end{flushright}
 \end{minipage}\\[3cm]
  
@@ -229,7 +229,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 
 \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
 
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere\\
+\textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
 \textbf{WSF} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or\\
 
 \end{abbreviations}
@@ -295,7 +295,8 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
 
-\include{Appendices/IntroductiontoQuantumComputing.tex}
+\include{Appendices/A_IntroductiontoQuantumComputing.tex}
+\include{Appendices/B_SimulatedAnneling.tex}
 %\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
 

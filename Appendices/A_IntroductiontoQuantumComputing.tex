@@ -142,13 +142,13 @@ The last expression can be written in term of two parameters,
 \begin{equation}
     \ket{\psi} = \cos{\frac{\theta}{2}}\ket{0} + e^{i\phi}\sin{\frac{\theta}{2}}\ket{1}
 \end{equation}
-that represent the angles of the Bloch Sphere \footnote{A Bloch sphere is a geometric representation of the state of a single qubit where each axis contains two orthogonal states, e.g., the Z-axis has the orthogonal states $\{\ket{0},\ket{1}\}$.}.\\
+that represent the angles of the Bloch Sphere \footnote{A Bloch sphere is a geometric representation of the state of a single qubit where each axis has two orthogonal states, e.g., the Z-axis has the orthogonal states $\{\ket{0},\ket{1}\}$.}.\\
 The states $\ket{0}$ and $\ket{1}$ form a computational basis states (orthonormal basis) for the $\mathbb{C}^{2}$ vector space. There are infinite single-qubit basis sets for $\mathbb{C}^{2}$, albeit the ones known as \textit{computational basis} are the ones that build the axis of the Bloch Sphere.
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.8]{Figures/BlochSphere_Layer 1.pdf}
-    \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit. The vector $\vec{n}$ contains the coefficients of the lineal combination of Pauli Matrices that generate the state $\ket{\psi}$.}
+    \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit. The vector $\vec{n}$ has the coefficients of the lineal combination of Pauli Matrices that generate the state $\ket{\psi}$.}
     \label{fig:bloch_sphere}
 \end{figure}
 The Pauli matrices represent a rotation\footnote{Pauli matrices are generators of SU(2) group. A complex exponential can be understood as a rotation around a vector $\vec{n}$ where $e^{i\frac{\theta}{2}(\vec{n}\cdot \vec{\sigma})} = \mathbb{I}\cos{\frac{\theta}{2}} + i(\vec{n}\cdot \vec{\sigma})\sin{\frac{\theta}{2}}$.} around a given axis $\{X, Y, Z \}$. The matrix representation is given by,
@@ -242,7 +242,7 @@ Equivalently, a quantum gate is represented by a complex exponential in the form
     The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
         Mathematically,
     \begin{equation}
-        <\hat{A}>_{\psi} := \braket{\psi |\hat{A}| \psi}
+        <\hat{A}>_{\ket{\psi}} := \braket{\psi |\hat{A}| \psi}
     \end{equation}
 \end{definition}
 \begin{flushleft}
@@ -255,32 +255,99 @@ Suppose we have the following two-qubit state, called \textit{Bell state}
 \begin{equation}
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)
 \end{equation}
-If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothered Einstein.} \\
-
+If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubit are entanglement in the sense that knowing the state of the first qubit allow us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be at state $\ket{0}$.\footnote{This was the \textit{spooky action at a distance} that bothered Einstein.} 
 \section{Schrödinger Equation}
 The Schrödinger Equation cannot be derived, it just can be arrived and tested experimentally. The mathematical expression is
 \begin{equation}
-    \boxed{\hat{\mathcal{H}}\ket{\psi} = i\hbar \frac{\partial}{\partial t}\ket{\psi}}
+    \hat{\mathcal{H}}\ket{\psi(t)} = i\hbar \frac{\partial}{\partial t}\ket{\psi(t)}
 \end{equation}
-The Schrödinger equation governs the time evolution of pure states. It is the analogous of Newtonian equation in classical mechanics. \\
-The operator $\hat{\mathcal{H}}$ is called the Hamiltonian of the system. 
+where $\hat{\mathcal{H}}$ is the Hamiltonian operator, $\hbar$ is the reduced Planck constant, $\frac{\partial}{\partial t}$ is the partial derivative with respect to \textit{t}\footnote{Remember that in Quantum Physics time does not have an operator so it is not an observable. This means that 't' in Schrödinger equation is just a label for identifying the evolution of a state.} and $\ket{\psi(t)}$ that represent the state of a system.\\
+The Schrödinger equation governs the time evolution of pure states, i.e., those states that lie on the surface of the Bloch sphere. Mathematically, a pure state $\ket{\psi}$ satisfies $tr(\rho) = tr(\ketbra{\psi}{\psi}) = 1$.\\
+The Schrödinger equation plays the same role of Newtonian equation in classical mechanics. 
 \section{Speed-up advantage}
-We end up the introduction to quantum computing by discussing the main features of quantum behavior that speed-up the algorithms versus its classical approach.\\
+We end up this appendix by discussing the main features of quantum behavior that speed-up the algorithms versus its classical approach.\\\\
+The main power of quantum computers underlies in three properties,
+\begin{itemize}
+    \item \textbf{Superposition:} A qubit can be a in a linear combination of states. We can build quantum algorithms that cross out those terms that are not interesting for us and increase the amplitudes of those ones we are interested in.
+    \item \textbf{Entanglement:} An entanglement state is a state that cannot be written in term of tensor product of pure states. Entanglement states stores information exponentially instead of linearly (as classical computing does). 
+    \item \textbf{Parallelism:} A quantum memory register can exist in a superposition of states. If we perform an operation in this quantum register, this operation is applied to all states of that superposition. Notice that we have applied an operation to all the states in that superposition by performing the function just once.
+\end{itemize}
+Despite the advantage of using quantum computing instead of classical computing has been proven theorically for some specific problems, see \cite{Grover1996Search}, the real world problems are yet far away of being addressed fully by quantum computing \footnote{The hardware is not good enough for real world industry problems.}. The best we can do nowadays is to solve problems by splitting them into a quantum part that can be done by a quantum computer and a classical part that is solved by using an HPC.
+\subsection{Grover's Algorithm}
+Grover's algorithm is a search algorithm that use qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{n}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(n)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the dataset until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $O(\sqrt{n})$ complexity \footnote{This is a lower bound but in some cases the speed up could be better as happen with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{n}$ evaluations it is guaranteed to measured the desired state.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.8]{Figures/Grover_Circuit.pdf}
+    \caption{Circuit scheme of Grover's algorithm.}
+    \label{fig:Grover_circuit}
+\end{figure}
+\subsubsection{Grover's Algorithm steps for a two-qubit system (n=4)}
+In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on \cite{Lavor2008Search}.\\
+As  an example consider the following table,
+\begin{center}
+\begin{tabular}{ c | c | c | c | c }
+  \hline			
+  Binary Index & 00 & 01 & 10 & 11 \\
+    \hline		
+  Item & 0 & 1 & 2 & 3 \\
+  \hline  
+\end{tabular}
+\end{center}
+and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represent the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the eigenstate $\ket{\omega} = \ket{10}$.\\
+\textbf{(0). Initialized single qubit states:} All the qubits are initialized at $\ket{0}$ so the state of the system is given by the tensor product of the qubits,
+\begin{equation}
+    \ket{\psi_{0}} = \ket{0}\otimes \ket{0} = \ket{00}
+\end{equation}
+\textbf{(1). Equiprobability:} Apply a Hadamard gate to each qubit so we create a configuration of equiprobable states \footnote{At the beginning we do not have a good guess of where the item can be so each possibility is equally probable.},
+\begin{equation}
+    \ket{\psi_{1}} = \hat{H}^{\otimes 2}\ket{00} = \frac{1}{\sqrt{2}}\sum_{x \in \{0,1\}^{2}}\ket{x} \equiv \ket{s}
+\end{equation}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.55]{Figures/Grover_Step1.pdf}
+    \caption{Amplitude distribution of states after applying a Hadamard gate. The vector $\ket{\omega}$ is our desired state and $\ket{s'}$ is a perperdicular vector. In this way we can write $\ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}$.}
+    \label{fig:Grover_step1}
+\end{figure}
+\\
+\textbf{(2). Reflection about the state $\ket{s'}$:} Apply an operator $\hat{U}_{\omega}$ defined by,
+\begin{equation}
+     \begin{cases}
+       \hat{U}_{\omega}\ket{\omega} = -\ket{\omega} \\
+       \hat{U}_{\omega}\ket{\omega} = \ket{x}  \forall \ket{x}\neq \ket{\omega} \\
+     \end{cases}
+\end{equation}
+so the operator can be written as,
+\begin{equation}
+    \hat{U}_{\omega} = \left(\mathbb{I} - 2\ket{\omega}\bra{\omega}\right)
+\end{equation}
+Applying the operator to the state $\ket{s}$ yields,
+\begin{equation}
+    \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{n}}\ket{\omega}
+\end{equation}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.55]{Figures/Grover_Step2.pdf}
+    \caption{Amplitude distribution of states after applying a $U_{\omega}$. Notice that we have applied a phase to the state we are looking for. Geometrically this means we have applied a reflection about an state orthonormal to $\ket\omega$.}
+    \label{fig:Grover_step2}
+\end{figure}
+\textbf{(3). Reflection about the state $\ket{s}$:} The operator $\hat{U}_{s}$ is defined as,
+\begin{equation}
+    \hat{U}_{s} := 2\ket{s}\bra{s} - \mathbb{I}
+\end{equation}
+Aplpying the operator to the state of our system yields,
+\begin{align*}
+    \ket{\psi_{3}} = \hat{U}_{s}\left(\ket{s} -\frac{2}{\sqrt{2}}\ket{\omega}\right) = \left(2\ket{s}\bra{s} - \mathbb{I}\right)\left(\ket{s} - \frac{2}{\sqrt{2}}\ket{\omega}\right) = \frac{n - 4}{\sqrt{n}}\ket{s} + \frac{2}{\sqrt{n}}\ket{\omega} \\
+    = \frac{1}{n\sqrt{n}} \left[\left(n - 4\right)\sum_{x\neq \omega}\ket{x} + \left(3n-4\right)\ket{\omega}\right] \overset{n=4}{=} \frac{1}{8} \left[0 \cdot \sum_{x\neq \omega}\ket{x} + 8\ket{\omega}\right] = \ket{\omega}
+\end{align*}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.55]{Figures/Grover_Step3.pdf}
+    \caption{Amplitude distribution of states after applying $\hat{U}_{s}$. For the case of two qubits, the amplitudes of non-desired states go to zero so we get the desired state $\ket{\omega}$ with a 100\% of probability in an ideal quantum computer. This does not happen if the number of qubits is increased. In that case the amplitudes of non-desired states are reduced compared with the amplitude of the state we are looking for.}
+    \label{fig:Grover_step3}
+\end{figure}
+\begin{flushleft}
+   We have rotate the original state of out system towards the eigenvector $\ket{\omega}$ that represent the item we are looking for in the dataset. The closer\footnote{Notice that the word "close" in this context is refering to the probability of getting the desired state $\ket{\omega}$ when we make a measurement on the system} we want to be to $\ket{\omega}$ the more times we have to repeat \textbf{(2)} and \textbf{(3)}.\footnote{Each iteration increases the amplitude of the desired state $\ket{\omega}$ by a factor of $\frac{1}{\sqrt{N}}$.}.The quadratic speed up comes from the fact that Grover's algorithm raise the amplitude probability of the item we are looking for by a factor of $\frac{1}{\sqrt{N}}$ .
+\end{flushleft}
 
-The color of links can be changed to your liking using:
+%Last Comment
 
-{\small\verb!\hypersetup{urlcolor=red}!}, or
-
-{\small\verb!\hypersetup{citecolor=green}!}, or
-
-{\small\verb!\hypersetup{allcolor=blue}!}.
-
-\noindent If you want to completely hide the links, you can use:
-
-{\small\verb!\hypersetup{allcolors=.}!}, or even better: 
-
-{\small\verb!\hypersetup{hidelinks}!}.
-
-\noindent If you want to have obvious links in the PDF but not the printed text, use:
-
-{\small\verb!\hypersetup{colorlinks=false}!}.
