@@ -274,11 +274,11 @@ The main power of quantum computers underlies in three properties,
 \end{itemize}
 Despite the advantage of using quantum computing instead of classical computing has been proven theorically for some specific problems, see \cite{Grover1996Search}, the real world problems are yet far away of being addressed fully by quantum computing \footnote{The hardware is not good enough for real world industry problems.}. The best we can do nowadays is to solve problems by splitting them into a quantum part that can be done by a quantum computer and a classical part that is solved by using an HPC.
 \subsection{Grover's Algorithm}
-Grover's algorithm is a search algorithm that use qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{n}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(n)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the dataset until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $O(\sqrt{n})$ complexity \footnote{This is a lower bound but in some cases the speed up could be better as happen with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{n}$ evaluations it is guaranteed to measured the desired state.
+Grover's algorithm is a search algorithm that use qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{n}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(n)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $O(\sqrt{n})$ complexity \footnote{This is a lower bound but in some cases the speed up could be better as happen with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{n}$ evaluations it is guaranteed to measured the desired state.
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.8]{Figures/Grover_Circuit.pdf}
-    \caption{Circuit scheme of Grover's algorithm.}
+    \caption{Circuit scheme of Grover's algorithm for a n-qubit system.}
     \label{fig:Grover_circuit}
 \end{figure}
 \subsubsection{Grover's Algorithm steps for a two-qubit system (n=4)}
@@ -346,7 +346,7 @@ Aplpying the operator to the state of our system yields,
     \label{fig:Grover_step3}
 \end{figure}
 \begin{flushleft}
-   We have rotate the original state of out system towards the eigenvector $\ket{\omega}$ that represent the item we are looking for in the dataset. The closer\footnote{Notice that the word "close" in this context is refering to the probability of getting the desired state $\ket{\omega}$ when we make a measurement on the system} we want to be to $\ket{\omega}$ the more times we have to repeat \textbf{(2)} and \textbf{(3)}.\footnote{Each iteration increases the amplitude of the desired state $\ket{\omega}$ by a factor of $\frac{1}{\sqrt{N}}$.}.The quadratic speed up comes from the fact that Grover's algorithm raise the amplitude probability of the item we are looking for by a factor of $\frac{1}{\sqrt{N}}$ .
+   We have rotated the original state of out system towards the eigenvector $\ket{\omega}$ that represent the item we are looking for in the data-set. The closer\footnote{Notice that the word "close" in this context is referring to the probability of getting the desired state $\ket{\omega}$ when we make a measurement on the system} we want to be to $\ket{\omega}$ the more times we have to repeat \textbf{(2)} and \textbf{(3)}.\footnote{Each iteration increases the amplitude of the desired state $\ket{\omega}$ by a factor of $\frac{1}{\sqrt{N}}$.}.The quadratic speed up comes from the fact that Grover's algorithm raise the amplitude probability of the item we are looking for by a factor of $\frac{1}{\sqrt{N}}$ .
 \end{flushleft}
 
 %Last Comment
