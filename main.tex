@@ -1,7 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Masters/Doctoral Thesis 
 % LaTeX Template
-% Version 2.5 (27/8/17)
 %
 % This template was downloaded from:
 % http://www.LaTeXTemplates.com
@@ -37,6 +36,9 @@ headsepline, % Uncomment to get a line under the header
 %chapterinoneline, % Uncomment to place the chapter title next to the number on one line
 %consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
 ]{MastersDoctoralThesis} % The class file specifying the document structure
+
+\usepackage{physics}
+\usepackage{float}
 \usepackage{braket}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
@@ -61,8 +63,6 @@ headsepline, % Uncomment to get a line under the header
 \theoremstyle{corollary}
 \newtheorem{corollary}{Corollary}[theorem]
 
-\usepackage{physics}
-\usepackage{float}
 \addbibresource{references.bib} % The filename of the bibliography
 
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
@@ -74,8 +74,8 @@ headsepline, % Uncomment to get a line under the header
 
 \geometry{
 	paper=a4paper, % Change to letterpaper for US letter
-	inner=2.5cm, % Inner margin
-	outer=3.8cm, % Outer margin
+	inner=2.0cm, % Inner margin 2.5
+	outer=3.0cm, % Outer margin 3.8
 	bindingoffset=.5cm, % Binding offset
 	top=1.5cm, % Top margin
 	bottom=1.5cm, % Bottom margin
@@ -138,15 +138,15 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
 \begin{flushright} \large
-\emph{\textbf{Supervisor:}} \\
+\emph{\textbf{Supervisors:}} \\
 {\supname} % Supervisor name - remove the \href bracket to remove the link  
 \end{flushright}
 \end{minipage}\\[3cm]
  
 \vfill
 
-\large \textit{A thesis submitted in fulfillment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
-\textit{in the}\\[0.4cm]
+\large \textit{A thesis submitted in fulfillment of the requirements \\ for the degree of \degreename \\ at Nebrija University.}\\[0.3cm] % University requirement text
+\textit{The thesis was carried out in}\\[0.4cm]
 \groupname\\\deptname\\[1cm] % Research group name and department name
 \vfill
 \includegraphics[scale=0.65]{logos/DLR_Logo_EN_schwarz.png} % University/department logo - uncomment to place it
@@ -170,7 +170,7 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 \item Where I have consulted the published work of others, this is always clearly attributed.
 \item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
 \item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
+\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.
 \end{itemize}
  
 \noindent Signed:\\
