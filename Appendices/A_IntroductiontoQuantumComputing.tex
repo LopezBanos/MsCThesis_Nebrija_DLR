@@ -288,7 +288,9 @@ Grover's algorithm is a search algorithm that uses qubits in superposition adjus
 \subsubsection{Grover's Algorithm steps for a two-qubit system ($N=4$)}
 In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search} and \textbf{REF}.\\
 As  an example consider the following table,
-\begin{center}
+\begin{table}
+\label{tab:GroverSearch}
+\centering
 \begin{tabular}{ c | c | c | c | c }
   \hline			
   Binary Index & 00 & 01 & 10 & 11 \\
@@ -296,7 +298,8 @@ As  an example consider the following table,
   Item & 0 & 1 & 2 & 3 \\
   \hline  
 \end{tabular}
-\end{center}
+\caption{Different items -- decimal numbers -- described by its binary expansion.}
+\end{table}
 and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the eigenstate $\ket{\omega} = \ket{10}$.\\
 \textbf{(0). Initialized single qubit states:} All the qubits are initialized at $\ket{0}$ so the state of the system is given by the tensor product of the qubits,
 \begin{equation}
