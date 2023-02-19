@@ -24,7 +24,7 @@ Given the functions \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{H}$ and \{
     \item Conjugate symmetry: $(\psi_{1},\psi_{2}) = (\psi_{2},\psi_{1})^{*}$
     \item Linear with respect to the second vector: $(\psi_{1},\lambda \cdot \psi_{2} + \beta\cdot\psi_{3}) = \lambda(\psi_{1},\psi_{2}) + \beta(\psi_{1},\psi_{3})$
     \item Anti-linear with respect to the first vector: $(\lambda \cdot \psi_{1} + \beta \cdot \psi_{2}, \psi_{3}) = \lambda^{*}(\psi_{1},\psi_{3}) + \beta^{*} (\psi_{2},\psi_{3})$
-    \item Positive definiteness: $(\psi, \psi) = \lVert \psi \rVert^{2} \in \left[0,\infty\right)$\footnote{The quantity $\lVert \psi \rVert^{2}$ is called the norm of $\psi$. If $\lVert \psi \rVert^{2} = 0$ that does not imply $\psi(x) = 0$ for all $x$ in $\left[a,b\right]$. The function can have nonzero values at some points and the integral will remain zero. The integral roughly computes the area in a given interval, so, if there is just a point not null in the interval the area captured by a point is zero, so its contributions to the integral is zero.} 
+    \item Positive definiteness: $(\psi, \psi) = \lVert \psi \rVert^{2} \in \left[0,\infty\right)$\footnote{The quantity $\lVert \psi \rVert^{2}$ is called the norm of $\psi$. If $\lVert \psi \rVert^{2} = 0$ that does not imply $\psi(x) = 0$ for all $x$ in $\left[a,b\right]$. The function can have nonzero values at some points and the integral will remain zero. The integral roughly computes the area in a given interval, so, if there is just a point not null in the interval the area captured by a point is zero, so its contributions to the integral is zero. In our case the quantity $\lVert \psi \rVert^{2}$ represents the probability density of a given state $\psi$, i.e., if we integrate the whole interval of definition $x \in D$, $\int_{D}\lVert \psi \rVert^{2}dx = 1$.} 
 \end{itemize}    
 \end{corollary}
 \begin{definition}[Distance]
@@ -43,11 +43,11 @@ We can show why completeness of space is a necessary condition. Suppose that our
 \begin{definition}[Completeness of an orthonormal set of functions]
 A set of orthonormal functions $\{\psi_{i}\}$ is complete if any function $\psi(x)$ in Hilbert space can be written as a linear combination of the $\psi_{i}(x)$\footnote{Here we do not ask for point convergence, we weaken the converge criteria to mean convergence. Otherwise, there would not exist a complete set of orthonormal function in the Hilbert space.}:
 \begin{equation}
-    \lim_{n\to \infty}\| \psi(x) - \sum_{i=1}^{n}c_{i}\psi_{i}(x)\|^{2}dx = 0
+    \lim_{n\to \infty}\| \psi(x) - \sum_{i=1}^{n}c_{i}\psi_{i}(x)\|^{2} = 0
 \end{equation}
 \end{definition}
 \begin{theorem}[Riesz-Fischer]
-Assume the functions $\psi_{1}(x),\psi_{2}(x),...$ are elements of Hilbert space. If
+Assume the functions $\psi_{1}(x),\psi_{2}(x),\ldots$ are elements of Hilbert space. If
 \begin{equation}
     \lim_{n,m\to\infty} \lVert \psi_{n} - \psi_{m}\rVert^{2} \equiv \lim_{n,m\to \infty} \int_{a}^{b} \|\psi_{n} - \psi_{m}\|^{2}dx = 0
 \end{equation}
@@ -67,7 +67,7 @@ In the present work we work with a particular Hilbert space, a finite Hilbert sp
 \begin{definition}[Separable]
     A Hilbert space is said to be \textit{separable} if an only if it has a countable orthonormal basis.
 \end{definition}
-In a separable Hilbert space, it can be proved that there exist an orthogonal basis. So for a finite Hilbert space -- which is a countable space -- an orthogonal basis is guaranteed.
+So for a finite Hilbert space -- which is a countable space -- an orthogonal basis is guaranteed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     A.2 NOTACION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +109,7 @@ where $\mathbb{H}^{*}$ denotes the dual space. The dual space $\mathbb{H}^{*}$ i
 \end{itemize}
 \end{definition}
 
-Notice that a bra-vector is just the transpose conjugate of a ket-vector. This is an useful way of mapping a ket-vector of a given Hilbert space into its bra-vector on the associated dual Hilbert space.
+Notice that a bra-vector is just the transpose conjugate of a ket-vector. This is a useful way of mapping a ket-vector of a given Hilbert space into its bra-vector on the associated dual Hilbert space.
 
 \begin{corollary}
     In bra-ket notation, a set of vectors $\{\ket{\psi_{j}}\}$ is said to span $\mathbb{H}$ if we can express any vector $\ket{\psi}$ of that space as a linear combination of the vectors in the given set
@@ -122,7 +122,7 @@ Notice that a bra-vector is just the transpose conjugate of a ket-vector. This i
 %     A.3 Quantum bits
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantum bits}
-A \textit{bit} is the smallest unit of information of classical computing. Analogously, a \textit{qubit} is the smallest unit of information for quantum computing. The following section treats bits and qubits as abstract mathematical objects without their physical implementation. In \textbf{APPENDIXC}, we describe some implementations of a physical qubit.\\\\
+A \textit{bit} is the smallest unit of information of classical computing. Analogously, a \textit{qubit} is the smallest unit of information for quantum computing. The following section treats bits and qubits as abstract mathematical objects without their physical implementation. In \ref{AppendixC}, we describe some implementations of a physical qubit.\\\\
 A classical bit has two possibles states commonly named $\ket{0}$ or $\ket{1}$\footnote{The name of the states of a bit or qubit is not important. It is just a way of labelling those states.}. However, a quantum bit is a linear combination of states -- \textit{superposition} -- $\{\ket{0}, \ket{1}\}$. The general state of a qubit can be conceived as a vector in a two-dimensional complex vector space, with $\alpha, \beta \in \mathbb{C}$
 \begin{equation}
     \ket{\psi} = \alpha \ket{0} + \beta \ket{1} = \alpha \begin{bmatrix}
@@ -146,8 +146,8 @@ The states $\ket{0}$ and $\ket{1}$ form a computational basis (orthonormal basis
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.8]{Figures/BlochSphere_Layer 1.pdf}
-    \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit. The vector $\vec{n}$ has the coefficients of the lineal combination of Pauli Matrices that generate the state $\ket{\psi}$.}
+    \includegraphics[scale=0.8]{Figures/BlochSphere.pdf}
+    \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit.}
     \label{fig:bloch_sphere}
 \end{figure}
 The Pauli matrices represent a rotation\footnote{Pauli matrices are generators of SU(2) group. A complex exponential can be understood as a rotation around a vector $\vec{n}$ where $e^{i\frac{\theta}{2}(\vec{n}\cdot \vec{\sigma})} = \mathbb{I}\cos{\frac{\theta}{2}} + i(\vec{n}\cdot \vec{\sigma})\sin{\frac{\theta}{2}}$.} around a given axis $\{X, Y, Z \}$. The matrix representation is given by,
@@ -168,7 +168,7 @@ Z \equiv \sigma_{z} = \sigma_{3} =
            0 & -1 
          \end{bmatrix}
 \end{align*}
-The eigenvectors of pauli matrices are the computational basis vectors,
+The eigenvectors of the Pauli matrices are the computational basis vectors,
 \begin{align*}
     \Biggl\{\begin{bmatrix}
            1 \\
@@ -192,7 +192,6 @@ The eigenvectors of pauli matrices are the computational basis vectors,
            -\frac{i}{\sqrt{2}} 
          \end{bmatrix} \Biggr\}\equiv \{\ket{R}, \ket{L}\} \in Y_{basis}
 \end{align*}
-In this way, if we compute the value for the position of our qubit. We get the polar coordinates representation as one could expect.
 In general, we deal with multiple qubits. The basis for an n-qubit system is just the tensor product of n-single-qubit basis.\\
 Suppose we have two qubits. Then, the $Z\otimes Z-basis$ is $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$ and the state of a two-qubit system is described by the linear combination,
 \begin{equation}
@@ -203,6 +202,7 @@ The normalization condition for an n-qubit system can be written as
 \begin{equation}
 \sum_{x\in \{0,1\}^{n}}\|\alpha_{x}\|^{2} = 1
 \end{equation}
+Where the expression $x \in \{0,1\}^{n}$ indicates all the possible tensor product combinations of the n-single-qubit states. These combinations form a basis for the n-qubit system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     A.4 MEASUREMENTS AND OPERATORS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -233,9 +233,6 @@ As an example consider the \textit{Hamiltonian} of a system, $\hat{\mathcal{H}}$
     \end{equation}
 where $\mathbb{I}$ is the identity operator.
 \end{definition}
-One of the paradigms of universal quantum computing is the gate model. This approach substitutes classical logic gates -- such as OR, XOR, AND or NOT -- by its quantum analog. These quantum gates are represented by unitary matrices, so that the inner product is preserved.
-Equivalently, a quantum gate is represented by a complex exponential of the form $e^{i\hat{\mathcal{H}}t / \hbar}$ where a given Hamiltonian -- controlled by external fields such as magnetic fields -- leads the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate.
-
 \begin{definition}[Expectation Value]
     The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
         Mathematically,
@@ -246,18 +243,19 @@ Equivalently, a quantum gate is represented by a complex exponential of the form
 
 We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\|\alpha\|^{2}$ and $\|\beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.   
 
-In a measurement, the general state of the qubit collapses to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with probability 1, i.e., measurements collapse a qubit into one of the basis states destroying superposition. Quoting Nielsen and Chuang,
-\blockquote{\textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}\\
-\cite{Nielsen2010QuantumInformation}}
+In a measurement, the general state of the qubit collapses to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with probability 1, i.e., measurements collapse a qubit into one of the basis states destroying superposition. Quoting Nielsen and Chuang,\\\\
+\blockquote{\textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     A.5 SCHRODINGER EQUATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Schrödinger Equation}
-The Schrödinger equation cannot be derived from first principles, it is an experimental fact. Mathematically, it can be expressed as
+One of the paradigms of universal quantum computing is the gate model. This approach substitutes classical logic gates -- such as OR, XOR, AND or NOT -- by its quantum analog. These quantum gates are represented by unitary matrices, so that the inner product is preserved.\\
+Equivalently, a quantum gate is represented by a complex exponential of the form $e^{i\hat{\mathcal{H}}t / \hbar}$\footnote{Where $\hbar$ is the reduced Planck constant.} where a given Hamiltonian, $\mathcal{H}$ -- controlled by external fields such as magnetic fields -- leads the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate. \\\\
+Precisely, the evolution of a quantum system is goberned by the Schrödinger equation which cannot be derived from first principles, i.e., it is an experimental fact. Mathematically, it can be expressed as
 \begin{equation}
     \hat{\mathcal{H}}\ket{\psi(t)} = i\hbar \frac{\partial}{\partial t}\ket{\psi(t)}
 \end{equation}
-where $\hat{\mathcal{H}}$ is the Hamiltonian operator, $\hbar$ is the reduced Planck constant and $\ket{\psi(t)}$ represents the state of a system.\footnote{Remember that in Quantum Physics time does not have an operator so it is not an observable. This means that $t$ in Schrödinger equation is just a label for identifying the evolution of a state.} and $\ket{\psi(t)}$ represent the state of a system.\\
+where $\hat{\mathcal{H}}$ is the Hamiltonian operator, $\hbar$ is the reduced Planck constant and $\ket{\psi(t)}$ represents the state of a system.\footnote{Remember that in Quantum Physics time does not have an operator so it is not an observable.} and $\ket{\psi(t)}$ represent the state of a system.\\
 The Schrödinger equation governs the time evolution of a quantum system. It plays the same role that Newton's equations do in classical mechanics.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     A.6 SPEED-UP ADVANTAGE
@@ -283,12 +281,12 @@ In this section we show the advantages of quantum computing by considering a spe
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity \footnote{This is a lower bound but in some cases the speed up could be better as it happens with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.8]{Figures/Grover_Circuit.pdf}
+    \includegraphics[width=\textwidth]{Figures/Grover_Circuit.pdf}
     \caption{Circuit scheme of Grover's algorithm for an n-qubit system.}
     \label{fig:Grover_circuit}
 \end{figure}
 \subsubsection{Grover's Algorithm steps for a two-qubit system ($N=4$)}
-In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search}.\\
+In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search} and \textbf{REF}.\\
 As  an example consider the following table,
 \begin{center}
 \begin{tabular}{ c | c | c | c | c }
@@ -299,7 +297,7 @@ As  an example consider the following table,
   \hline  
 \end{tabular}
 \end{center}
-and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the eigenstate $\ket{\omega} = \ket{10}$.\\\\
+and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the eigenstate $\ket{\omega} = \ket{10}$.\\
 \textbf{(0). Initialized single qubit states:} All the qubits are initialized at $\ket{0}$ so the state of the system is given by the tensor product of the qubits,
 \begin{equation}
     \ket{\psi_{0}} = \ket{0}\otimes \ket{0} = \ket{00}
@@ -308,18 +306,34 @@ and suppose we want to find the item 2, where the index -- binary expansion of d
 \begin{equation}
     \ket{\psi_{1}} = \hat{H}^{\otimes 2}\ket{00} = \frac{1}{\sqrt{N}}\sum_{x \in \{0,1\}^{2}}\ket{x} \equiv \ket{s}
 \end{equation}
-\begin{figure}[h]
+ One can label the states using decimal notation, $i = 0 ,\ldots, 2^{n} -1$, where $n$ is the number of qubits.\\
+For a two-qubit system,
+\begin{equation}
+   \{\ket{x}\} = \{\ket{00},\ket{01},\ket{10},\ket{11}\} \equiv \{\ket{0},\ket{1},\ket{2},\ket{3}\} = \{\ket{i}\}
+\end{equation}
+Therefore, we can re-write the state $\ket{s}$ as
+\begin{equation}
+    \ket{s} = \frac{1}{\sqrt{N}}\ket{\omega} + \frac{1}{\sqrt{N}}\sum_{i \neq \omega} \ket{i}
+\end{equation}
+Due to the orthonormality of the basis, $\ket{\omega}$ is orthogonal to $\sum_{i \neq \omega} \ket{i}$. So, we can write
+\begin{equation}
+    \ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}
+\end{equation}
+where
+\begin{equation}
+    \sin{\theta} = \frac{1}{\sqrt{N}}, \quad\quad  \ket{s'} = \frac{1}{\cos{\theta}}\frac{1}{\sqrt{N}}\sum_{i\neq \omega}\ket{i}
+\end{equation}
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.55]{Figures/Grover_Step1.pdf}
-    \caption{Amplitude distribution of states after applying a Hadamard gate. The vector $\ket{\omega}$ is our desired state and $\ket{s'}$ is a perperdicular vector. In this way we can write $\ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}$.}
+    \caption{Amplitude distribution of states after applying a Hadamard gate. The vector $\ket{\omega}$ is our desired state and $\ket{s'}$ is a orthogonal vector. In this way we can write $\ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}$.}
     \label{fig:Grover_step1}
 \end{figure}
-\\
-\textbf{(2). Reflection about the state $\ket{s'}$:} Apply an operator $\hat{U}_{\omega}$ defined by,
+\textbf{(2). Reflection about the state $\ket{s'}$:} Apply an operator $\hat{U}_{\omega}$ defined by
 \begin{equation}
      \begin{cases}
        \hat{U}_{\omega}\ket{\omega} = -\ket{\omega} \\
-       \hat{U}_{\omega}\ket{x} = \ket{x}  \forall \ket{x}\neq \ket{\omega} \\
+       \hat{U}_{\omega}\ket{i} = \ket{i}, &  \forall \ket{i}\neq \ket{\omega} \\
      \end{cases}
 \end{equation}
 so the operator can be written as,
@@ -328,7 +342,7 @@ so the operator can be written as,
 \end{equation}
 Applying the operator to the state $\ket{s}$ yields,
 \begin{equation}
-    \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{N}}\ket{\omega}
+    \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{N}}\ket{\omega} \equiv \ket{\bar{s}}
 \end{equation}
 \begin{figure}[H]
     \centering
@@ -338,7 +352,7 @@ Applying the operator to the state $\ket{s}$ yields,
 \end{figure}
 \textbf{(3). Reflection about the state $\ket{s}$:} The operator $\hat{U}_{s}$ is defined as,
 \begin{equation}
-    \hat{U}_{s} := 2\ket{s}\bra{s} - \mathbb{I}
+    \hat{U}_{s} \equiv 2\ket{s}\bra{s} - \mathbb{I}
 \end{equation}
 Applying the operator to the state of our system yields,
 \begin{align*}
