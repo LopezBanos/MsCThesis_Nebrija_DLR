@@ -36,14 +36,14 @@ headsepline, % Uncomment to get a line under the header
 %chapterinoneline, % Uncomment to place the chapter title next to the number on one line
 %consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
 ]{MastersDoctoralThesis} % The class file specifying the document structure
-
+\usepackage{ragged2e}
+\justifying
 \usepackage{physics}
 \usepackage{float}
 \usepackage{braket}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
-
 \usepackage{mathpazo} % Use the Palatino font by default
 \usepackage{minted}
 \usepackage{biblatex}
@@ -81,7 +81,7 @@ headsepline, % Uncomment to get a line under the header
 	bottom=1.5cm, % Bottom margin
 	%showframe, % Uncomment to show how the type block is set on the page
 }
-\captionsetup{justification=raggedright,singlelinecheck=false}
+%\captionsetup{justification=raggedright,singlelinechec%k=false}
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
@@ -229,6 +229,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
 \textbf{QUBO} & \textbf{Q}uadratic \textbf{U}nconstrained \textbf{B}inary \textbf{O}ptimization\\
 \textbf{SA} & \textbf{S}imulated \textbf{A}nnealing \\
+\textbf{AQC} & \textbf{A}diabatic \textbf{Q}uantum \textbf{C}omputing \\
 \textbf{QA} & \textbf{Q}uantum \textbf{A}nnealing \\
 \textbf{TEP} & \textbf{T}ransmission \textbf{E}xpansion \textbf{P}roblem\\
 \end{abbreviations}
@@ -280,8 +281,8 @@ $\omega$ & angular frequency & \si{\radian} \\
 % Uncomment the lines as you write the chapters
 
 \include{Chapters/Chapter1}
-%\include{Chapters/Chapter2} 
-%\include{Chapters/Chapter3}
+\include{Chapters/Chapter2} 
+\include{Chapters/Chapter3}
 %\include{Chapters/Chapter4} 
 %\include{Chapters/Chapter5} 
 

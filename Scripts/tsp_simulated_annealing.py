@@ -3,12 +3,12 @@
 # Author: Sergio Lopez Banos
 # GitHub: /LopezBanos
 # Citation: If you use this code in your project please cite the following 
-# thesis,
+# thesis:
 '''
 @Thesis{SerAlOr2023,
     author      = {Sergio López Baños},
     title       = {INSERT TITLE},
-    type        = {diplomathesis}, % mathesis and phdthesis work here
+    type        = {diplomathesis}, 
     institution = {Nebrija University & DLR - Deutsches Zentrumfür Luft- 
                    und Raumfahrt},
     year        = {2023},
@@ -40,7 +40,7 @@ class Coordinates:
     @staticmethod
     def get_distance(a, b): 
         """
-        Get distance from two nodes (currrent node and sucessor):  
+        Get distance from two nodes (currrent node and next node):  
         param a: vector (x,y) of node 'a'
         param b: vector (x,y) of node 'b'
         """
@@ -71,76 +71,95 @@ N = 50  # Number of nodes
 for i in range(N):
     # Create a random list of instances (Nodes): Each instance with x = self.x 
     # and y = self.y coordinates
-    coords.append(Coordinates(np.random.uniform(low=0.0, high=20),
-     np.random.uniform(low=0.0, high=20)))
+    coords.append(Coordinates(np.random.uniform(low=0.0, high=1),
+     np.random.uniform(low=0.0, high=1)))
 random_coords = copy.deepcopy(coords)
+
 
 #=============================================================================#
 #                        Simulated annealing algorithm                        #
 #=============================================================================#
 print("Starting annealing...")
+#=============================================================================#
+#                              Annealing Schedule                             #
+#=============================================================================#
+def annealing_schedule(T, factor, cost_init, number_of_swaps, coords,
+ annealing_type=None):
+    """
+    Annealing Schedule choosen
+    """
+    # Type of Schedule (more types can be added)
+    if annealing_type is None or annealing_type == "linear":
+        T *= factor
+       
+    for j in range(number_of_swaps): 
+        # Exchange two coordinates and get a new neighbour solution
+        # Get Index of two coordinates to swap
+        r1, r2 = np.random.randint(0, len(coords), size=2)
+
+        temp = coords[r1]
+        coords[r1] = coords[r2]
+        coords[r2] = temp
+
+        # Get the cost of the new path
+        cost1 = Coordinates.get_total_distance(coords)
+        # Acceptance of new Candidate path
+        # Check if neighbor is best so far
+        cost_diff = cost1 - cost_init
+        # if the new solution is better, accept it
+        if cost_diff < 0:
+            cost_init = cost1
+        # if the new solution is not better, use Metropolis criterion
+        else:
+            if np.random.uniform() < math.exp(-cost_diff/T):
+                cost_init = cost1
+            else:
+                temp = coords[r1]
+                coords[r1] = coords[r2]
+                coords[r2] = temp
+    return [T, cost_init]
+
+
+# List to store values
 cost_list = []  
 T_list = []
 steps_list = [0]
-cost0 = Coordinates.get_total_distance(coords)
+
+cost0 = Coordinates.get_total_distance(coords) # Current Cost
 cost_list.append(cost0)
 # Number of swaps between nodes before decreasing the temperature
 number_of_swaps = 500
+
 # Iterations equiv. decrease temperature by "factor", 
 # number_of_iterations (1000 times)
 iteration = 0
 number_of_iterations = 1000
 # Every 10 steps we store the cost
 steps = 10  
-# Annealing schedule
-T = 20
-T_init = T
+
+# Annealing parameters
+T = 20       # Current Temperature
+T_init = T   
 T_end = 0.01
 factor = (T_end/T_init)**(1/number_of_iterations)
 T_list.append(T)
 
+# Main Loop
 while T > T_end:
     iteration += 1
-    print("Temperature:", T, "[K]  ", 'cost = ', cost0, ' [m]', 
-    'Iteration = ', iteration)
-    # Append Cost and temperature Every 'steps' iterations
+    print("Temperature:", T, "[K]  ", 'cost = ', cost0,
+     'Iteration = ', iteration)
+    # Append Cost and temperature Every 100 iterations
     if (iteration % steps) == 0:
         steps_list.append(iteration)
         cost_list.append(cost0)
         T_list.append(T)
-        # Stop condition if cost is not improved when swapping nodes
         if cost_list[-1] == cost_list[-2]:
             break 
-
-    # Decrease temperature
-    T = T*factor
-    
-    for j in range(number_of_swaps): 
-        # Exchange two coordinates and get a new neighbour solution
-        # Get Index of two coordinates to swap
-        r1, r2 = np.random.randint(0, len(coords), size=2)
-
-        temp = coords[r1]  # Aux. variable
-        coords[r1] = coords[r2]
-        coords[r2] = temp
-
-        # Get the cost of the new path
-        cost1 = Coordinates.get_total_distance(coords)
-        
-        # Acceptance of new Candidate path
-        # Check if neighbor is best so far
-        cost_diff = cost1 - cost0
-        # if the new solution is better, accept it
-        if cost_diff < 0:
-            cost0 = cost1
-        # if the new solution is not better, use Metropolis criteria
-        else:
-            if np.random.uniform() < math.exp(-cost_diff/T):
-                cost0 = cost1
-            else:
-                temp = coords[r1]
-                coords[r1] = coords[r2]
-                coords[r2] = temp
+    list_annealing_schedule = annealing_schedule(T, factor, cost0,
+     number_of_swaps, coords, "linear")
+    T = list_annealing_schedule[0]
+    cost0 = list_annealing_schedule[1]
 
 
 #=============================================================================#
@@ -188,11 +207,12 @@ def set_size(width,fraction=1, subplots=(1, 1), ratio=0):
 
     return (fig_width_in, fig_height_in)
 
-# Latex Font
+# Latex Font See Ref. https://matplotlib.org/stable/tutorials/text/usetex.html
 tex_fonts = {
     # Use LaTeX to write all text
     "text.usetex": True,
     "font.family": "serif",
+    "font.sans-serif": "Palantino",
     # Use 10pt font in plots, to match 10pt font in document
     "axes.labelsize": 10,
     "font.size": 10,
@@ -215,7 +235,7 @@ fig.tight_layout(pad=1.5)
 ax1.set_xlabel('x - Distance [m]')
 ax1.set_ylabel('y - distance [m]')
 ax2.set_xlabel('Iterations')
-ax2.set_ylabel('Hamiltonian [m]')
+ax2.set_ylabel('Hamiltonian')
 
 # Take all the instances except the first and last one (we do not repeat nodes)
 for first, second in zip(random_coords[:-1], random_coords[1:]):
@@ -243,7 +263,7 @@ for c in coords:
 
 # Gradient in scatter Function
 ax2.set_ylim([0.9*min(cost_list), 1.1*max(cost_list[1:])])
-im3 = ax2.scatter(steps_list, cost_list, s=5**2, c=T_list, cmap='plasma')
-fig.colorbar(im3, ax=ax2).set_label('Temperature [K]')
+im2 = ax2.scatter(steps_list, cost_list, s=5**2, c=T_list, cmap='plasma')
+fig.colorbar(im2, ax=ax2).set_label('Temperature [K]')
 plt.savefig('TSP_SA.pdf',  bbox_inches='tight')  
 plt.show()
