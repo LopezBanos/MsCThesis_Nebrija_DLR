@@ -7,9 +7,9 @@
 '''
 @Thesis{SerAlOr2023,
     author      = {Sergio López Baños},
-    title       = {INSERT TITLE},
+    title       = {Transmission Expansion Planning by Quantum Annealing},
     type        = {diplomathesis}, 
-    institution = {Nebrija University & DLR - Deutsches Zentrumfür Luft- 
+    institution = {DLR - Deutsches Zentrumfür Luft- 
                    und Raumfahrt},
     year        = {2023},
 }

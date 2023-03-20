@@ -21,13 +21,6 @@ The normalization condition for probabilities is also fulfilled, i.e., starting 
 \begin{equation}
     \sum_{j}P\left(X_{t+1} = j | X_{t} = i\right) = 1, \;\; \forall i
 \end{equation}
-Graphically, this means that the current state of our systems has to be in a given state of $\Gamma$ at any time.
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.65]{Figures/SA_StateJump.pdf}
-    \caption{Stochastic Process for a configuration space $\Gamma$ of four states.}
-    \label{fig:SimulatedAnneling_StatesJump}
-\end{figure}
 \begin{theorem}[Total Probability]
 Given an event A in a discrete set of events $\{B_{i}\}$, the probability of occurrence of event A is given by,
 \begin{equation}
@@ -146,7 +139,7 @@ If the constraints are taken into account in the loops of our program, then the 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/TSP_SA.pdf}
-    \caption{Simulated annealing process for a 20-nodes travelling salesman problem, where nodes are represented by black dots. The code to produce the figure can be found in \ref{AppendixD}.\textbf{ Left:} Plot showing a random path (red) to travel the nodes and the optimal path (blue) obtained with simulated annealing. \textbf{Right:} Hamiltonian as function of iterations and temperature.}
+    \caption{Simulated annealing process for a 20-nodes travelling salesman problem, where nodes are represented by black dots. The code to produce the figure can be found in \ref{AppendixD}.\textbf{ Left:} Plot showing a random path (red) to travel the nodes and the path (blue) obtained for an instance of simulated annealing. \textbf{Right:} Hamiltonian as function of iterations and temperature.}
     \label{fig:TSP_SA}
 \end{figure}
 
