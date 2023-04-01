@@ -16,7 +16,7 @@ Mathematically,
 \label{eq: MarkovChain}
     P\left(X_{t+1} = j | X_{t} = i\right) = P\left(X_{t+1}=j | X_{t} = i, X_{t-1} =i_{t-1},...,X_{0} = i_{0}\right)
 \end{equation}
-The equation \ref{eq: MarkovChain} is known as \textbf{Markov chain} condition and the conditional probabilities are named \textit{transition probabilities}.\\
+The equation Eq.\,\eqref{eq: MarkovChain} is known as \textbf{Markov chain} condition and the conditional probabilities are named \textit{transition probabilities}.\\
 The normalization condition for probabilities is also fulfilled, i.e., starting from a state  \textit{i} any state \textit{j} -- where \textit{j} can be also the current state -- has a transition probability such that
 \begin{equation}
     \sum_{j}P\left(X_{t+1} = j | X_{t} = i\right) = 1, \;\; \forall i
@@ -35,7 +35,7 @@ Renaming variables,
     \label{eq:Renaming2}
     p_{i \leftarrow j} := P\left(X_{t+1} = i | X_{t}=j\right)
 \end{align}
-From equations \ref{eq:Renaming1} and \ref{eq:Renaming2}, we can write,
+From equations Eq.\,\eqref{eq:Renaming1} and Eq.\,\eqref{eq:Renaming2}, we can write,
 \begin{align}
         \Pi_{i}(t+1) = p_{i \leftarrow i}\Pi_{i}(t) + \sum_{j \neq i} p_{i \leftarrow j}\Pi_{j}(t) \\ 
         p_{i \leftarrow i} = 1 - \sum_{j\neq i}p_{j \leftarrow i}
@@ -67,7 +67,7 @@ If we know $\Pi_{i}(t_{0})$ we can know the probability at each state. Assume ou
 \label{eq: StationaryCondition}
     \Pi_{i}^{\mathrm{eq}} \sum_{j\neq i} \mathcal{L}_{j \leftarrow i} = \sum_{j \neq i}\mathcal{L}_{i \leftarrow j}\Pi_{j}^{\mathrm{eq}} 
 \end{equation}
-A sufficient but not necessary condition to fulfill \ref{eq: StationaryCondition} is,
+A sufficient but not necessary condition to fulfill Eq.\,\eqref{eq: StationaryCondition} is,
 \begin{equation}
     \Pi_{i}^{\mathrm{eq}}\mathcal{L}_{j \leftarrow i} = \mathcal{L}_{i \leftarrow j}\Pi_{j}^{\mathrm{eq}} 
 \end{equation}
@@ -135,11 +135,11 @@ The constraints can be taken into account in the cost function by using the Lagr
 \end{split}
 \end{align}
 The problem can be re-written to have the functional form of a QUBO problem $\min_{x}x^{T}Qx$, where $Q$ is a matrix that stores the Hamiltonian coefficients. For this particular problem it is necessary to map the two indices of our binary variables $x_{u,i}$ into a single index, see Ref. \cite{Jain2021SolvingComputer}.
-If the constraints are taken into account in the loops of our program, then the function to minimize is just \ref{eq:TSP_noconstraints} which produces the following figure
+If the constraints are taken into account in the loops of our program, then the function to minimize is just Eq.\,\eqref{eq:TSP_noconstraints} which produces the following figure
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/TSP_SA.pdf}
-    \caption{Simulated annealing process for a 20-nodes travelling salesman problem, where nodes are represented by black dots. The code to produce the figure can be found in \ref{AppendixD}.\textbf{ Left:} Plot showing a random path (red) to travel the nodes and the path (blue) obtained for an instance of simulated annealing. \textbf{Right:} Hamiltonian as function of iterations and temperature.}
+    \caption{Simulated annealing process for a 20-nodes travelling salesman problem, where nodes are represented by black dots. The code to produce the figure can be found in Appx.\,\ref{AppendixD}.\textbf{ Left:} Plot showing a random path (red) to travel the nodes and the path (blue) obtained for an instance of simulated annealing. \textbf{Right:} Hamiltonian as function of iterations and temperature.}
     \label{fig:TSP_SA}
 \end{figure}
 
