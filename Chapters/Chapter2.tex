@@ -1,8 +1,8 @@
-% Chapter 1
+% Chapter 2
 
 \chapter{Adiabatic quantum computing} % Main chapter title
 
-\label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+\label{Chapter2} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 In the present chapter we show a paradigm of quantum computation known as \textit{adiabatic quantum computing} (AQC), see Ref. \cite{Farhi2000QuantumEvolution}. We start by sketching the rough idea of the adiabatic theorem to finally derive a formal proof of it. We also expose one application of AQC to solve \textit{quadratic unconstrained binary optimization} (QUBO) problems, known as \textit{quantum annealing} (QA), see Ref. \cite{Kadowaki1998QuantumModel}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,7 +128,7 @@ Finally,
 Substituting into Eq.\,\eqref{eq:Coefficients} and defining $g_{nm}(t)\equiv E_{n}(t) - E_{m}(t)$ as the energy difference as a function of time $t$ between the eigenstates $\ket{m(t)}$ and $\ket{n(t)}$ leads to
 \begin{equation}
 \label{eq:GeneralCoefficientsNoadiabaticApprox}
-    \dot{c}_{m}(t) = -c_{m}(t) \braket{m(t)|\dot{m}(t)} - \sum_{n\neq m} c_{n}\frac{\braket{m|\dot{\mathcal{H}}|n(t)}}{g_{nm}(t)}e^{i\left(\theta_{n}(t) - \theta_{m}(t)\right)}
+    \dot{c}_{m}(t) = -c_{m}(t) \braket{m(t)|\dot{m}(t)} - \sum_{n\neq m} c_{n}(t)\frac{\braket{m(t)|\dot{\mathcal{H}(t)}|n(t)}}{g_{nm}(t)}e^{i\left(\theta_{n}(t) - \theta_{m}(t)\right)}
 \end{equation}
 Adiabatic evolution is ensured if the coefficients $c_{n}(t)$ evolve independently from each other, i.e., if their dynamical equations do not couple. Mathematically,
 \begin{equation}
@@ -137,7 +137,7 @@ Adiabatic evolution is ensured if the coefficients $c_{n}(t)$ evolve independent
 where $T$ is the total evolution time.\\ 
 Under the adiabatic approximation the coupling term tends to zero, that is,
 \begin{equation}
-    \sum_{n\neq m} c_{n}\frac{\braket{m|\dot{\mathcal{H}}|n(t)}}{g_{nm}(t)}e^{i\left(\theta_{n}(t) - \theta_{m}(t)\right)} \to 0
+    \sum_{n\neq m} c_{n}\frac{\braket{m(t)|\dot{\mathcal{H}(t)}|n(t)}}{g_{nm}(t)}e^{i\left(\theta_{n}(t) - \theta_{m}(t)\right)} \to 0
 \end{equation}
 Therefore, equation Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} turns into
 \begin{equation}
@@ -151,74 +151,95 @@ where
 \begin{equation}
     \gamma_{m}(t) = i\int_{0}^{t}\braket{m(t^{\prime})|\dot{m}(t^{\prime})}dt^{\prime} \quad \gamma_{m}\in \mathbb{R}
 \end{equation}
-is the Berry's phase. As we can see, if the system starts in the m-th eigenstate of the Hamiltonian, then it will end in the m-th eigenstate up to a phase
+is the Berry's phase.\\
+As we can see, if the system starts in the $m$-th eigenstate of the Hamiltonian, then it will end in the $m$-th eigenstate up to a phase.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       TOTAL EVOLUTION TIME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Total evolution time $T$}
-In previous sections we stated that if we conduct the Hamiltonian evolution "slowly" then the adiabatic theorem is satisfied. In this section we define what "slowly" means. \\\\
-Re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in term of normalised time $s = \frac{t}{T}$,
+In previous sections we stated that under a sufficiently slowly Hamiltonian evolution, the adiabatic theorem is satisfied. In this section we define what "slowly" means. \\\\
+We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = \frac{t}{T}$ and the Berry's phase\footnote{Notice we added two Berry's phase terms with opposite sign so they cancel out.} yields to,
 \begin{equation}
     e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}
 \end{equation}
-Integrating
+Integrating the last equation and rearranging terms leads to
 \begin{equation}
 \label{eq:Coeff}
-    c_{m}(s)e^{-i\gamma_{m}(s)} = c_{m}(0) - \sum_{n\neq m}\int_{0}^{s} ds^{\prime}\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}e^{-iT\int_{0}^{s^{\prime}}\left(g_{nm}(s^{\prime})\right)}
+    c_{m}(s)e^{-i\gamma_{m}(s)} = c_{m}(0) - \sum_{n\neq m}\int_{0}^{s} ds^{\prime}\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}e^{-iT\int_{0}^{s^{\prime}}ds^{\prime\prime}\left(g_{nm}(s^{\prime\prime})\right)}
 \end{equation}
-If the evolution is conducted under the adiabatic theorem conditions, then there are not mixing terms which implies
+This equation express the coefficient $c_{n}(s)$ in term of its initial value $c(0)$ and a summation term that keep the rest of coefficients $c_{m}(s)\, \quad m\neq n$, where
 \begin{equation}
-    c_{m}(0) \simeq c_{m}(s)e^{-i\gamma_{m}(s)}
+\label{eq:Fnm}
+    F_{nm}(s) = c_{n}(s)\braket{m(s)|\dot{\mathcal{H}}(s)|n(s)} e^{-i\gamma_{m}(s)}
 \end{equation}
-\begin{equation}
-    F_{nm}(s) = c_{n}(0)\braket{m(s)|\dot{\mathcal{H}|n(s)}} e^{-i\left[\gamma_{m}(s) - \gamma_{n}(s)\right]}
-\end{equation}
-Separate the fast oscillatory part
+We can express the integrand of Eq.\,\eqref{eq:Coeff} as a difference between two terms,
 \begin{align}
 \frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \\
 = \frac{i}{T}\left[\frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g^{2}_{nm}(s^{\prime})}e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)}\right) - e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \cdot \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\right] 
  \end{align}
- Substituting the previous result into Eq.\,\eqref{eq:Coeff}
- \begin{align}
-     c_{m}(s)e^{-i\gamma_{m}(s)} = c_{m}(0) + \frac{i}{T}\left[\frac{F_{nm}(0)}{g^{2}_{nm}(0)} - \frac{F_{nm}(s)}{g^{2}_{nm}(s)}e^{-iT\int_{0}^{s}ds^{\prime}g_{nm}(s^{\prime \prime})} + \int_{0}^{s}ds^{\prime} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \cdot \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\right] 
+ Substituting the previous result into Eq.\,\eqref{eq:Coeff} leads to
+ \begin{equation}
+ \begin{split}
+      c_{m}(s)e^{-i\gamma_{m}(s)} & = c_{m}(0) + \frac{i}{T}\Biggr[\frac{F_{nm}(0)}{g^{2}_{nm}(0)} - \frac{F_{nm}(s)}{g^{2}_{nm}(s)}e^{-iT\int_{0}^{s}ds^{\prime}g_{nm}(s^{\prime \prime})} \\
+      & + \int_{0}^{s}ds^{\prime} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \cdot \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\Biggr]
+\end{split}
+\end{equation}
+ Assuming the energy gap does not vanish when $T \rightarrow \infty$ and that $d\{F_{nm}(s^{\prime})/g_{nm}^{2}(s^{\prime})\}/ds^{\prime}$ is integrable for all $s \in [0,1]$. Then, Riemann-Lebesgue lemma [\textbf{REFERENCE Tiene sentido ponerla? es un libro}] guarantees that last integral vanishes in the limit $T \rightarrow \infty$.\\ Finally, last expression simplifies to
+  \begin{align}
+     c_{m}(s)e^{-i\gamma_{m}(s)} = c_{m}(0) + \frac{i}{T}\left[\frac{F_{nm}(0)}{g^{2}_{nm}(0)} - \frac{F_{nm}(s)}{g^{2}_{nm}(s)}e^{-iT\int_{0}^{s}ds^{\prime}g_{nm}(s^{\prime \prime})}\right] 
  \end{align}
- Assuming the energy gap does not vanish when $T \rightarrow \infty$ and that $d\{F_{nm}(s^{\prime})/g_{nm}^{2}(s^{\prime})\}/ds^{\prime}$ is integrable for all $s \in [0,1]$. Then, Riemann-Lebesgue lemma [\textbf{REFERENCE}] guarantees that last integral vanishes in the limit $T \rightarrow \infty$. We can estimate the total time for an adiabatic evolution by
+ where there is not any integral to compute.\\\\
+ Under the adiabatic conditions there are not mixing terms, i.e., the coefficient $c_{n}(s)$ is not a function of the rest of coefficients. Mathematically,
+\begin{equation}
+    c_{m}(m) = c_{0}(s)e^{i\gamma_{m}(s)}
+\end{equation}
+Therefore, we can re-write Eq.\,\eqref{eq:Fnm}
+\begin{equation}
+    F_{nm}(s) = c_{n}(0)\braket{m(s)|\dot{\mathcal{H}}|n(s)} e^{-i\left[\gamma_{m}(s) - \gamma_{n}(s)\right]}
+\end{equation}
+ Now, we can estimate the total time for an adiabatic evolution by imposing a condition that minimises the second term of last equation, this implies
  \begin{equation}
      T >> \frac{F}{g^{2}}
  \end{equation}
- where
+ where we have defined
  \begin{align}
      F = \max_{0 \leq s \leq 1} |c_{n}(0)\braket{m(s)|\frac{d\mathcal{H}(s)}{ds}| n(s)}| \\
      g = \min_{0 \leq s \leq 1} |g_{nm}(s)|
  \end{align}
+%-------------------------------------------------------------------------------------
+% QUANTUM ANNEALING
 %---------------------------------------------------------------------------------------
 \section{Quantum annealing}
-Consider the Ising Hamiltonian
+In previous sections we stated that our problem has to be mapped into a Hamiltonian but we did not give any functional form of it. The target Hamiltonian to which we are going to map the QUBO problem is the Ising's Hamiltonian
 \begin{equation}
-    \mathcal{H}(t) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z} - \Gamma(t)\sum_{i}\sigma_{i}^{x}
+    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z}
 \end{equation}
-where $s_{i} = \{-1,1\}$ are the eigenvalues of $\sigma_{i}^{z}$ and $\Gamma(t)\sum_{i}\sigma_{i}^{x}$ represents the quantum fluctuations -- single-spin flip -- and $\Gamma(t)$ plays the same role as Temperature in SA, i.e., initially, $t=0$, the dominating term is $\Gamma(t)\sum_{i}\sigma_{i}^{x}$, but at later times $t \rightarrow \infty$ the resulting Hamiltonian is $\mathcal{H}(t) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}$ which is the Hamiltonian we are interested in, as we have mapped our problem into it. For instance, consider a 2-Spin Hamiltonian
-\begin{align}
-    \mathcal{H}(t) = -\mathcal{J}\sigma_{1}^{z}\otimes \sigma_{2}^{z} - h\left(\sigma_{1}^{z}\otimes \mathbb{I} + \mathbb{I}\otimes \sigma_{2}^{z}\right) - \Gamma(t) \left(\sigma_{1}^{x}\otimes\mathbb{I} + \mathbb{I}\otimes \sigma_{2}^{x}\right)\\
-    \mathcal{H}_{ij}= \begin{bmatrix}
-        -\left(\mathcal{J} + 2h\right) & -\Gamma & -\Gamma & 0 \\
-        -\Gamma & \mathcal{J} & 0 & -\Gamma \\
-        -\Gamma & 0 & \mathcal{J} & -\Gamma \\
-        0 & -\Gamma & -\Gamma & \left(\mathcal{J} + 2h\right) \\
-    \end{bmatrix}
-\end{align}
-where the terms $\mathcal{H}_{41},\mathcal{H}_{32}, \mathcal{H}_{23}. \mathcal{H}_{14}$ are zero, as expected from the single-spin flip condition. Notice that in Master equation \textbf{INSERTE EQUATION} these terms are also zero.\\\\
-Instead of using the binary variables $s_{i} = \{-1,1\}$ we can use $x_{i} = \{0,1\}$ which are the binary variables used in QUBO problems. The map between variables is given by
+The Ising's Hamiltonian's goal it to describe the behaviour of ferromagnetic materials by taking into account its spin distribution. Spin information is given by the eigenvalues of Pauli Z-operators $\sigma^{z}$, where the possibles outcomes are $\{-1,1\}$ corresponding to the eigenvectors $\{\ket{\downarrow},\ket{\uparrow}\}$, respectively.\\\\
+Notice we are mapping our mathematical problem into a physical problem. Solving a problem in a classical computer demands computational resources of it, however if the problem is mapped into a physical problem, then it is the nature evolving in time according to the laws of physics what solves the problem. So we are not limited to out classical computational resources but to nature.\\\\
+We also need an initial Hamiltonian whose ground state is easy to compute and prepare, e.g.,
+\begin{equation}
+    \mathcal{H}(s) = -\sum_{i}^{n}\sigma_{i}^{x}
+\end{equation}
+that represents our initial Hamiltonian with the ground state $\ket{+}^{n}$. This ground state considers all the possible configurations of our systems with a uniform distribution among them.\\\\
+The annealing schedule between these Hamiltonians is given by
+\begin{equation}
+    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z} - \Gamma(s)\sum_{i}\sigma_{i}^{x}
+\end{equation}
+where $\Gamma(s)\sum_{i}\sigma_{i}^{x}$ represents the quantum fluctuations -- single-spin flip -- and $\Gamma(s)$ plays the same role as Temperature in simulated annealing (SA), see Appx.\,\ref{AppendixB}. The way of controlling the quantum fluctuations depends on the hardware we are using. The hardware implementation and topology of the quantum computer we have used in the present work is discussed in Appx.\,\ref{AppendixC}.\\\\
+Initially, at $s \rightarrow 0$, the dominating term is $\Gamma(s)\sum_{i}\sigma_{i}^{x}$ because $\Gamma(s)$ takes a large value, but at later times $s \rightarrow 1$ $\Gamma(s)$ takes a value close to zero so the dominating Hamiltonian is $\mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z} - h\sum_{i}\sigma_{i}^{z}$ which is the Hamiltonian we are interested in, as it contains the solution to our QUBO problem encoded at the ground state.\\\\
+Notice that Ising's Hamiltonian use the binary variables $s_{i} = \{-1,1\}$ but QUBO problems are formulated with the binary variables $x_{i} = \{0,1\}$. The map between Ising and QUBO variables is given by
 \begin{equation}
     s_{i} = 2x_{i} -1
 \end{equation}
-so we are re-writing the Ising Hamiltonian into a QUBO Hamiltonian
+so we can easily re-write the Ising Hamiltonian into a QUBO Hamiltonian and vice versa
 \begin{equation}
-    \mathcal{H} = \sum_{i,j}Q_{ij}x_{i}x_{j}
+    \mathcal{H} = \sum_{i,j}x_{i}Q_{ij}x_{j}
 \end{equation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Two Heirs problem}
-For instance, suppose we are given a 3-binary QUBO problem where each variable $x_{i} \in \{0,1\}$ represents an asset with an associated value $v_{i}$.
+%------------------------------------------------------------------
+% Two Heirs Problem
+%------------------------------------------------------------------
+\subsection{Two Heirs problem}
+ As an example suppose we are given a 3-binary QUBO problem where each variable $x_{i} \in \{0,1\}$ represents an asset with an associated value $v_{i}$.\\
 \begin{table}[h]
 \label{tab:Assets}
 \centering
@@ -235,16 +256,37 @@ For instance, suppose we are given a 3-binary QUBO problem where each variable $
 \caption{Two heirs problem for a given three example assets.}
 \end{table}
 \\
-We have to assign the assets to two heirs, Alice and Bob -- represented by $0$ and $1$ respectively -- so that the difference between the values each heir receives is minimum, which represents our cost function
+We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,1\}$ in QUBO formulation and by $\{-1,1\}$ in Ising formulation, respectively -- so that the difference between the values each heir receives is minimum, which represents our cost function
 \begin{equation}
-    f(x_{0}, x_{1}, x_{2}) = \abs{\text{Alice}(x_{0}, x_{1}, x_{2}) - \text{Bob}(x_{0}, x_{1}, x_{2})} = \abs{\sum_{i}\left[(1-x_{i})\cdot v_{i} - x_{i}\cdot v_{i}\right]}
+    f(x_{0}, x_{1}, x_{2}) = \abs{\text{Alice}(x_{0}, x_{1}, x_{2}) - \text{Bob}(x_{0}, x_{1}, x_{2})} = \left[\sum_{i}\left((1-x_{i})\cdot v_{i} - x_{i}\cdot v_{i}\right)\right]^{2}
 \end{equation}
-We encode our solution into a Hamiltonian $\mathcal{H}_{f}$ and we start the evolution with a Hamiltonian $\mathcal{H}_{i}$ whose ground state is known. After the evolution we end up in $\mathcal{H}_{f}$ with the solution
+Notice we are not interested in the sign of our cost function. Therefore, to avoid dealing with signs we take the square of the difference so we know we are minimising a positive quantity.\\\\
+We expand the square term to arrive at the QUBO formulation, $\vec{x}^{T}Q\vec{x}$. In order to do that We have to take into account that for $x_{i} \in \{0,1\}$ the following relation holds $x_{i}=x_{i}^{2}$. 
+\begin{align}
+    \left[\sum_{i}\left((1-x_{i})\cdot v_{i} - x_{i}\cdot v_{i}\right)\right]^{2} = \sum_{i=0}^{2}\sum_{j\neq i}x_{i}v_{i}v_{j}x_{j} - x_{i}v_{i}v_{j}x_{i} - x_{j}v_{i}v_{j}x_{j}
+\end{align}
+So the QUBO matrix of this example is
 \begin{equation}
-    \mathcal{H}_{f}\ket{g(t=T)} = E_{g}(t=T)\ket{010}
+Q= 
+    \begin{bmatrix}
+           0 & v_{1}v_{2} & v_{1}v_{3}\\
+           v_{2}v_{1} & 0 & v_{2}v_{3}\\
+           v_{3}v_{1}& v_{3}v_{2} & 0\\
+         \end{bmatrix}
 \end{equation}
-This means that we get a global minimum value $E_{g}(t=T)$ associated with the ground state $\ket{010}$. This ground state encodes the combination $010$ which minimises the QUBO problem. However, if we repeat the process it could happen that we end up with a different eigenvector, for instance $\ket{101}$. This is because in this case, the problem has a degenerate ground state and the eigenvectors correspond to different configurations of our binary variables that leads to the same absolute minimum value. Intuitively, if a solution $\ket{010}$ indicates that Alice receives assets with indices $[0,2]$ and Bob receive the asset with index $[1]$, the opposite is a solution $\ket{101}$ with the same cost, i.e., Bob receives assets with indices $[0,2]$ and Alice receives the asset with index $[1]$.
+Notice that we also have dropped the constant terms as they only displace the minimum value but do not affect our solution, i.e., the minimum value of our cost function is going to change but the configuration that leads to that minimum is kept.\\\\
+We now encode our solution into an Ising's Hamiltonian $\mathcal{H}_{f}$ by using the map between QUBO and Ising's variables and we initialise the evolution with the Hamiltonian $\mathcal{H}_{i} = -\sum_{i}^{n}\sigma_{i}^{x}$ whose ground state is known, $\ket{+}^{n}$.\\\\
+If the evolution is carried out under the adiabatic conditions,
+\begin{equation}
+    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z} - \Gamma(s)\sum_{i}\sigma_{i}^{x}
+\end{equation}
+then we end up in $\mathcal{H}_{f}$ with one of the following solutions
+\begin{align}
+    \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{010} \\
+    \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{101}
+\end{align}
+This means that we get a global minimum value $E_{g}(s=1)$ associated with the ground states $\{\ket{\downarrow\uparrow\downarrow},\ket{\uparrow\downarrow\uparrow}\}$. This is because in this case, the problem has a degenerate ground state and the eigenvectors correspond to different configurations of our binary variables that leads to the same absolute minimum value $E_{g}(s=1)$. Intuitively, if a solution $\ket{\downarrow\uparrow\downarrow}$ indicates that Alice receives assets with indices $[0,2]$ and Bob receive the asset with index $[1]$, the opposite is a solution $\ket{\uparrow\downarrow\uparrow}$ with the same cost, i.e., Bob receives assets with indices $[0,2]$ and Alice receives the asset with index $[1]$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problems with quantum annealing}
-Esta seccion queda pendiente pues en la conferencia de quantum annealing de mi empresa se menciono sus debilididades y tambien lo que se conoce como QAOA. Voy a investigar este campo un poco mas y tal vez introduzca un parrafo por completitud.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
