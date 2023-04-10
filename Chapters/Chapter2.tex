@@ -233,7 +233,11 @@ The annealing schedule between these Hamiltonians is given by
     \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z} - \Gamma(s)\sum_{i}\sigma_{i}^{x}
 \end{equation}
 where $\Gamma(s)\sum_{i}\sigma_{i}^{x}$ represents the quantum fluctuations -- single-spin flip -- and $\Gamma(s)$ plays the same role as Temperature in SA. The way of controlling the quantum fluctuations depends on the hardware we are using. The hardware implementation and topology of the quantum computer we have used in the present work is discussed in Appx.\,\ref{AppendixC}.\\\\
-Initially, at $s \rightarrow 0$, the dominating term is $\Gamma(s)\sum_{i}\sigma_{i}^{x}$ because $\Gamma(s)$ takes a large value, but at later times $s \rightarrow 1$ $\Gamma(s)$ it takes a value close to zero so the dominating Hamiltonian is $\mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z} - h\sum_{i}\sigma_{i}^{z}$ which is the Hamiltonian we are interested in, as it contains the solution to our problem encoded at the ground state.\\\\
+Initially, at $s \rightarrow 0$, the dominating term is $\Gamma(s)\sum_{i}\sigma_{i}^{x}$ because $\Gamma(s)$ takes a large value, but at later times $s \rightarrow 1$ $\Gamma(s)$ it takes a value close to zero so the dominating Hamiltonian is $\mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z} - h\sum_{i}\sigma_{i}^{z}$ which is the Hamiltonian we are interested in, as it contains the solution to our problem encoded at the ground state.
+%------------------------------------------------------------------
+% Formlation of QUBO problems
+%------------------------------------------------------------------
+\subsection{Formulation of Quadratic Unscontrained Binary Optimization Problems}
 \begin{definition}[\textit{Quadratic Unconstrained Binary Optimization} (QUBO)]
    A Quadratic Unconstrained Binary Optimization problem can be written as
 \begin{equation}
@@ -252,7 +256,7 @@ so we can easily re-write the Ising Hamiltonian into a QUBO Hamiltonian and vice
 %------------------------------------------------------------------
 % Two Heirs Problem
 %------------------------------------------------------------------
-\subsection{Two Heirs problem}
+\subsection{Example: Two Heirs problem}
  As an example suppose we are given a 3-binary QUBO problem where each variable $x_{i} \in \{0,1\}$ represents an asset with an associated value $v_{i}$.\\
 \begin{table}[h]
 \label{tab:Assets}
