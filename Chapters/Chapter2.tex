@@ -70,7 +70,7 @@ Now, the evolution of the state $\ket{\psi_{d}(s)}$ is led by a diagonal Hamilto
 To sum up, under a general evolution such as Eq.\,\eqref{eq:GeneralEv} we get -- in general -- a system of coupled differential equations, but if the adiabatic approximation is satisfied, this evolution is led by a diagonal Hamiltonian, i.e., we get a system of uncoupled differential equations.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Figures/Eigenenergies.pdf}
+\includegraphics[width=\textwidth]{Figures/Eigenenergies.pdf}
     \caption{An example considering Hamiltonian's eigenenergies as function of dimensionless time $s=t/T$ assuming a problem ecoded in the ground state. \textbf{Left}: When adiabatic conditions are fulfilled, i.e., if the evolution is carried out sufficiently slowly, then our system evolves continuously in time along the ground state. \textbf{Right}: When the evolution is carried out not fulfilling the adiabatic conditions, it could happen that we end up in a different eigenstate if our system absorbs enough energy to jump to next level over the minimum gap $\Delta$. After the evolution we would end up in a different eigenstate of the target Hamiltonian which does not encodes the optimal solution.}
     \label{fig:Eigenenergies}
 \end{figure}
@@ -237,9 +237,9 @@ Initially, at $s \rightarrow 0$, the dominating term is $\Gamma(s)\sum_{i}\sigma
 \begin{definition}[\textit{Quadratic Unconstrained Binary Optimization} (QUBO)]
    A Quadratic Unconstrained Binary Optimization problem can be written as
 \begin{equation}
-    \sum_{i=0}^{n-1}\sum_{j=0}^{n-1}x_{i}Q_{ij}x_{j}
+    \min_{\vec{x}}\vec{x}^{T}Q\vec{x}
 \end{equation}
-where the set $\{x_{i}\}_{i=0,\hdots, n-1}$ with $x_{i}\in\left[0,1\right]$ are the binary variables of the problem, $n$ is the total number of binary variables and $Q_{ij}$ is an $n\times n$ matrix whose entries encodes our problem.
+where $\vec{x}\in\{0,1\}^{n}$ are the binary variables of the problem, $n$ is the total number of binary variables and $Q$ is an $n\times n$ matrix whose entries encodes our problem.
 \end{definition}
 Notice that Ising's Hamiltonian use the binary variables $s_{i} = \{-1,1\}$ but QUBO problems are formulated with the binary variables $x_{i} = \{0,1\}$. The map between Ising and QUBO variables is given by
 \begin{equation}

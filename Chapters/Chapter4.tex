@@ -1,98 +1,33 @@
 % Chapter 4
-
 \chapter{Transmission Expansion Planning by Quantum Annealing} % Main chapter title
-
 \label{Chapter4} % For referencing the chapter elsewhere, use \ref{Chapter1} 
-
-
 \section{Statement of the problem}
-\subsection{Easy example}
-\begin{table}[h]
-\label{tab:wind_turbine}
+\begin{wrapfigure}{l}{0.4\textwidth}
+\includegraphics[scale=0.9]{Figures/3Node_Layer 1.pdf} 
+\caption{An example considering a three node transmission expansion planning (TEP) problem with three candidate lines. Solid lines represent existing lines (super-index $(0)$) and dash lines are the candidate lines (super-index $(1)$).}
+\label{fig:3node}
+\end{wrapfigure}
+\textit{Transmission expansion planning} (TEP) consist in determining where, when and what to build to the existing network to fulfill the energy demand in a future scenario. 
+More precisely, it determines where and when to build new transmission lines between nodes. There are other components of a network that can be built to satisfy future energy demand, carbon emissions or other targets. As an example, capacity expansion planning decides where, when and what type of generator to build -- wind turbine, heat pump, solar panels ... -- to an existing network so that fulfill energy demands in a future scenario. Often these problems of improving the existing network to fulfill future targets are taken into account together under the name transmission expansion planning but in this case we are considering just transmission lines.\par
+\begin{wraptable}{r}{0.4\textwidth}
 \centering
-\begin{tabular}{ c | c | c | c }
-  \hline			
-  $t$ & 0 & 1 & 2 \\
-    \hline		
-  pu & 0.4 & 0.1 & 0.2 \\
-  \hline  
+\begin{tabular}{cc} \\\toprule 
+ \textbf{Symbol} & \textbf{Description} \\\midrule
+ $\mathcal{N}$ & Nodes  \\\midrule
+ $\mathcal{L}^{(0)}$ & Existing transmission lines  \\\midrule
+  $\mathcal{L}^{(1)}$ & Candidate transmission lines \\\midrule
+ $\mathcal{D}_{i}$ & Demand of node $i$. \\\midrule
+ $\mathcal{C}_{i}$ & Investment cost of line $i$ \\\bottomrule 
 \end{tabular}
-\caption{Wind Turbine p-max-pu.}
-\end{table}
-\begin{itemize}
-    \item Wind cost: $0$ 
-    \item Annualised cost per generator per MW: $20$
-    \item Max power of each generator: $6[MW]$
-\end{itemize}
-\begin{table}[h]
-\label{tab:gas}
-\centering
-\begin{tabular}{ c | c | c | c }
-  \hline			
-  $t$ & 0 & 1 & 2 \\
-    \hline		
-  pu & 1 & 1 & 1 \\
-  \hline  
-\end{tabular}
-\caption{Gas p-max-pu.}
-\end{table}
-\begin{itemize}
-    \item Gas cost: $100$ 
-    \item Annualised cost per generator per MW: $30$
-    \item Max power of each generator: $50[MW]$
-\end{itemize}
-\begin{table}[h]
-\label{tab:load}
-\centering
-\begin{tabular}{ c | c | c | c }
-  \hline			
-  $t$ & 0 & 1 & 2 \\
-    \hline		
-  pu & 2 & 5 & 0 \\
-  \hline  
-\end{tabular}
-\caption{Wind Turbine p-max-pu.}
-\end{table}
-\textbf{Variables}:
-\begin{itemize}
-    \item $x(t)$: Total number of wind turbines at time $t$.
-    \item $y(t)$: Total number of gas generators at time $t$.
-    \item $\theta_{x}(t)$: Energy from carrier = wind  at time $t$ divided by total possible energy at that time. This means is a percentage of the maximum allowed at that instant of time.
-    \item $\theta_{x}(t)$: Energy from carrier = gas  at time $t$ divided by total possible energy at that time. This means is a percentage of the maximum allowed at that instant of time.
-\end{itemize}
-We are going to discretise the percentage we can ask from generators so we can only demand ${0\%,25\%,50\%,75\%,100\%}$. We can re-write,
-\begin{itemize}
-    \item $\theta_{x}(t) = \sum_{j=0}^{3}0.25\cdot q_{j}(t)$
-    \item $\theta_{y}(t) = \sum_{j=4}^{7}0.25\cdot q_{j}(t)$
-\end{itemize}
-For three snapshots this means we have $24$ binary variables due to this discretization.\\\\
-Assuming the maximum number of generators we can build is 3 per instance:
-\begin{align}
-    x(t_{0}) = 2^{0}\cdot x_{0} + 2^{1}\cdot x_{1} \\
-    x(t_{1}) = 2^{0}\cdot x_{2} + 2^{1}\cdot x_{3} \\
-    x(t_{2}) = 2^{0}\cdot x_{4} + 2^{1}\cdot x_{5} \\
-\end{align}
-\begin{align}
-    y(t_{0}) = 2^{0}\cdot y_{0} + 2^{1}\cdot y_{1} \\
-    y(t_{1}) = 2^{0}\cdot y_{2} + 2^{1}\cdot y_{3} \\
-    y(t_{2}) = 2^{0}\cdot y_{4} + 2^{1}\cdot y_{5} \\
-\end{align}
-$12$ more variables...\\\\
-Finally the objective function is to minimise the total cost,
-\begin{align}
-    \min_{x,y} \text{cost} = \min_{x,y}\{20\cdot\left[2^{0}\cdot\left(x_{0} + x_{2} + x_{4}\right) + 2^{1}\cdot\left(x_{1} + x_{3} + x_{5}\right) \right]\\
-    + 30\cdot\left[2^{0}\cdot\left(y_{0} + y_{2} + y_{4}\right) + 2^{1}\cdot\left(y_{1} + y_{3} + y_{5}\right)\right]\\
-    + 100\cdot 0.25 \cdot \left[\left(g_{0} + g_{1} + g_{2} + g_{3}\right) + \left(g_{4} + g_{5} + g_{6} + g_{7}\right) + \left(g_{8} + g_{9} + g_{10} + g_{11}\right)\right]\\
-    \cdot\left(50\cdot \left[2^{0}\cdot\left(y_{0} + y_{2} + y_{4}\right) + 2^{1}\cdot\left(y_{1} + y_{3} + y_{5}\right)\right]\right)\}
-\end{align}
-subject to load constraint,
-\begin{align}
-    2 - \left[0.25 \cdot \left[\left(g_{0} + g_{1} + g_{2} + g_{3}\right) + \left(g_{4} + g_{5} + g_{6} + g_{7}\right) + \left(g_{8} + g_{9} + g_{10} + g_{11}\right)\right]\right]\\
-    \cdot\left(6\cdot \left[2^{0}\cdot\left(y_{0} + y_{2} + y_{4}\right) + 2^{1}\cdot\left(y_{1} + y_{3} + y_{5}\right)\right]\right)\\
-    - \left[0.25 \cdot \left[\left(w_{0} + w_{1} + w_{2} + w_{3}\right) + \left(w_{4} + w_{5} + w_{6} + w_{7}\right) + \left(w_{8} + w_{9} + w_{10} + w_{11}\right)\right]\right]\\
-    \cdot\left(50\cdot \left[2^{0}\cdot\left(x_{0} + x_{2} + x_{4}\right) + 2^{1}\cdot\left(x_{1} + x_{3} + x_{5}\right)\right]\right) = 0
-\end{align}
-\textbf{TOTAL NUMBER OF VARIABLES: }
-\section{Particular suitable problem (Germany)}
-
+\caption{Nomenclature.}
+\label{table:TEPNomenclature}
+\end{wraptable}
+We start by considering an small network of three nodes $N_{i}\in \mathcal{N}$ with 3 existing lines $l_{i}^{(0)}\in \mathcal{L}^{(0)}$ and 3 candidate lines $l_{i}^{(1)}\in \mathcal{L}^{(1)}$. Our target is going to be a given energy demand in a future scenario. The nodes can be though as towns whose energy demand has to be fulfilled and the lines allow the network to transmit energy between nodes so that if some node is producing more energy than its demand, then this excess of energy can be transmitted to other node in the network.
+%%%%%%%%%%
+We start by considering an small network of three nodes $N_{i}\in \mathcal{N}$ with 3 existing lines $l_{i}^{(0)}\in \mathcal{L}^{(0)}$ and 3 candidate lines $l_{i}^{(1)}\in \mathcal{L}^{(1)}$. Our target is going to be a given energy demand in a future scenario. The nodes can be though as towns whose energy demand has to be fulfilled and the lines allow the network to transmit energy between nodes so that if some node is producing more energy than its demand, then this excess of energy can be transmitted to other node in the network.
+We start by considering an small network of three nodes $N_{i}\in \mathcal{N}$ with 3 existing lines $l_{i}^{(0)}\in \mathcal{L}^{(0)}$ and 3 candidate lines $l_{i}^{(1)}\in \mathcal{L}^{(1)}$. Our target is going to be a given energy demand in a future scenario. The nodes can be though as towns whose energy demand has to be fulfilled and the lines allow the network to transmit energy between nodes so that if some node is producing more energy than its demand, then this excess of energy can be transmitted to other node in the network. We start by considering an small network of three nodes $N_{i}\in \mathcal{N}$ with 3 existing lines $l_{i}^{(0)}\in \mathcal{L}^{(0)}$ and 3 candidate lines $l_{i}^{(1)}\in \mathcal{L}^{(1)}$.
+Our target is going to be a given energy demand in a future scenario. The nodes can be though as towns whose energy demand has to be fulfilled and the lines allow the network to transmit energy between nodes so that if some node is producing more energy than its demand, then this excess of energy can be transmitted to other node in the network.
+We start by considering an small network of three nodes $N_{i}\in \mathcal{N}$ with 3 existing lines $l_{i}^{(0)}\in \mathcal{L}^{(0)}$ and 3 candidate lines $l_{i}^{(1)}\in \mathcal{L}^{(1)}$. Our target is going to be a given energy demand in a future scenario. The nodes can be though as towns whose energy demand has to be fulfilled and the lines allow the network to transmit energy between nodes so that if some node is producing more energy than its demand, then this excess of energy can be transmitted to other node in the network.
+\section{Formulation of QUBO}
+\section{Running QUBO problem on D-WAVE's annealer}
 
