@@ -41,7 +41,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{physics}
 \usepackage{float}
 \usepackage{braket}
-\usepackage{amsmath}
+\usepackage{amsmath}\setcounter{MaxMatrixCols}{20}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
 \usepackage{mathpazo} % Use the Palatino font by default
@@ -227,7 +227,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 %----------------------------------------------------------------------------------------
 
 \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
-
+\textbf{NISQ} & \textbf{N}oise  \textbf{I}ntermediate-\textbf{S}cale  \textbf{Q}uantum\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
 \textbf{QUBO} & \textbf{Q}uadratic \textbf{U}nconstrained \textbf{B}inary \textbf{O}ptimization\\
 \textbf{SA} & \textbf{S}imulated \textbf{A}nnealing \\
