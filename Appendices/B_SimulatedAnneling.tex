@@ -86,7 +86,7 @@ The last expression does not define uniquely the transition rate so we need a cr
     \item \textbf{Heat bath criterion:} $\mathcal{L}_{i \leftarrow j} = \frac{\Pi_{j}^{\mathrm{eq}}}{\Pi_{i}^{\mathrm{eq}} + \Pi_{j}^{\mathrm{eq}}} = \left[1 + \exp\left(\frac{\mathcal{H}_{j}- \mathcal{H}_{i}}{k_{B}T}\right)^{-1}\right]$ 
 \end{itemize}
  The transition rates do not guarantee the optimal value of our objective function. We must include a time-dependent temperature that guarantees reaching the optimal value when $t \rightarrow \infty$. 
-\subsection{Annealing schedules}
+\subsection{Annealing Schedules}
 The annealing approach considers a temperature that starts from a high value and decreases gradually with time. The dependence of temperature with respect to time $t$ is named annealing schedule. There are many annealing schedules but the most common ones are\footnote{From now on, $k_{B} = 1$.}:
 \begin{itemize}
     \item \textbf{Geman-Geman:} This schedule guarantee to reach the absolute minima -- see Ref. \cite{Geman1984StochasticImages} -- in $t \rightarrow \infty$. Mathematically,
@@ -103,7 +103,7 @@ Since we do not have infinite time to perform our simulations, we need schedules
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %     B.2 TSP Example
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Traveling salesman problem}
+\section{Traveling Salesman Problem}
 The traveling salesman problem (TSP) is an NP-hard combinatorial optimization problem. That means it does not have a polynomial-time solution. The goal of our traveling salesman is to find the shortest path to visit all the $n$ regions in a given list $R$, which are represented by nodes in a graph, by annotating the position $P$ that each region has in the path, returning to the initial region. The distance between nodes $u,v \in R$, $D(u,v)$, measured in units of length, is calculated using the Euclidean metric
 \begin{equation}
     D(u,v) \equiv D_{uv}= \sqrt{\left|x_{v} - x_{u}\right|^{2} + \left|y_{v} - y_{u} \right|^{2}} 
