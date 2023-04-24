@@ -6,32 +6,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hybrid classical-quantum annealing algorithm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Hybrid classical-quantum annealing algorithm}
-In Appx.\,\ref{AppendixB} we show the foundations of \textit{simulated annealing} (SA) and solve a travelling salesman problem to illustrate it. Simulated annealing does not guarantee to get the optimal solution but the results we can get with a good annealing schedule are good enough in accuracy and time. Quantum annealing seems to be its successor but quantum computers are not mature enough to solve real-world problems, because of the number of variables. The embedding of a QUBO problem into the architecture impose a big constraint in the number of variables of our problem. For this reason, an hybrid approach is worth it.\\\\
-We decompose a QUBO problem into two parts, a sub-problem is being solved by a simulated annealing algorithm on a classical solver. Then, a master problem is addressed to a quantum annealer such that a embedding is possible.\\\\
+In Appx.\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} (SA) and solve a travelling salesman problem to illustrate it. Simulated annealing does not guarantee to get the optimal solution but the results we can get with a good annealing schedule are good enough in accuracy and time. Quantum annealing seems to be its successor but quantum computers are not mature enough to solve real-world problems because of the number of variables. The embedding of a QUBO problem into the architecture impose a big constraint in the number of variables of our problem. For this reason, an hybrid approach is worth it.\\\\
+We decompose a QUBO problem into two parts. A sub-problem solved by simulated annealing on a classical solver. A master problem addressed to a quantum annealer such that a embedding is possible.\\\\
 The problems we are interested have the following cost function,
 \begin{equation}
-    \text{cost}(\vec{x}) = \underbrace{\sum_{i}c_{i}x_{i}}_{\text{Investment Cost}} + \underbrace{\sum_{j}\text{PMW}_{i}p_{j}x_{j}}_{\text{Operational Cost}}
+    \text{cost}(\vec{x}) = \underbrace{\sum_{i}c_{i}x_{i}}_{\text{Investment Cost}} + \underbrace{\sum_{i}\sum_{j}\text{f}_{ij}y_{ij}}_{\text{Operational Cost}}
 \end{equation}
-subject to,
-\begin{align}
-    0 \leq h_{i} \leq x_{i}, \quad \forall i \\
-    D = 
-\end{align}
-where
-\begin{itemize}
-    \item $x_{i}$: Binary variable, if $x_{i}=1$ then generator $i$ is build.
-    \item $c_{i}$: Investment cost of generator $i$.
-    \item $\text{PMW}_{i}$: Cost per MW of electricity.
-    \item $p_{j}$: Indicate what percentage of generator $j$ is being used.
-\end{itemize}
-We can scale the problem by taking into account,
-\begin{itemize}
-    \item \textbf{Snapshots of time}: In expansion problems is common to consider hourly snapshots of time of one year.
-    \item \textbf{Adding transmission lines}: It does not make sense to build an isolated generator. We need transmission lines to connect different nodes of a network. Solving both problems at the same time reduce the total cost as compared with solving each one individually.
-    \item \textbf{Adding targets}: In the present project we a single target, i.e., the cost function -- investment and operational cost -- but there are other targets such are increase the percentage of renewable sources in a given region or reducing the carbon footprint that are also common among expansion planning models.
-\end{itemize}
-\textbf{First we have to map our problem into a QUBO}
+subject to a set of constraints.
+For large problems, an embedding of the problem into a quntum annealer is not possible. For this reason, an hhybrid approach is neccesary. 
+\section{Hybrid classical-quantum annealing algorithm}
 The hybrid quantum-classical algorithm based on combining SA with QA is inspired on [\textbf{INSERTE REFERENCIA}]. In that work, the authors proposed the following structure for the hybrid algorithm,
 \begin{enumerate}
     \item Set the cost to a high value and initialize a configuration for the problem, i.e., annealing schedule, initial and final temperature, and a selection criteria.
@@ -47,8 +30,13 @@ The hybrid quantum-classical algorithm based on combining SA with QA is inspired
 \end{enumerate}
 We use the same approach but we change the neighboring function. In their approach they assign a random criterion of selection. However, this function can be optimised for a given problem by changing the selection criterion accordingly. For instance, for a large expansion planning the operational cost of a generator is the terms that contribute the most to our total cost function. Because of this we can decide to generate neighboring configuration such that we start by building those generators with less operational cost. This criteria can also considers the number of snapshots and differences of operational cost with respect the investment planning of each generator and decide according to that. 
 \section{Benders' Decomposition}
-\subsection{Single Cut}
-\subsection{Multi-cuts}
+The main idea behind Benders decomposition is that some problems simplify drastically if some variables are fixed, i.e., if some variables act as parameters. For this reason, the original problem is decompose into two problems with fixed variables. Firstly, a master problem with a subset $x^{m)}_{i} \subset \mathcal{W}$ of the original variables and its constraints is solved, then a sub-problem, which is the original problem with $x^{m)}_{i}$ fixed by the solution of the master problem, is solved. The solution of the master problem generates a lower bound, meanwhile the solution of the sub-problem generate an upper bound. Both problems are solved interactively according to some criteria until lower and upper bound are as close as the precision we want $\epsilon$.
+\subsection{Classical Benders decomposition}
+\textit{Classical Benders decomposition} (CBD) is a method to solve \textit{mixed integer programming} (MIP) problems, but also \textit{mixed integer linear programming} (MILP) problems. These type of problems are combinational optimization problems, i.e., their goal is to find the combination of variables $x_{i}$ that minimises a given function, known as cost function subject to some integer constraints.\\\\
+Suppose we are given a large optimization problem with many decision variables $\left(x_{0}^{m)}, x_{1}^{m)}, \hdots , x_{n}^{m)}, x_{0}^{s)}, x_{1}^{s)}\hdots x_{m}^{s)}\right)$ where the index $m$ indicates the variables associated with the master problem, and $s$ the variables associated with the sub-problem. The solution both problems find has to be consistent with the original problem, i.e., the constraints have to be fulfilled.\\\\
+In the first iteration we have to fix the variables $x_{i}^{m)}$ to a feasible value and solve the sub-problem according to that fixed values. Once the sub-problem is solved
+
+
 %----------------------------------------------------------------------------------------
 
 % Define some commands to keep the formatting separated from the content 
