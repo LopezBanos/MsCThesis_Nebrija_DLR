@@ -165,8 +165,8 @@ is the Berry's phase.
 %       TOTAL EVOLUTION TIME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Total Evolution Time $T$}
-In previous sections we stated that under a sufficiently slowly Hamiltonian evolution the adiabatic theorem is satisfied. In this section we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$.\\\\
-We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = \frac{t}{T}$ and the Berry's phase.
+In previous sections we stated that under a sufficiently slowly Hamiltonian evolution the adiabatic theorem is satisfied. In this section we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution\,\cite{Sarandy2005AdiabaticSystems}. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$.\\\\
+We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = \frac{t}{T}$ and Berry's phase.
 \begin{equation}
     e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}
 \end{equation}
@@ -192,7 +192,7 @@ We can express the integrand of Eq.\,\eqref{eq:Coeff} as a difference between tw
       & + \int_{0}^{s}ds^{\prime} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \cdot \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\Biggr]
 \end{split}
 \end{equation}
- Assuming the energy gap does not vanish when $T \rightarrow \infty$ and that $d\{F_{nm}(s^{\prime})/g_{nm}^{2}(s^{\prime})\}/ds^{\prime}$ is integrable for all $s \in [0,1]$, the Riemann-Lebesgue lemma [\textbf{REFERENCE Tiene sentido ponerla? es un libro}] guarantees that the last integral vanishes in the limit $T \rightarrow \infty$. So
+ Assuming the energy gap does not vanish when $T \rightarrow \infty$ and that $d\{F_{nm}(s^{\prime})/g_{nm}^{2}(s^{\prime})\}/ds^{\prime}$ is integrable for all $s \in [0,1]$, the Riemann-Lebesgue lemma [\textbf{Fourier Series and Boundary Value Problems (Brown and Churchill Series)}] guarantees that the last integral vanishes in the limit $T \rightarrow \infty$. So
   \begin{align}
   \label{eq:cm}
      c_{m}(s)e^{-i\gamma_{m}(s)} = c_{m}(0) + \frac{i}{T}\left[\frac{F_{nm}(0)}{g^{2}_{nm}(0)} - \frac{F_{nm}(s)}{g^{2}_{nm}(s)}e^{-iT\int_{0}^{s}ds^{\prime}g_{nm}(s^{\prime \prime})}\right] 
@@ -248,6 +248,7 @@ where $n$ is the total number of binary variables, $\vec{x}\in\{0,1\}^{n}$ are t
 \end{definition}
 Notice that the Ising Hamiltonian uses the binary variables $s_{i} = \{-1,1\}$ but QUBO problems are formulated with the binary variables $x_{i} = \{0,1\}$. Both formulations are equivalent if we consider the following mapping between Ising and QUBO variables
 \begin{equation}
+\label{eq: ISING_QUBO}
     s_{i} = 2x_{i} -1
 \end{equation}
 When writing a given combinational problem into its QUBO formulation the constraints have to be mapped into its binary form. The following table summarises some of the most common binary constraints and how to map them into QUBO formulation.
@@ -299,48 +300,41 @@ Notice that slack variables have to be included in our problem which implies the
 \caption{Two heirs example given three assets.}
 \end{table}
 \\
-We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,1\}$ in the QUBO formulation and by $\{-1,1\}\equiv \{\uparrow, \downarrow\}$ in the Ising formulation, respectively -- so that the difference between the value each heir receives is minimum, which represents our cost function
-\begin{equation}
-    f(x_{0}, x_{1}, x_{2}) = \left[\text{Alice}(x_{0}, x_{1}, x_{2}) - \text{Bob}(x_{0}, x_{1}, x_{2})\right]^{2} = \left[\sum_{i}\left((1-x_{i})\cdot v_{i} - x_{i}\cdot v_{i}\right)\right]^{2}
+We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,1\}$ in the QUBO formulation and by $\{-1,1\}\equiv \{\uparrow, \downarrow\}$ in the Ising formulation, respectively -- so that the difference between the value each heir receives is minimum, which represents our cost function. Assume that $A$ is a subset of $S = \{s_{0},s_{1},s_{2}\}$ indicating which assets are given to Alice, analogously  $B = S - A$ indicates the assets received by Bob, then
+\begin{equation} 
+    f(s_{0}, s_{1}, s_{2}) = \left[\text{Alice}(s_{0}, s_{1}, s_{2}) - \text{Bob}(s_{0}, s_{1}, s_{2})\right]^{2} = \left[\sum_{i\in A}s_{i}v_{i} + \sum_{i\in B}s_{i}v_{i}\right]^{2} = \left[\sum_{i}s_{i}v_{i}\right]^{2}
 \end{equation}
 Notice we are not interested in the sign of our cost function. Therefore, to avoid dealing with signs we take the square of the difference so we know we are minimising a positive quantity.\\\\
-Expanding the square we arrive at the QUBO formulation, $\vec{x}^{T}Q\vec{x}$. Notce that for $x_{i} \in \{0,1\}$ the following relation holds $x_{i}=x_{i}^{2}$. 
+Expanding the square we arrive at the Ising formulation, $\vec{s}^{T}\mathcal{J}\vec{s}$. Notice that for $s_{i} \in \{-1,1\}$ the following relation holds $s_{i}^{2}=1$. 
 \begin{align}
-    \left[\sum_{i}\left((1-x_{i})\cdot v_{i} - x_{i}\cdot v_{i}\right)\right]^{2} = \sum_{i=0}^{2}\sum_{j\neq i}x_{i}v_{i}v_{j}x_{j} - x_{i}v_{i}v_{j}x_{i} - x_{j}v_{i}v_{j}x_{j}
+    \left[\sum_{i}s_{i}v_{i}\right]^{2} = \sum_{i}\left(s_{i}v_{i}\right)^{2} + 2\sum_{i<j}s_{i}v_{i}v_{j}s_{j} = \underbrace{\sum_{i}v_{i}^{2}}_{Constant} + \sum_{i<j}s_{i}2v_{i}v_{j}s_{j}
 \end{align}
-Therefore, the QUBO matrix of this example is
+Therefore, the Ising matrix of this example is
 \begin{equation}
-Q= 
-    \begin{bmatrix}
-           0 & v_{1}v_{2} & v_{1}v_{3}\\
-           v_{2}v_{1} & 0 & v_{2}v_{3}\\
-           v_{3}v_{1}& v_{3}v_{2} & 0\\
-         \end{bmatrix}
-\end{equation}
-We can add the contribution of mixed indices of the bottom triangular in the upper triangular part of the matrix
-\begin{equation}
-Q= 
+\mathcal{J}= 
     \begin{bmatrix}
            0 & 2v_{1}v_{2} & 2v_{1}v_{3}\\
            0 & 0 & 2v_{2}v_{3}\\
            0& 0 & 0\\
          \end{bmatrix}
 \end{equation}
-Notice that we also have dropped the constant terms as they only shift the minimum value but do not affect our solution, i.e., the minimum value of our cost function is going to change but the configuration that leads to that minimum remains the same.\\\\
-We now encode our solution into an Ising Hamiltonian $\mathcal{H}_{f}$ by using the mapping between QUBO and Ising variables and we initialise the evolution with the Hamiltonian $\mathcal{H}_{i} = -\sum_{i}^{n}\sigma_{i}^{x}$ whose ground state is $\ket{+}^{n}$. The  Ising formulation of the two heirs example is
-\begin{align}
-\mathcal{H} = \sum_{i}\sum_{j}x_{i}Q_{ij}x_{j} = \sum_{i}\sum_{j}\left( \frac{s_{i}-1}{2}\right)Q_{ij}\left(\frac{s_{j}-1}{2}\right) = \\
-\sum_{i}\sum_{j}\left[\frac{1}{4}\left(s_{i}Q_{ij}s_{j}\right) - \frac{1}{2}\left(s_{i}Q_{ij}\right) + \frac{1}{4}Q_{ij}\right]
-\end{align}
+Notice that we have dropped the constant terms as they only shift the minimum value but do not affect our solution, i.e., the minimum value of our cost function is going to change but the configuration that leads to that minimum remains the same.\\\\
+Now, we initialise the evolution with the Hamiltonian $\mathcal{H}_{i} = -\sum_{i}^{n}\sigma_{i}^{x}$ whose ground state is $\ket{+}^{n}$. 
 If the evolution is carried out under the adiabatic conditions,
 \begin{equation}
-    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z} - \Gamma(s)\sum_{i}\sigma_{i}^{x}
+    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z}  - \Gamma(s)\sum_{i}\sigma_{i}^{x}
 \end{equation}
 then we end up in $\mathcal{H}_{f}$ with one of the following solutions
 \begin{align}
     \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{\downarrow\uparrow\downarrow} \\
     \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{\uparrow\downarrow\uparrow}
 \end{align}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=\textwidth]{Figures/Two-Heirs.pdf}
+    \caption{Eigenenergies of the ground state for the target, initial and total Hamiltonians. At $s=0$ the Hamiltonian of the system is dominated by $\mathcal{H}_{i}$, as $s$ increases the Hamiltonian is an interpolation of $\mathcal{H}_{i}$ and $\mathcal{H}_{f}$ and at $s=1$ the dominant Hamiltonian is $\mathcal{H}_{f}$ which is the one that encodes the solution to our problem.}
+    \label{fig:Eigenenergies}
+\end{figure}
 This means that we get a global minimum value $E_{g}(s=1)$ associated with the ground states $\{\ket{\downarrow\uparrow\downarrow},\ket{\uparrow\downarrow\uparrow}\}$. This is because in this case, the problem has a degenerate ground state and the eigenvectors correspond to different configurations of our binary variables that lead to the same absolute minimum value $E_{g}(s=1)$. Intuitively, if a solution $\ket{\uparrow\downarrow\uparrow}$ indicates that Alice receives assets with indices $[0,2]$ and Bob receive the asset with index $[1]$, the opposite is a solution $\ket{\downarrow\uparrow\downarrow}$ with the same cost, i.e., Bob receives assets with indices $[0,2]$ and Alice receives the asset with index $[1]$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Circuit Based AQC: A First Approach}
