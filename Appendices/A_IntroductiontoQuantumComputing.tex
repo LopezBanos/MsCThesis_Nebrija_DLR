@@ -145,7 +145,7 @@ that represent the angles of the Bloch Sphere\footnote{A Bloch sphere is a geome
 The states $\ket{0}$ and $\ket{1}$ form a computational basis (orthonormal basis) for the $\mathbb{C}^{2}$ vector space. There are infinite single-qubit basis sets for $\mathbb{C}^{2}$, albeit the ones known as \textit{computational basis} are the ones that build the axis of the Bloch Sphere.
 
 \begin{figure}[h]
-    \centering
+\centering
     \includegraphics[scale=0.8]{Figures/BlochSphere.pdf}
     \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit.}
     \label{fig:bloch_sphere}
@@ -243,7 +243,8 @@ where $\mathbb{I}$ is the identity operator.
 
 We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\|\alpha\|^{2}$ and $\|\beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.   
 
-In a measurement, the general state of the qubit collapses to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with probability 1, i.e., measurements collapse a qubit into one of the basis states destroying superposition. Quoting Nielsen and Chuang\,\cite{Nielsen2010QuantumInformation},
+In a measurement, the general state of the qubit collapses to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with probability 1, i.e., measurements collapse a qubit into one of the basis states destroying superposition.\\
+Quoting Nielsen and Chuang\,\cite{Nielsen2010QuantumInformation},
 \begin{displayquote}
 \textit{This dichotomy between the unobservable state of a qubit and the observations we can make lies at the heart of quantum computation and quantum information.}
 \end{displayquote}
@@ -282,7 +283,6 @@ Despite the advantage of using quantum computing with respect to classical compu
 In this section we show the advantages of quantum computing by considering a specific example, that of Grover's algorithm.\\
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity\footnote{This is a lower bound but in some cases the speed up could be better as it happens with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
 \begin{figure}[h]
-    \centering
     \includegraphics[width=\textwidth]{Figures/Grover_Circuit.pdf}
     \caption{Circuit scheme of Grover's algorithm for an n-qubit system.}
     \label{fig:Grover_circuit}
@@ -291,8 +291,8 @@ Grover's algorithm is a search algorithm that uses qubits in superposition adjus
 In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search} and \textbf{REF}.\\
 As an example consider the following table,
 \begin{table}[h]
-\label{tab:GroverSearch}
 \centering
+\label{tab:GroverSearch}
 \begin{tabular}{ c | c | c | c | c }
   \hline			
   Binary Index & 00 & 01 & 10 & 11 \\
@@ -329,7 +329,7 @@ where
     \sin{\theta} = \frac{1}{\sqrt{N}}, \quad\quad  \ket{s'} = \frac{1}{\cos{\theta}}\frac{1}{\sqrt{N}}\sum_{i\neq \omega}\ket{i}
 \end{equation}
 \begin{figure}[H]
-    \centering
+\centering
     \includegraphics[scale=0.55]{Figures/Grover_Step1.pdf}
     \caption{Amplitude distribution of states after applying a Hadamard gate. The vector $\ket{\omega}$ is our desired state and $\ket{s'}$ is a orthogonal vector. In this way we can write $\ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}$.}
     \label{fig:Grover_step1}
@@ -350,7 +350,7 @@ Applying the operator to the state $\ket{s}$ yields,
     \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{N}}\ket{\omega} \equiv \ket{\bar{s}}
 \end{equation}
 \begin{figure}[H]
-    \centering
+\centering
     \includegraphics[scale=0.55]{Figures/Grover_Step2.pdf}
     \caption{Amplitude distribution of states after applying a $U_{\omega}$. Notice that we have applied a phase to the state we are looking for. Geometrically this means we have applied a reflection about a state orthonormal to $\ket\omega$.}
     \label{fig:Grover_step2}
@@ -365,7 +365,7 @@ Applying the operator to the state of our system yields,
     = \frac{1}{N\sqrt{N}} \left[\left(N - 4\right)\sum_{x\neq \omega}\ket{x} + \left(3N-4\right)\ket{\omega}\right] \overset{N=4}{=} \frac{1}{8} \left[0 \cdot \sum_{x\neq \omega}\ket{x} + 8\ket{\omega}\right] = \ket{\omega}
 \end{align*}
 \begin{figure}[H]
-    \centering
+\centering
     \includegraphics[scale=0.55]{Figures/Grover_Step3.pdf}
     \caption{Amplitude distribution of states after applying $\hat{U}_{s}$. For the case of two qubits, the amplitudes of non-desired states go to zero so we get the desired state $\ket{\omega}$ with a 100\% of probability in an ideal quantum computer. This does not happen if the number of qubits is increased. In that case the amplitudes of non-desired states are reduced compared with the amplitude of the state we are looking for.}
     \label{fig:Grover_step3}

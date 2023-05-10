@@ -20,7 +20,8 @@ Anyons      & Under Development \\
 \caption{List of current ways of implementing a qubit and the companies that are using it.}
 \label{tab:QubitTechnologies}
 \end{table}
-Concretely, we describe the implementation of a D-Wave superconducting qubit which is the most common type of qubits and the ones implemented in the hardware we use in the present work. Quoting DiVicenzo\,\cite{Divincenzo2000TheComputation}, the following criteria have to be fulfill for the realisation of a quantum computer:
+Concretely, we describe the implementation of a D-Wave superconducting qubit based on the lectures notes in AQC of Nebrija University\,\cite{AlvaroDiazComputacionAdiabatica}.  Superconducting qubits are the most common type of qubits and the ones implemented in the hardware we use in the present work. \\\\
+Quoting DiVicenzo\,\cite{Divincenzo2000TheComputation}, the following criteria have to be fulfilled for the realisation of a quantum computer:
 \begin{displayquote}
 \begin{itemize}
     \item \textit{A scalable physical system with well characterized qubits.}
@@ -30,10 +31,11 @@ Concretely, we describe the implementation of a D-Wave superconducting qubit whi
     \item \textit{A qubit-specific measurement capability.}
 \end{itemize}
 \end{displayquote}
-In next sections we describe the physical implementation of superconducting qubits, precisely the ones that make up a quantum annealer. 
+In next sections we describe the physical implementation of superconducting qubits, precisely the ones that make up a quantum annealer and discuss its fullfillement of DiVicenzo criteria.
 \section{Quantum Annealers: An Overview} 
 Quantum annealers are single-purpose quantum computers that solve Ising/QUBO problems. D-Wave started using superconducting qubits of wavelength $d$ -- from where D-wave take its name -- but in 2011 D-Wave's researchers demonstrated a way of implementing synthetic qubits\,\cite{Johnson2011QuantumSpins}, i.e., qubits that interact between each other and whose behaviour is that of the Ising model. Here we show a list of D-Wave's quantum annealer.
 \begin{table}[H]
+\centering
 \begin{tabular}{ |c||c|c|c|c|  }
  \hline
  \multicolumn{5}{|c|}{\textbf{D-Wave quantum annealers}} \\
