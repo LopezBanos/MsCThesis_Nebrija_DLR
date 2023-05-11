@@ -42,11 +42,12 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{float}
 \usepackage{braket}
 \usepackage{amsmath}\setcounter{MaxMatrixCols}{20}
+\usepackage{amsfonts,amssymb}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
 \usepackage{mathpazo} % Use the Palatino font by default
 \usepackage{minted}
-\usepackage{biblatex}
+\usepackage[sorting=none, style=ieee]{biblatex}
 \usepackage{wrapfig}
 % THEOREMS AND DEFINITIONS
 \usepackage{amsthm}
@@ -69,6 +70,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{orcidlink}
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
 %----------------------------------------------------------------------------------------
@@ -88,11 +90,11 @@ headsepline, % Uncomment to get a line under the header
 %----------------------------------------------------------------------------------------
 
 \thesistitle{Transmission Expansion Planning by Quantum Annealing} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
-\supervisor{Dr. Álvaro Díaz Fernández\\
-Dr. Oriol Raventós Morera} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\supervisor{Dr. Álvaro Díaz Fernández \orcidlink{0000-0001-9432-7845}\\
+Dr. Oriol Raventós Morera \orcidlink{0000-0002-0512-4331}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Master in Quantum Computing} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
-\author{Sergio López Baños} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
+\author{Sergio López Baños \orcidlink{0009-0001-4873-7437}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
 \addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
 
 \subject{Quantum Computing} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
@@ -134,7 +136,7 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 \begin{minipage}[t]{0.4\textwidth}
 \begin{flushleft} \large
 \emph{\textbf{Author:}}\\
-{\authorname} % Author name - remove the \href bracket to remove the link
+\item {\authorname} % Author name - remove the \href bracket to remove the link
 \end{flushleft}
 \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
@@ -233,12 +235,15 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 \textbf{CBD} & \textbf{C}lassical \textbf{B}ender \textbf{D}ecomposition\\
 \textbf{HQC} & \textbf{H}ybrid \textbf{Q}uantum-\textbf{C}lassical\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
+\textbf{MP} & \textbf{M}aster \textbf{P}roblem \\
 \textbf{NISQ} & \textbf{N}oisy  \textbf{I}ntermediate-\textbf{S}cale  \textbf{Q}uantum\\
 \textbf{SA} & \textbf{S}imulated \textbf{A}nnealing \\
+\textbf{SP} & \textbf{S}ub-\textbf{P}roblem \\
 \textbf{QA} & \textbf{Q}uantum \textbf{A}nnealing \\
 \textbf{QPU} & \textbf{Q}uantum \textbf{P}rocessing \textbf{U}nit \\
 \textbf{QUBO} & \textbf{Q}uadratic \textbf{U}nconstrained \textbf{B}inary \textbf{O}ptimization\\
-\textbf{TEP} & \textbf{T}ransmission \textbf{E}xpansion \textbf{P}roblem\\
+\textbf{TEP} & \textbf{T}ransmission \textbf{E}xpansion \textbf{P}lanning\\
+\textbf{TSP} & \textbf{T}ravelling \textbf{S}alesman \textbf{P}roblem\\
 
 \end{abbreviations}
 

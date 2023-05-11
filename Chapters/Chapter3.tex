@@ -4,20 +4,65 @@
 
 \label{Chapter3} % For referencing the chapter elsewhere, use \ref{Chapter2} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Hybrid classical-quantum annealing algorithm
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer impose a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to solve large-scale problems, by combining quantum and classical solvers.\\\\
-The aim of hybrid quantum-classical approaches is to decompose a problem into a sub-problem(s) and master problem. Hopefully, one of these problems is a QUBO problem or can be cast into it, and it is small enough so it is assigned to the \textit{quantum processing unit} (QPU), meanwhile the other problems are solved by the classical solver using cutting-edge algorithms. \\\\
-The problems we are interested have the following cost function,
+The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and \textit{master problem} (MP), so hopefully one of these problems is suitable for a quantum computer, e.g., a quantum annealer would receive a QUBO problem or a problem that can be cast into it, meanwhile the rest of the problems are solved by the classical solver using cutting-edge algorithms. In the present work the problem we are interested in are MILP problems.\\\\
+MILP problems can be written as function of decision variables $\textbf{x}$ and complicated decision variables $\textbf{y}$
 \begin{equation}
-    \mathcal{H} = \underbrace{\sum_{k=1}^{L}c_{k}^{(\text{iv})}l_{k}}_{\text{Investment Cost}} + \underbrace{\sum_{t=1}^{T}\sum_{j=1}^{G}c_{j}^{(\text{oc})}g_{j}(t)}_{\text{Operational Cost}}\\ 
+\label{eq: MILP}
+    \min_{\textbf{x},\textbf{y}} \textbf{c}^\intercal\textbf{x} + \textbf{d}^\intercal\textbf{y}
 \end{equation}
 subject to a set of linear constraints,
 \begin{align}
-    0 \leq g_{j,t}\leq g_{j}^{\max},\quad \forall j,t \\
-    D_{i}(t) =\sum_{j=1}^{G}g_{j}(t), \quad \forall i,t \\
+    \textbf{A}\textbf{x} + \textbf{B}\textbf{y} \geq \textbf{b}
 \end{align}
-Notice that the constraints are not binary either integer but real constraints. In order to represent a real constraint with a binary expansion one have to do a discretization process so that errors will appear due to that discretization. Hence, we should tackle the constraints with the classical solvers, otherwise many slack variables will be added to our QUBO problem and discretization errors will occur.
+with $\textbf{c}\in\mathbb{R}^{l_{x}}$, $\textbf{d}\in\mathbb{R}^{l_{y}}$, $\textbf{b}\in\mathbb{R}^{l_{c}}$, $\textbf{x}\in\mathbb{R}_{+}^{l_{x}}$, $\textbf{y}\in\mathbb{R}^{l_{y}}$, $\textbf{A}\in \mathbb{R}^{l_{c}\times l_{x}}$ and $\textbf{B}\in\mathbb{R}^{l_{c}\times l_{y}}$ where $l_{x}$, $l_{y}$ and $l_{c}$ indicate the number of the decision variables $\textbf{x}$, complicated decision variables $\textbf{y}$ -- restricted to the set $\mathbb{Y}$ -- and constraints terms, respectively. 
+In many fields, such as the energy sector, quadratic problems are often linearized by casting them into MILP problems. Despite the simplicity of MILP problems they appear in a wide range of real-world applications. They scale badly as the problem size grows, which implies a huge demand of computational resources, which leads to a reduction of the spatial and time resolution. There are classical solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc} that are being used to solve MILP problems and other type of combinatorial problems. However, there are problems for which the best of these solvers -- Gurobi -- exceed the run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}. Currently, the scope and granularity of the models
+are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. It is though that quantum computers could offer advantage over the classical solver in the future though its current state force us to use HQC approaches instead of a pure quantum solver.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Classical Benders Decomposition}
+The main idea behind \textit{classical Benders decomposition} (CBD) is to decompose the original problem into several sub-problems once the complicated variables are detected. Furthermore, by fixing the complicated variables the problem is simplified. For this reason, CBD decompose the general problem \eqref{eq: MILP} into a MP with integer variables and a SP with the complicated variables fixed by the MP, then both problems are solved interactively until a stopping criterion is satisfied. The convergence of CBD\,\cite{Sahinidis1991BDConvergence} guarantees that we reach the minimum value after a number of iterations. The solution of the master problem generates a lower bound, meanwhile the solution of the sub-problem generate an upper bound. Both problems are solved interactively until lower $L$ and upper $U$ bound satisfy a given threshold $U - L = \epsilon$.\\\\
+As an example, consider a general expansion planning problem with cost function given by
+\begin{equation}
+    \min_{x_{3},g_{1}(h),g_{2}(h),g_{3}(h)}\underbrace{30000x_{3}}_{\text{Investment Cost}} + \underbrace{\sum_{h}10g_{1}(h)+20g_{2}(h) + 5g_{3}(h)}_{\text{Operational Cost}}\\ 
+\end{equation}
+subject to a set of constraints,
+\begin{align}
+    0 \leq g_{1}(h) \leq 100, \quad \forall\,h\\
+    0 \leq g_{1}(h) \leq 200, \quad \forall\,h\\
+    0 \leq g_{2}(h) \leq x_{3}, \quad \forall\,h \\
+    D(h) = g_{1}(h) + g_{2}(h) + g_{3}(h), \quad \forall\,h \\
+    x_{3} \geq 0
+\end{align}
+where $x_{3}$ represent the decision of creating a new element $g_{3}$, $h$ represents the snapshot considered and $D(h)$ represents a demand to be fulfilled by the elements $\{g_{j}\}$ at snapshot $h$. Notice, that if we just look to the investment cost, then we $x_{3}$ would be set to zero. However, the operational cost of the element $g_{3}$ is cheaper than the other elements. Moreover, notice that if we consider a large set of snapshots $h$, then the operational cost is the dominant term. Analogously, for a short set of snapshots the investment cost is the dominant term of the cost function. In summary, extremal solutions lead to a high value of cost function in one of this ways
+\begin{itemize}
+    \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $D(h)$.
+    \item \textbf{Overinvestment} leads to a high value of the total cost function despite it fulfill the demand. Intuitively, we are creating more elements $\{g_{j}\}$ than we need. Usually there is an upper bound due to capital budget.
+\end{itemize}
+The optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimize the investment cost and operational cost fulfilling at the same time the constraints of the problem.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Complicated variables}
+We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produce non-convex optimization problems. For instance, consider that the decision variable $x_{3}$ of the previous cost function is a complicated variable. Fixing that variable and considering a single snapshot $h=1$ would allow us to re-write the problem 
+\begin{equation}
+    \min_{g_{1}(1), g_{2}(1), g_{3}(1)} \sum_{h}10g_{1}(1)+20g_{2}(1) + 5g_{3}(1)
+\end{equation}
+subject to
+\begin{align}
+    0 \leq g_{1}(1) \leq 100 \\
+    0 \leq g_{1}(1) \leq 200 \\
+    0 \leq g_{2}(1) \leq x_{3}^{(\text{fixed})} \\
+    D(h) = g_{1}(1) + g_{2}(1) + g_{3}(1)
+\end{align}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{Figures/BenderIlustration.pdf} 
+\caption{Benders cuts.}
+\label{fig:BDIlustration}
+\end{figure}
+
+\subsection{Upper and Lower Bounds}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QA + SA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47,20 +92,6 @@ The hybrid quantum-classical algorithm based on combining SA with QA is inspired
 \end{enumerate}
 Notice that the algorithm solve the master problem with a simulating annealing algorithm in a classical solver and then the sub-problem(s) -- which carries the constraints -- with the quantum computer, more precisely with a quantum annealer. For this reason, the sub-problem(s) must have binary constraints or integer if we do not want to deal with discretization errors. Hence, the approach as stated before is not for problems whose sub-problem(s) has real constraints meanwhile the master problem is more suitable for a quantum annealer.\\\\
 In order to apply both simulated and quantum annealing to problems with real constraints, we have to reconsider or adapt the previous scheme.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BD
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Benders' Decomposition}
-The main idea behind Benders decomposition is that some problems simplify drastically if some variables are fixed, i.e., if some variables act as parameters. For this reason, the original problem is decompose into two problems with fixed variables. Firstly, a master problem with a subset $x^{m)}_{i} \subset \mathcal{W}$ of the original variables and its constraints is solved, then a sub-problem, which is the original problem with $x^{m)}_{i}$ fixed by the solution of the master problem, is solved. The solution of the master problem generates a lower bound, meanwhile the solution of the sub-problem generate an upper bound. Both problems are solved interactively according to some criteria until lower and upper bound are as close as the precision we want $\epsilon$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BD
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Classical Benders decomposition}
-\textit{Classical Benders decomposition} (CBD) is a method to solve \textit{mixed integer programming} problems (MIP), but also MILP problems. These type of problems are combinatorial optimization problems, i.e., their goal is to find the combination of variables $x_{i}$ that minimises a given function, known as cost function subject to some integer constraints.\\\\
-Suppose we are given a large optimization problem with many decision variables $\left(x_{0}^{m)}, x_{1}^{m)}, \hdots , x_{n}^{m)}, x_{0}^{s)}, x_{1}^{s)}\hdots x_{m}^{s)}\right)$ where the index $m$ indicates the variables associated with the master problem, and $s$ the variables associated with the sub-problem. The solution both problems find has to be consistent with the original problem, i.e., the constraints have to be fulfilled.\\\\
-In the first iteration we have to fix the variables $x_{i}^{m)}$ to a feasible value and solve the sub-problem according to that fixed values. Once the sub-problem is solved
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BD: Multi-Cuts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
