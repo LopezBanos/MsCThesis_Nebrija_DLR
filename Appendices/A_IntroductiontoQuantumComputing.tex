@@ -143,8 +143,7 @@ The last expression can be written in term of two parameters,
 \end{equation}
 that represent the angles of the Bloch Sphere\footnote{A Bloch sphere is a geometric representation of the state of a single qubit where each axis has two orthogonal states, e.g., the Z-axis has the orthogonal states $\{\ket{0},\ket{1}\}$.}.\\
 The states $\ket{0}$ and $\ket{1}$ form a computational basis (orthonormal basis) for the $\mathbb{C}^{2}$ vector space. There are infinite single-qubit basis sets for $\mathbb{C}^{2}$, albeit the ones known as \textit{computational basis} are the ones that build the axis of the Bloch Sphere.
-
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
     \includegraphics[scale=0.8]{Figures/BlochSphere.pdf}
     \caption{A Bloch Sphere displaying the state $\ket{\psi}$ of a single qubit.}
@@ -282,7 +281,7 @@ Despite the advantage of using quantum computing with respect to classical compu
 \subsection{Grover's Algorithm}
 In this section we show the advantages of quantum computing by considering a specific example, that of Grover's algorithm.\\
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity\footnote{This is a lower bound but in some cases the speed up could be better as it happens with the two-qubit system.}, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
-\begin{figure}[h]
+\begin{figure}[H]
     \includegraphics[width=\textwidth]{Figures/Grover_Circuit.pdf}
     \caption{Circuit scheme of Grover's algorithm for an n-qubit system.}
     \label{fig:Grover_circuit}
@@ -290,7 +289,7 @@ Grover's algorithm is a search algorithm that uses qubits in superposition adjus
 \subsubsection{Grover's Algorithm steps for a two-qubit system ($N=4$)}
 In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search} and \textbf{REF}.\\
 As an example consider the following table,
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \label{tab:GroverSearch}
 \begin{tabular}{ c | c | c | c | c }
