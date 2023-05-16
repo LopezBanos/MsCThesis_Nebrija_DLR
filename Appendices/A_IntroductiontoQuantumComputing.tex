@@ -8,17 +8,17 @@ This appendix serves as a quick introduction to quantum computing. We explain th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hilbert space}
 We start by defining the vector space where quantum computing takes place, the Hilbert space, $\mathbb{H}$.
-\begin{definition}[Hilbert Space]
+\begin{definition}{Hilbert Space}{}
 A Hilbert space is a special type of linear vector space whose elements are complex-valued \textit{square integrable}\footnote{A function $\psi(x)$ is said to be \textit{square integrable} on a given interval $\left[a, b\right]$ if $\int_{a}^{b}\|\psi(x)\|^{2}dx$ exist with a finite value.} functions, $\psi(x)$, of a real variable $x$, defined on the closed interval $\left[a, b\right]$, equipped with a \textit{complete inner product}, $(\cdot,\cdot)$, in $\mathbb{C}$.
 \end{definition}
-\begin{definition}[Inner Product]
+\begin{definition}{Inner Product}{}
 Given two functions of the Hilbert space, $\psi_{1}$ and $\psi_{2}$, the inner product is defined by
 \begin{equation}
     \left(\psi_{1}, \psi_{2}\right) \equiv \int^{b}_{a} \psi_{1}^{*}(x)\psi_{2}(x)dx
 \end{equation}
 \end{definition}
-\begin{corollary}
-Given the functions \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{H}$ and \{$\alpha, \beta\} \in \mathbb{C}$, the inner product of the associated Hilbert space satisfies:
+\begin{corollary}{}{}
+ Given the functions \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{H}$ and \{$\alpha, \beta\} \in \mathbb{C}$, the inner product of the associated Hilbert space satisfies:
 \begin{itemize}
     \item Closed operation: $(\psi_{1},\psi_{2})\in \mathbb{C}$
     \item Conjugate symmetry: $(\psi_{1},\psi_{2}) = (\psi_{2},\psi_{1})^{*}$
@@ -27,26 +27,26 @@ Given the functions \{$\psi_{1}$,$\psi_{2}$,$\psi_{3}$\} $\in \mathbb{H}$ and \{
     \item Positive definiteness: $(\psi, \psi) = \lVert \psi \rVert^{2} \in \left[0,\infty\right)$\footnote{The quantity $\lVert \psi \rVert^{2}$ is called the norm of $\psi$. If $\lVert \psi \rVert^{2} = 0$ that does not imply $\psi(x) = 0$ for all $x$ in $\left[a,b\right]$. The function can have nonzero values at some points and the integral will remain zero. The integral roughly computes the area in a given interval, so, if there is just a point not null in the interval the area captured by a point is zero, so its contributions to the integral is zero. In our case the quantity $\lVert \psi \rVert^{2}$ represents the probability density of a given state $\psi$, i.e., if we integrate the whole interval of definition $x \in D$, $\int_{D}\lVert \psi \rVert^{2}dx = 1$.} 
 \end{itemize}    
 \end{corollary}
-\begin{definition}[Distance]
+\begin{definition}{Distance}{}
     The distance defined by Hilbert space's inner product is given by
     \begin{equation}
       d \equiv \left|\psi_{2} - \psi_{1}\right| = \sqrt{(\psi_{2}-\psi_{1},\psi_{2}-\psi_{1})}  
     \end{equation}
 \end{definition}
-\begin{definition}[Completeness of a space]
+\begin{definition}{Completeness of a space}{}
 A complete space is one in which any Cauchy sequence -- of that space -- is convergent, i.e., tends towards a value inside the given space.
 \end{definition}
 We can show why completeness of space is a necessary condition. Suppose that our space is not complete, i.e., some Cauchy sequences are not convergent. Then, the evolution of an initial state\footnote{The formulae for the evolution of n state is explained in later sections.}, $\ket{\psi(0)}$, under a given constant Hamiltonian is not guaranteed\footnote{It is not guaranteed that the Cauchy sequence $\sum_{i = 0}^{n}(-it)^{k} / \left(k!h^{k}\right)\mathcal{H}^{k}$ converges.}
 \begin{equation}
-    \ket{\psi(t)} = e^{-\frac{i\mathcal{H}}{\hbar}t}\ket{\psi(0)} = \lim_{n \to \infty} \sum_{i = 0}^{n}\frac{(-it)^{k}}{k!h^{k}}\mathcal{H}^{k}\ket{\psi(0)}
+    \ket{\psi(t)} = e^{-\frac{i\mathcal{H}}{\hbar}t}\ket{\psi(0)} = \lim_{n \to \infty} \sum_{i = 0}^{n}\frac{(-it)^{k}}{k!h^{k}}\mathcal{H}^{k}\ket{\psi(0)}.
 \end{equation}
-\begin{definition}[Completeness of an orthonormal set of functions]
+\begin{definition}{Completeness of an orthonormal set of functions}{}
 A set of orthonormal functions $\{\psi_{i}\}$ is complete if any function $\psi(x)$ in Hilbert space can be written as a linear combination of the $\psi_{i}(x)$\footnote{Here we do not ask for point convergence, we weaken the converge criteria to mean convergence. Otherwise, there would not exist a complete set of orthonormal function in the Hilbert space.}:
 \begin{equation}
     \lim_{n\to \infty}\| \psi(x) - \sum_{i=1}^{n}c_{i}\psi_{i}(x)\|^{2} = 0
 \end{equation}
 \end{definition}
-\begin{theorem}[Riesz-Fischer]
+\begin{theorem}{Riesz-Fischer}{}
 Assume the functions $\psi_{1}(x),\psi_{2}(x),\ldots$ are elements of Hilbert space. If
 \begin{equation}
     \lim_{n,m\to\infty} \lVert \psi_{n} - \psi_{m}\rVert^{2} \equiv \lim_{n,m\to \infty} \int_{a}^{b} \|\psi_{n} - \psi_{m}\|^{2}dx = 0
@@ -57,14 +57,14 @@ then there exist a square (Lebesgue) integrable function $\psi(x)$ to which the 
 \end{equation}
 Equivalently, let $\psi_{n}$ be a Cauchy sequence and $\psi$ a value inside the given space. Then, the Cauchy sequence converges to $\psi(x)$ \textit{in the mean}, i.e, we allow the difference $\|\psi(x) - \psi_{n}(x)\|^{2}\neq 0$ at some points $x$, so that the integral $\lim_{n\to \infty} \int_{a}^{b} \|\psi - \psi_{n}\|^{2}dx$ is zero when taking into account the whole interval.
 \end{theorem}
-\begin{definition}[Orthonormality]
+\begin{definition}{Orthonormality}{}
 A given set of functions $\{\psi_{i}\}$ is said to be orthonormal if
 \begin{equation}
     \left(\psi_{i}, \psi_{j}\right) \equiv \int_{a}^{b} \psi_{i}^{*}(x)\psi_{j}(x) dx = \delta_{ij} 
 \end{equation}
 \end{definition}
 In the present work we work with a particular Hilbert space, a finite Hilbert space. This implies our space is \textit{separable}.
-\begin{definition}[Separable]
+\begin{definition}{Separable}{}
     A Hilbert space is said to be \textit{separable} if an only if it has a countable orthonormal basis.
 \end{definition}
 So for a finite Hilbert space -- which is a countable space -- an orthogonal basis is guaranteed.
@@ -72,7 +72,7 @@ So for a finite Hilbert space -- which is a countable space -- an orthogonal bas
 %     A.2 NOTACION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notation}
-\begin{definition}[Dirac's Bra-Ket Notation]
+\begin{definition}{Dirac's Bra-Ket Notation}{}
 The inner product of an n-dimensional Hilbert space defines a linear map from $\mathbb{H}$ to $\mathbb{C}$
 \begin{align*}
   \tau: \mathbb{H}\longrightarrow& \mathbb{C}^{n} \\
@@ -108,10 +108,8 @@ where $\mathbb{H}^{*}$ denotes the dual space. The dual space $\mathbb{H}^{*}$ i
 \end{equation}
 \end{itemize}
 \end{definition}
-
 Notice that a bra-vector is just the transpose conjugate of a ket-vector. This is a useful way of mapping a ket-vector of a given Hilbert space into its bra-vector on the associated dual Hilbert space.
-
-\begin{corollary}
+\begin{corollary}{}{}
     In bra-ket notation, a set of vectors $\{\ket{\psi_{j}}\}$ is said to span $\mathbb{H}$ if we can express any vector $\ket{\psi}$ of that space as a linear combination of the vectors in the given set
     \begin{equation}
         \ket{\psi} = \sum_{j}\alpha_{j}\ket{\psi_{j}}
@@ -123,7 +121,7 @@ Notice that a bra-vector is just the transpose conjugate of a ket-vector. This i
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quantum bits}
 A \textit{bit} is the smallest unit of information of classical computing. Analogously, a \textit{qubit} is the smallest unit of information for quantum computing. The following section treats bits and qubits as abstract mathematical objects without their physical implementation. In Appx.\,\ref{AppendixC}, we describe some implementations of a physical qubit.\\\\
-A classical bit has two possibles states commonly named $\ket{0}$ or $\ket{1}$\footnote{The name of the states of a bit or qubit is not important. It is just a way of labelling those states.}. However, a quantum bit is a linear combination of states -- \textit{superposition} -- $\{\ket{0}, \ket{1}\}$. The general state of a qubit can be conceived as a vector in a two-dimensional complex vector space, with $\alpha, \beta \in \mathbb{C}$
+A classical bit has two possibles states commonly named $\ket{0}$ or $\ket{1}$\footnote{The name of the states of a bit or qubit is not important. It is just a way of labelling those states.}. However, a quantum bit is a linear combination of states -- \textit{superposition} -- $\{\ket{0}, \ket{1}\}$. The general state of a qubit can be conceived as a vector in a two-dimensional complex vector space, with $\alpha, \beta \in \mathbb{C}$,
 \begin{equation}
     \ket{\psi} = \alpha \ket{0} + \beta \ket{1} = \alpha \begin{bmatrix}
            1 \\
@@ -134,10 +132,10 @@ A classical bit has two possibles states commonly named $\ket{0}$ or $\ket{1}$\f
          \begin{bmatrix}
            0 \\
            1 
-         \end{bmatrix}
+         \end{bmatrix},
 \end{equation}
 where $\|\alpha\|^{2} + \|\beta\|^{2}$ = 1, i.e, the state of a qubit is normalized.\\
-The last expression can be written in term of two parameters,
+The last expression can be written in term of two parameters, $\theta$ and $\phi$,
 \begin{equation}
     \ket{\psi} = \cos{\frac{\theta}{2}}\ket{0} + e^{i\phi}\sin{\frac{\theta}{2}}\ket{1}
 \end{equation}
@@ -207,41 +205,39 @@ Where the expression $x \in \{0,1\}^{n}$ indicates all the possible tensor produ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Measurements and Operators}
 Quantum mechanics makes predictions about microscopic objects taking into account their statistics\footnote{Measurements in an ensemble of equally prepared states gives quantities distributed around a mean value with a given frequency.}. The predictions have implications for the macroscopic world. In classical computing a system is mostly unaltered by tiny interactions such as light or heat. However, in quantum computing this environment noise is quite important as it modify the state of the system. This noise is a doubled-edged sword as it can be used to modify intentionally the state of a quantum system.
-\begin{definition}[Operator]
+\begin{definition}{Operator}{}
     An operator $\hat{A}$ is a linear map between Hilbert spaces that satisfy,
     \begin{equation}
         \braket{\hat{A}^{\dagger}\psi|\varphi} = \braket{\psi|\hat{A}\varphi} \forall \psi,\varphi \in \mathbb{H}
     \end{equation}
     where $\hat{A}$ admit a matrix representation and "$\dagger$" means transpose conjugate
 \end{definition}
-\begin{corollary}
+\begin{corollary}{}{}
     Given an operator $\hat{A}$, on a finite Hilbert space, the operator is said to be Hermitian if
     \begin{equation}
         \hat{A}^{\dagger} = \hat{A}
     \end{equation}
     Hermitian operators play an important role in quantum physics because their eigenvalues are real and represent measurable physical quantities.
 \end{corollary}
-\begin{definition}[Observable]
+\begin{definition}{Observable}{}
     Given the state of a system $\ket{\psi}$, an \textit{observable} -- represented with an operator $\hat{A}$ -- is the physical quantity we can measure associated with the Hermitian operator $\hat{A}$. The possible observables of an operator are its eigenvalues.
 \end{definition}
 As an example consider the \textit{Hamiltonian} of a system, $\hat{\mathcal{H}}$. For the present work, the Hamiltonian of a system represents the total energy of the system. So, the associated eigenvalues are the eigenenergies of the system.  
-\begin{definition}[Unitary Operator]
+\begin{definition}{Unitary Operator}{}
     An operator U on $\mathbb{H}$ is unitary if
     \begin{equation}
         U^{\dagger}U =\mathbb{I}
     \end{equation}
 where $\mathbb{I}$ is the identity operator.
 \end{definition}
-\begin{definition}[Expectation Value]
+\begin{definition}{Expectation Value}{}
     The expectation value, $<\cdot>$, of an observable is the mean value we get after a sequence of measurements of that observable in an ensemble of equally prepared states.
         Mathematically,
     \begin{equation}
         \langle\hat{A}\rangle_{\ket{\psi}} := \braket{\psi |\hat{A}| \psi}
     \end{equation}
 \end{definition}
-
 We can measure a classical bit to check if it is in the state 0 or 1. However, when we measure -- in the Z-basis -- a quantum bit we do not get the parameters $\alpha, \beta$ that describe the qubit state. Instead, we get either $\ket{0}$ or $\ket{1}$ with probabilities $\|\alpha\|^{2}$ and $\|\beta\|^{2}$ respectively. The logic of classical computing is Boolean, this means that if the system is not in the state 0 it must be in state 1. In quantum computing, if the system is not in the state 0 it does not have to be in state 1.   
-
 In a measurement, the general state of the qubit collapses to one of the states of the basis we are using to measure. After this measurement the state of our qubit is fixed and successive measurements will give the same state with probability 1, i.e., measurements collapse a qubit into one of the basis states destroying superposition.\\
 Quoting Nielsen and Chuang\,\cite{Nielsen2010QuantumInformation},
 \begin{displayquote}
@@ -255,7 +251,7 @@ One of the paradigms of universal quantum computing is the gate model. This appr
 Equivalently, a quantum gate is represented by a complex exponential of the form\footnote{Where $\hbar$ is the reduced Planck constant.} $\exp\left(i\hat{\mathcal{H}}t / \hbar\right)$ where a given Hamiltonian, $\mathcal{H}$ -- controlled by external fields such as magnetic fields -- leads the evolution of the qubit in such a way that the associated matrix of the complex exponential -- that admit a series expansion -- match the matrix representation of the quantum gate. \\\\
 Precisely, the evolution of a quantum system is goberned by the Schrödinger equation which cannot be derived from first principles, i.e., it is an experimental fact. Mathematically, it can be expressed as
 \begin{equation}
-    \hat{\mathcal{H}}\ket{\psi(t)} = i\hbar \frac{\partial}{\partial t}\ket{\psi(t)}
+    \hat{\mathcal{H}}\ket{\psi(t)} = i\hbar \frac{\partial}{\partial t}\ket{\psi(t)},
 \end{equation}
 where $\hat{\mathcal{H}}$ is the Hamiltonian operator, $\hbar$ is the reduced Planck constant and $\ket{\psi(t)}$ represents the state of a system.\footnote{Remember that in Quantum Physics time does not have an operator so it is not an observable.} and $\ket{\psi(t)}$ represent the state of a system.\\
 The Schrödinger equation governs the time evolution of a quantum system. It plays the same role that Newton's equations do in classical mechanics.
@@ -269,7 +265,7 @@ The main power of quantum computers underlies in three properties,
     \item \textbf{Superposition:} A qubit can be a in a linear combination of states. We can build quantum algorithms that cross out those terms that are not interesting for us and increase the amplitudes of the ones we are interested in.
     \item \textbf{Entanglement:} An entangled state is a state that cannot be written in term of the tensor product of pure states. Entangled states store information exponentially instead of linearly (as classical computing does). As an example, suppose we have the following two-qubit state, called \textit{Bell state}
 \begin{equation}
-    \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right)
+    \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right).
 \end{equation}
 If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubits are entangled in the sense that knowing the state of the first qubit allows us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be in state $\ket{0}$.\footnote{Einstein termed this effect \emph{spooky action at a distance} in an attempt to ridicule quantum mechanics.}  
     \item \textbf{Parallelism:} A quantum memory register can exist in a superposition of states. If we perform an operation on this quantum register, this operation is applied to all states of that superposition. Notice that we have applied an operation to all the states in that superposition by performing the function just once.
@@ -292,7 +288,7 @@ As an example consider the following table,
 \begin{table}[H]
 \centering
 \label{tab:GroverSearch}
-\begin{tabular}{ c | c | c | c | c }
+\begin{tabular}{ | c || c | c | c | c | }
   \hline			
   Binary Index & 00 & 01 & 10 & 11 \\
     \hline		
@@ -304,28 +300,28 @@ As an example consider the following table,
 and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the eigenstate $\ket{\omega} = \ket{10}$.\\
 \textbf{(0). Initialized single qubit states:} All the qubits are initialized at $\ket{0}$ so the state of the system is given by the tensor product of the qubits,
 \begin{equation}
-    \ket{\psi_{0}} = \ket{0}\otimes \ket{0} = \ket{00}
+    \ket{\psi_{0}} = \ket{0}\otimes \ket{0} = \ket{00}.
 \end{equation}
 \textbf{(1). Equiprobability:} Apply a Hadamard gate to each qubit so we create a configuration of equiprobable states\footnote{At the beginning we do not have a good guess of where the item can be so each possibility is equally probable.},
 \begin{equation}
-    \ket{\psi_{1}} = \hat{H}^{\otimes 2}\ket{00} = \frac{1}{\sqrt{N}}\sum_{x \in \{0,1\}^{2}}\ket{x} \equiv \ket{s}
+    \ket{\psi_{1}} = \hat{H}^{\otimes 2}\ket{00} = \frac{1}{\sqrt{N}}\sum_{x \in \{0,1\}^{2}}\ket{x} \equiv \ket{s}.
 \end{equation}
  One can label the states using decimal notation, $i = 0 ,\ldots, 2^{n} -1$, where $n$ is the number of qubits.\\
 For a two-qubit system,
 \begin{equation}
-   \{\ket{x}\} = \{\ket{00},\ket{01},\ket{10},\ket{11}\} \equiv \{\ket{0},\ket{1},\ket{2},\ket{3}\} = \{\ket{i}\}
+   \{\ket{x}\} = \{\ket{00},\ket{01},\ket{10},\ket{11}\} \equiv \{\ket{0},\ket{1},\ket{2},\ket{3}\} = \{\ket{i}\}.
 \end{equation}
 Therefore, we can re-write the state $\ket{s}$ as
 \begin{equation}
-    \ket{s} = \frac{1}{\sqrt{N}}\ket{\omega} + \frac{1}{\sqrt{N}}\sum_{i \neq \omega} \ket{i}
+    \ket{s} = \frac{1}{\sqrt{N}}\ket{\omega} + \frac{1}{\sqrt{N}}\sum_{i \neq \omega} \ket{i}.
 \end{equation}
 Due to the orthonormality of the basis, $\ket{\omega}$ is orthogonal to $\sum_{i \neq \omega} \ket{i}$. So, we can write
 \begin{equation}
-    \ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'}
+    \ket{s} = \sin{\theta}\ket{\omega} + \cos{\theta}\ket{s'},
 \end{equation}
 where
 \begin{equation}
-    \sin{\theta} = \frac{1}{\sqrt{N}}, \quad\quad  \ket{s'} = \frac{1}{\cos{\theta}}\frac{1}{\sqrt{N}}\sum_{i\neq \omega}\ket{i}
+    \sin{\theta} = \frac{1}{\sqrt{N}}, \quad\quad  \ket{s'} = \frac{1}{\cos{\theta}}\frac{1}{\sqrt{N}}\sum_{i\neq \omega}\ket{i}.
 \end{equation}
 \begin{figure}[H]
 \centering
@@ -342,11 +338,11 @@ where
 \end{equation}
 so the operator can be written as,
 \begin{equation}
-    \hat{U}_{\omega} = \mathbb{I} - 2\ket{\omega}\bra{\omega}
+    \hat{U}_{\omega} = \mathbb{I} - 2\ket{\omega}\bra{\omega}.
 \end{equation}
 Applying the operator to the state $\ket{s}$ yields,
 \begin{equation}
-    \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{N}}\ket{\omega} \equiv \ket{\bar{s}}
+    \ket{\psi_{2}} = \hat{U}_{\omega}\ket{s} = \ket{s} -\frac{2}{\sqrt{N}}\ket{\omega} \equiv \ket{\bar{s}}.
 \end{equation}
 \begin{figure}[H]
 \centering
@@ -356,12 +352,12 @@ Applying the operator to the state $\ket{s}$ yields,
 \end{figure}
 \textbf{(3). Reflection about the state $\ket{s}$:} The operator $\hat{U}_{s}$ is defined as,
 \begin{equation}
-    \hat{U}_{s} \equiv 2\ket{s}\bra{s} - \mathbb{I}
+    \hat{U}_{s} \equiv 2\ket{s}\bra{s} - \mathbb{I}.
 \end{equation}
 Applying the operator to the state of our system yields,
 \begin{align*}
     \ket{\psi_{3}} = \hat{U}_{s}\left(\ket{s} -\frac{2}{\sqrt{N}}\ket{\omega}\right) = \left(2\ket{s}\bra{s} - \mathbb{I}\right)\left(\ket{s} - \frac{2}{\sqrt{N}}\ket{\omega}\right) = \frac{N - 4}{N}\ket{s} + \frac{2}{\sqrt{N}}\ket{\omega} \\
-    = \frac{1}{N\sqrt{N}} \left[\left(N - 4\right)\sum_{x\neq \omega}\ket{x} + \left(3N-4\right)\ket{\omega}\right] \overset{N=4}{=} \frac{1}{8} \left[0 \cdot \sum_{x\neq \omega}\ket{x} + 8\ket{\omega}\right] = \ket{\omega}
+    = \frac{1}{N\sqrt{N}} \left[\left(N - 4\right)\sum_{x\neq \omega}\ket{x} + \left(3N-4\right)\ket{\omega}\right] \overset{N=4}{=} \frac{1}{8} \left[0 \cdot \sum_{x\neq \omega}\ket{x} + 8\ket{\omega}\right] = \ket{\omega}.
 \end{align*}
 \begin{figure}[H]
 \centering
@@ -370,7 +366,7 @@ Applying the operator to the state of our system yields,
     \label{fig:Grover_step3}
 \end{figure}
 
-We have rotated the original state of our system towards the eigenvector $\ket{\omega}$ that represents the item we are looking for in the data-set. The closer\footnote{Notice that the word "close" in this context is referring to the probability of getting the desired state $\ket{\omega}$ when we make a measurement on the system} we want to be to $\ket{\omega}$ the more times we have to repeat \textbf{(2)} and \textbf{(3)}. The quadratic speed up comes from the fact that Grover's algorithm raises the probability amplitude of the item we are looking for by a factor of $\frac{1}{\sqrt{N}}$ .
+We have rotated the original state of our system towards the eigenvector $\ket{\omega}$ that represents the item we are looking for in the data-set. The closer\footnote{Notice that the word "close" in this context is referring to the probability of getting the desired state $\ket{\omega}$ when we make a measurement on the system} we want to be to $\ket{\omega}$ the more times we have to repeat \textbf{(2)} and \textbf{(3)}. The quadratic speed up comes from the fact that Grover's algorithm raises the probability amplitude of the item we are looking for by a factor of $\frac{1}{\sqrt{N}}$.
 
 
 %Last Comment

@@ -115,7 +115,8 @@ D-Wave\,\cite{D-WaveDocumentation} allows us to formulate the QUBO by hand and u
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IDEA PARA LA SECCION DE INVESTIGACION - PROPUESTA DE MEJORA DE PROTOCOLO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proposed protocol}
+\section{Proposed protocols}
+\subsection{QA-SA Heuristic Protocol}
 In the original protocol a random criterion of selection is assigned to the neighboring function. However, this function can be optimised for a given problem by changing the selection criterion accordingly. For instance, for a large expansion planning the operational cost of a generator -- the annualised cost per $MWh$ of a carrier (wind energy, solar energy, gas, among others) --  is the terms that contribute the most to our total cost function. Because of this we can decide to generate neighboring configuration such that we start by building those generators with less operational cost. This criterion could also considers the number of snapshots and differences of operational cost with respect the investment planning of each generator and decide according to that. Furthermore, our problem has real constraints which implies it is not a good idea to solve the sub-problem(s) with the quantum annealer. For this reason, we reverse the original protocol so that the quantum annealer tackle the master problem and the classical solver tackle the sub-problem(s).
 \begin{figure}[H]
 \centering

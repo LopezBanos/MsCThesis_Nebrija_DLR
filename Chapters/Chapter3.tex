@@ -6,9 +6,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer impose a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to solve large-scale problems, by combining quantum and classical solvers.\\\\
-The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and \textit{master problem} (MP), so hopefully one of these problems is suitable for a quantum computer, e.g., a quantum annealer would receive a QUBO problem or a problem that can be cast into it, meanwhile the rest of the problems are solved by the classical solver using cutting-edge algorithms. In the present work the problem we are interested in are MILP problems.\\\\
-MILP problems can be written as function of decision variables $\textbf{x}$ and complicated decision variables $\textbf{y}$
+Quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer impose a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to tackle large-scale problems, by combining quantum and classical solvers.\\\\
+The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and \textit{master problem} (MP), so hopefully one of these problems is suitable for a quantum computer, e.g., a quantum annealer would receive a QUBO problem or a problem that can be cast into it, meanwhile the rest of the problems are solved by the classical solver using cutting-edge algorithms.\\\\ 
+In the present work the problems we are interested in are MILP problems. Despite its simplicity, they appear in a wide range of real-world applications, more precisely they are common in the energy sector where quadratic problems are often linearized by casting them into MILP problems
 \begin{equation}
 \label{eq: MILP}
     \min_{\textbf{x},\textbf{y}} \textbf{c}^\intercal\textbf{x} + \textbf{d}^\intercal\textbf{y}
@@ -17,13 +17,11 @@ subject to a set of linear constraints,
 \begin{align}
     \textbf{A}\textbf{x} + \textbf{B}\textbf{y} \geq \textbf{b}
 \end{align}
-with $\textbf{c}\in\mathbb{R}^{l_{x}}$, $\textbf{d}\in\mathbb{R}^{l_{y}}$, $\textbf{b}\in\mathbb{R}^{l_{c}}$, $\textbf{x}\in\mathbb{R}_{+}^{l_{x}}$, $\textbf{y}\in\mathbb{R}^{l_{y}}$, $\textbf{A}\in \mathbb{R}^{l_{c}\times l_{x}}$ and $\textbf{B}\in\mathbb{R}^{l_{c}\times l_{y}}$ where $l_{x}$, $l_{y}$ and $l_{c}$ indicate the number of the decision variables $\textbf{x}$, complicated decision variables $\textbf{y}$ -- restricted to the set $\mathbb{Y}$ -- and constraints terms, respectively. 
-In many fields, such as the energy sector, quadratic problems are often linearized by casting them into MILP problems. Despite the simplicity of MILP problems they appear in a wide range of real-world applications. They scale badly as the problem size grows, which implies a huge demand of computational resources, which leads to a reduction of the spatial and time resolution. There are classical solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc} that are being used to solve MILP problems and other type of combinatorial problems. However, there are problems for which the best of these solvers -- Gurobi -- exceed the run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}. Currently, the scope and granularity of the models
-are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. It is though that quantum computers could offer advantage over the classical solver in the future though its current state force us to use HQC approaches instead of a pure quantum solver.
-
+with $\textbf{c}\in\mathbb{R}^{l_{x}}$, $\textbf{d}\in\mathbb{R}^{l_{y}}$, $\textbf{b}\in\mathbb{R}^{l_{c}}$, $\textbf{x}\in\mathbb{R}_{+}^{l_{x}}$, $\textbf{y}\in\mathbb{R}^{l_{y}}$, $\textbf{A}\in \mathbb{R}^{l_{c}\times l_{x}}$ and $\textbf{B}\in\mathbb{R}^{l_{c}\times l_{y}}$ where $l_{x}$, $l_{y}$ and $l_{c}$ indicate the number of the decision variables $\textbf{x}$, complicated decision variables $\textbf{y}$ -- restricted to the set $\mathbb{Y}$ -- and constraints terms, respectively. MILP problems scale badly as the problem size grows, which implies a huge demand of computational resources that cannot be fulfilled by nowadays classical computers, which leads to a reduction of the spatial and time resolution. There are classical solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc} that are being used to solve MILP problems and other type of combinatorial problems. However, there are problems for which the best of these solvers -- Gurobi -- exceed the run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}.\\\\
+Currently, the scope and granularity of the models are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. It is though that quantum computers could offer advantage over the classical solver in the future though its current state force us to use HQC approaches instead of a pure quantum solver.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Classical Benders Decomposition}
-The main idea behind \textit{classical Benders decomposition} (CBD) is to decompose the original problem into several sub-problems once the complicated variables are detected. Furthermore, by fixing the complicated variables the problem is simplified. For this reason, CBD decompose the general problem \eqref{eq: MILP} into a MP with integer variables and a SP with the complicated variables fixed by the MP, then both problems are solved interactively until a stopping criterion is satisfied. The convergence of CBD\,\cite{Sahinidis1991BDConvergence} guarantees that we reach the minimum value after a number of iterations. The solution of the master problem generates a lower bound, meanwhile the solution of the sub-problem generate an upper bound. Both problems are solved interactively until lower $L$ and upper $U$ bound satisfy a given threshold $U - L = \epsilon$.\\\\
+The main idea behind \textit{classical Benders decomposition} (CBD) is to decompose the original problem into several sub-problems once the complicated variables are detected. The probem is simplified by fixing these complicated variables. For this reason, CBD decompose the general problem \eqref{eq: MILP} into a MP with integer variables and a SP with the complicated variables fixed by the MP, then both problems are solved interactively until a stopping criterion is satisfied. The convergence of CBD\,\cite{Sahinidis1991BDConvergence} guarantees that we reach the minimum value after a number of iterations. The solution of the master problem generates a lower bound, meanwhile the solution of the sub-problem generate an upper bound. Both problems are solved interactively until lower $L$ and upper $U$ bound satisfy a given threshold $U - L = \epsilon$.\\\\
 As an example, consider a general expansion planning problem with cost function given by
 \begin{equation}
     \min_{x_{3},g_{1}(h),g_{2}(h),g_{3}(h)}\underbrace{30000x_{3}}_{\text{Investment Cost}} + \underbrace{\sum_{h}10g_{1}(h)+20g_{2}(h) + 5g_{3}(h)}_{\text{Operational Cost}}\\ 
@@ -44,29 +42,49 @@ where $x_{3}$ represent the decision of creating a new element $g_{3}$, $h$ repr
 The optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimize the investment cost and operational cost fulfilling at the same time the constraints of the problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Complicated variables}
-We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produce non-convex optimization problems. For instance, suppose that the decision variable $x_{3}$ of the previous cost function is a complicated variable. Fixing that variable and considering a single snapshot $h=1$ would allow us to re-write the problem 
+We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produce non-convex optimization problems. The global minimum is guarantee if and only if the cost as function of the complicated variables is a convex envelope. For instance, suppose that the decision variable $x_{3}$ of the previous cost function is a complicated variable. Fixing that variable to a feasible value and considering a single snapshot $h=1$ would allow us to write the master problem as,
 \begin{equation}
-    \min_{g_{1}(1), g_{2}(1), g_{3}(1)} \sum_{h}10g_{1}(1)+20g_{2}(1) + 5g_{3}(1)
+    \min_{x_{3}^{(i)}, \alpha^{(i)}} 30000x_{3}^{(i)} + \alpha^{(i)}
 \end{equation}
 subject to
 \begin{align}
-    0 \leq g_{1}(1) \leq 100 \\
-    0 \leq g_{1}(1) \leq 200 \\
-    0 \leq g_{2}(1) \leq x_{3}^{(\text{fixed})} \\
-    D(h) = g_{1}(1) + g_{2}(1) + g_{3}(1)
+    x_{3}^{(i)} \geq 0 \\
+    \alpha^{(i)} \geq \alpha^{(\text{down})}
 \end{align}
+where $\alpha^{(\text{down})}$ is a lower bound of the master problem. Once the master problem is optimised we fix $x_{3}^{(\text{fixed})}$ to the optimal value found in the master problem and write the sub-problem as
+\begin{equation}
+    \min_{g_{1}^{(i)}(1), g_{2}^{(i)}(1), g_{3}^{(i)}(1)} \sum_{h}10g_{1}^{(i)}(1)+20g_{2}^{(i)}(1) + 5g_{3}^{(i)}(1)
+\end{equation}
+subject to
+\begin{align}
+    0 \leq g_{1}^{(i)}(1) \leq 100 \quad :\pi^{(i)} \\
+    0 \leq g_{1}^{(i)}(1) \leq 200 \quad :\mu^{(i)} \\
+    0 \leq g_{2}^{(i)}(1) \leq x_{3}^{((i))(\text{fixed})} \quad :\sigma^{(i)} \\
+    D(h) = g_{1}^{(i)}(1) + g_{2}^{(i)}(1) + g_{3}^{(i)}(1) \quad :\gamma^{(i)}
+\end{align}
+where $i$ indicate the iteration steps of CBD and $\pi^{(i)}$, $\mu^{(i)}$, $\sigma^{(i)}$ and $\gamma^{(i)}$ are the dual variables. The sub-problem find the optimal configuration $\{g_{j}(1)\}$ for a given fixed value $x_{3}^{(\text{fixed})}$.
+Now the sub-problem update the master problem parameter $\alpha^{(i)}$ according to
+\begin{equation}
+    \min_{x_{3}^{(i)}. \alpha^{(i)}} 30000x_{3}^{(i)} + \alpha^{(i)}
+\end{equation}
+subject to
+\begin{align}
+    x_{3}^{(i)} \geq 0 \\
+    \alpha^{(i)} \geq \alpha^{(\text{down})}\\
+    \alpha^{(i)} \geq -\
+\end{align}
+The last constraint represents the dual objective function of the sub-problem in iteration $i$. In other words, it is a function of $x_{3}$.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{Figures/BenderIlustration.pdf} 
-\caption{Benders cuts.}
+\caption{Graphical representation of CBD protocol for a single complicated variable in an arbitrary convex function.}
 \label{fig:BDIlustration}
 \end{figure}
-
 \subsection{Upper and Lower Bounds}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QA + SA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Hybrid classical-quantum annealing algorithm}
+\section{Hybrid quantum-classical algorithm}
 In Appx.\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} algorithm (SA) and solve a travelling salesman problem to illustrate it. A simulated annealing algorithm does not guarantee to get the optimal solution but the results we can get with a good annealing schedule are good enough in accuracy and time. Analogously with a quantum annealing algorithm. In this section, we illustrate the decomposition of a QUBO problem into two parts. A sub-problem solved by simulated annealing on a classical solver. A master problem addressed to a quantum annealer such that a embedding is possible.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{SA-QA protocol}
