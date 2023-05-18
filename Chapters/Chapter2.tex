@@ -20,7 +20,7 @@ We need to construct an initial Hamiltonian $\mathcal{H}(t=0) = \mathcal{H}_{i}$
     \mathcal{H}(t) = \left(1-\frac{t}{T}\right)\mathcal{H}_{i} + \left(\frac{t}{T} \right)\mathcal{H}_{f}.
 \end{equation}
 The adiabatic theorem guarantees that if we start with an initial Hamiltonian $\mathcal{H}_{i}$ in a given eigenspace and the evolution is carried out sufficiently slowly -- in further sections we demonstrate what slowly means in detail -- then we end up in the equivalent eigenspace of the final Hamiltonian $\mathcal{H}_{f}$. \\\\
-To summarise:
+The adiabatic protocol can be summarized as follows:
 \begin{itemize}
     \item \textbf{Step 1 (Mapping):} Map the problem into a Hamiltonian $\mathcal{H}_{f}$. Typically, the problem is encoded in the ground state.
     \item \textbf{Step 2 (Initialise $\mathcal{H}_{i}$):} Initialise the system in the ground state of a Hamiltonian $\mathcal{H}_{i}$, easy to compute and to experimentally prepare. For instance, the ground state of $\mathcal{H} = - \sum_{i}^{n}\hat{\sigma}_{i}^{x}$ is the eigenvector $\ket{+}^{\otimes n}$.
@@ -81,11 +81,11 @@ Quoting Goldstone \textit{et al.}\,\cite{Farhi2000QuantumEvolution},
 \textit{...if the gap between the two lowest levels, $E_{1} - E_{0}$, is strictly greater than zero for all $0 \leq t \leq T$, then}
 \end{displayquote}
 \begin{equation}
-    \lim_{T\longrightarrow \infty} | \braket{g(t=T) | \psi(t=T)}| = 1
+    \lim_{T\longrightarrow \infty} | \braket{g(t=T) | \psi(t=T)}| = 1.
 \end{equation}
 Equivalently, the probability of being in the ground state, $\ket{g(t=T)}$, of the target Hamiltonian $\mathcal{H}_{f}$ at the end of evolution is 1 if and only if the total time required for the evolution is infinite. Otherwise, the probability of being in the ground state is
 \begin{equation}
-    || \braket{g(t=T) | \psi(t=T)}||^{2} = 1 - \epsilon^{2}
+    || \braket{g(t=T) | \psi(t=T)}||^{2} = 1 - \epsilon^{2},
 \end{equation}
 where $|\epsilon| \leq 1$ takes into account the error due to the adiabatic approximation, $\dot{U}(s) \simeq 0$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +109,7 @@ The eigenstates of the Hamiltonian form an orthonormal basis, so we can expand a
 \end{equation}
 where
 \begin{equation}
-    \theta_{n}(t) = -\frac{1}{\hbar}\int_{0}^{t}E_{n}(t^{\prime})dt^{\prime}
+    \theta_{n}(t) = -\frac{1}{\hbar}\int_{0}^{t}E_{n}(t^{\prime})dt^{\prime},
 \end{equation}
 is the dynamic phase.\\
 Substituting Eq.\,\eqref{eq: EigenvectorExpansion} into the Schrödinger equation yields
@@ -131,7 +131,7 @@ Multiplying the last expression by $\bra{m(t)}$, with $m\neq n$,
 \end{equation}
 Finally,
 \begin{equation}
-    \braket{m(t)|\dot{n}(t)} = \frac{1}{E_{n}(t)-E_{m}(t)}\braket{m(t)|\frac{\partial \mathcal{H}(t)}{\partial t}|n(t)}
+    \braket{m(t)|\dot{n}(t)} = \frac{1}{E_{n}(t)-E_{m}(t)}\braket{m(t)|\frac{\partial \mathcal{H}(t)}{\partial t}|n(t)}.
 \end{equation}
 Substituting into Eq.\,\eqref{eq:Coefficients} and defining $g_{nm}(t)\equiv E_{n}(t) - E_{m}(t)$ as the energy difference as a function of time $t$ between the eigenstates $\ket{m(t)}$ and $\ket{n(t)}$ leads to
 \begin{equation}
@@ -157,7 +157,7 @@ whose solution is
 \end{equation}
 where
 \begin{equation}
-    \gamma_{m}(t) = i\int_{0}^{t}\braket{m(t^{\prime})|\dot{m}(t^{\prime})}dt^{\prime} \quad \gamma_{m}\in \mathbb{R}
+    \gamma_{m}(t) = i\int_{0}^{t}\braket{m(t^{\prime})|\dot{m}(t^{\prime})}dt^{\prime} \quad \gamma_{m}\in \mathbb{R},
 \end{equation}
 is the Berry's phase.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,7 +167,7 @@ is the Berry's phase.
 In previous sections, we stated that under a sufficiently slowly Hamiltonian evolution the adiabatic theorem is satisfied. In this section, we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution\,\cite{Sarandy2005AdiabaticSystems}. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$.\\\\
 We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = \frac{t}{T}$ and Berry's phase.
 \begin{equation}
-    e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}.
+    e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}
 \end{equation}
 Notice we have added two Berry's phases terms with opposite sign so they cancel out. Integrating the last equation and re-arranging terms leads to
 \begin{equation}
@@ -211,7 +211,7 @@ Therefore, we can simplify Eq.\,\eqref{eq:Fnm}
  where
  \begin{align}
      &F = \max_{0 \leq s \leq 1} \left|c_{n}(0)\braket{m(s)|\frac{d\mathcal{H}(s)}{ds}| n(s)}\right| \\
-     &g = \min_{0 \leq s \leq 1} |g_{nm}(s)|
+     &g = \min_{0 \leq s \leq 1} |g_{nm}(s)|.
  \end{align}
 %-------------------------------------------------------------------------------------
 % QUANTUM ANNEALING
@@ -267,7 +267,7 @@ $x_{1} + x_{2} \geq 1$ &   $P\left(1-x_{1}-x_{2}+x_{1}x_{2}\right)$ \\
 \end{table}
 There are constraints that require of additional binary variables -- slack variables -- in order to reformulate them into QUBO. These type of constraints can be written as a binary expansion as follows. Suppose we have the following constraint,
 \begin{equation}
-    \sum_{i}w_{i}x_{i}\leq W
+    \sum_{i}w_{i}x_{i}\leq W,
 \end{equation}
 where the $W$ for simplicity is an integer value. The QUBO penalty of that constraint is
 \begin{equation}
@@ -298,13 +298,14 @@ Notice that slack variables have to be included in our problem which implies the
 \caption{Two heirs example given three assets.}
 \end{table}
 We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,1\}$ in the QUBO formulation and by $\{-1,1\}\equiv \{\uparrow, \downarrow\}$ in the Ising formulation, respectively -- so that the difference between the value each heir receives is minimum, which represents our cost function. Assume that $A$ is a subset of $S = \{s_{0},s_{1},s_{2}\}$ indicating which assets are given to Alice, $s=-1$, analogously  $B = S - A$ indicates the assets received by Bob, $s=1$, then
-\begin{equation} 
-    f(s_{0}, s_{1}, s_{2}) = \left[\text{Alice}(s_{0}, s_{1}, s_{2}) - \text{Bob}(s_{0}, s_{1}, s_{2})\right]^{2} = \left[\sum_{i\in A}s_{i}v_{i} + \sum_{i\in B}s_{i}v_{i}\right]^{2} = \left[\sum_{i}s_{i}v_{i}\right]^{2}.
-\end{equation}
+\begin{align} 
+    f(s_{0}, s_{1}, s_{2}) = \left[\text{Alice}(s_{0}, s_{1}, s_{2}) - \text{Bob}(s_{0}, s_{1}, s_{2})\right]^{2} \\
+    = \left[\sum_{i\in A}s_{i}v_{i} + \sum_{i\in B}s_{i}v_{i}\right]^{2} = \left[\sum_{i}s_{i}v_{i}\right]^{2}.
+\end{align}
 Notice we are not interested in the sign of our cost function. Therefore, to avoid dealing with signs we take the square of the difference so we know we are minimising a positive quantity.\\\\
 Expanding the square we arrive at the Ising formulation, $\vec{s}^{T}\mathcal{J}\vec{s}$. Notice that for $s_{i} \in \{-1,1\}$ the following relation holds $s_{i}^{2}=1$. 
 \begin{align}
-    \left[\sum_{i}s_{i}v_{i}\right]^{2} = \sum_{i}\left(s_{i}v_{i}\right)^{2} + 2\sum_{i<j}s_{i}v_{i}v_{j}s_{j} = \underbrace{\sum_{i}v_{i}^{2}}_{Constant} + \sum_{i<j}s_{i}2v_{i}v_{j}s_{j}
+    \left[\sum_{i}s_{i}v_{i}\right]^{2} = \sum_{i}\left(s_{i}v_{i}\right)^{2} + 2\sum_{i<j}s_{i}v_{i}v_{j}s_{j} = \underbrace{\sum_{i}v_{i}^{2}}_{Constant} + \sum_{i<j}s_{i}2v_{i}v_{j}s_{j}.
 \end{align}
 Therefore, the Ising matrix of this example is
 \begin{equation}
@@ -313,13 +314,13 @@ Therefore, the Ising matrix of this example is
            0 & 2v_{1}v_{2} & 2v_{1}v_{3}\\
            0 & 0 & 2v_{2}v_{3}\\
            0& 0 & 0\\
-         \end{bmatrix}
+         \end{bmatrix}.
 \end{equation}
 Notice that we have dropped the constant terms as they only shift the minimum value but do not affect our solution, i.e., the minimum value of our cost function is going to change but the configuration that leads to that minimum remains the same.\\\\
 Now, we initialise the evolution with the Hamiltonian $\mathcal{H}_{i} = -\sum_{i}^{n}\sigma_{i}^{x}$ whose ground state is $\ket{+}^{n}$. 
 If the evolution is carried out under the adiabatic conditions,
 \begin{equation}
-    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z}  - \Gamma(s)\sum_{i}\sigma_{i}^{x}
+    \mathcal{H}(s) = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z}  - \Gamma(s)\sum_{i}\sigma_{i}^{x},
 \end{equation}
 then we end up in $\mathcal{H}_{f}$ with one of the following solutions
 \begin{align}
@@ -361,7 +362,7 @@ where
 \begin{equation}
     e^{-i\hat{\mathcal{H}}_{i}\beta} = \prod_{k=1}^{N}e^{-i\left(T-k\Delta t\right)\hat{\mathcal{H}}_{i}}, \quad e^{-i\hat{\mathcal{H}}_{f}\gamma} = \prod_{k=1}^{N}e^{-i\left(k\Delta t\right)\hat{\mathcal{H}}_{f}}
 \end{equation}
-represent the time discretization of the initial and target Hamiltonians respectively. \\\\
+represents the time discretization of the initial and target Hamiltonians respectively. \\\\
 Hence, we can decompose the adiabatic evolution operator $\hat{U}(T,0) = e^{-i\mathcal{H}(t)}$ in a product of exponentials
 \begin{equation}
     \ket{\psi(t = T)} = \hat{U}(T,0)\ket{\psi(t = 0)} \simeq \prod_{k=1}^{N}e^{-i\left(T-k\Delta t\right)\hat{\mathcal{H}}_{i}}e^{-i\left(k\Delta t\right)\hat{\mathcal{H}}_{f}}\ket{\psi(t = 0)}. 

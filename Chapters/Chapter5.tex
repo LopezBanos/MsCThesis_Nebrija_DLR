@@ -11,8 +11,11 @@
 
 \section{Conclusions}
 
-\section{Outlook}
+\section{Future Work}
 \begin{itemize}
     \item PyPSA plots for different number of cluster to show how can we scale the problem + QUARK for reformulating the problem + ji-j? for Hybrid methods.
     \item Quantinium 32 fully connected qubits paper
+    \item Network topology (change)
 \end{itemize}
+
+In the original protocol a random criterion of selection is assigned to the neighboring function. However, this function can be optimised for a given problem by changing the selection criterion accordingly so that the configuration space is explored in a clever way. For instance, for a large expansion planning the operational cost of a generator -- the annualised cost per $MWh$ of a carrier (wind energy, solar energy, gas, among others) --  is the term that contribute the most to our total cost function. For this reason, we can decide to generate neighboring configuration such that we start by building those generators with less operational cost. This criterion could also considers the number of snapshots and differences of operational cost with respect the investment planning of each generator and decide accordingly to that.

@@ -106,12 +106,12 @@ Since we do not have infinite time to perform our simulations, we need schedules
 \section{Traveling Salesman Problem}
 The traveling salesman problem (TSP) is an NP-hard combinatorial optimization problem. That means it does not have a polynomial-time solution. The goal of our traveling salesman is to find the shortest path to visit all the $n$ regions in a given list $R$, which are represented by nodes in a graph, by annotating the position $P$ that each region has in the path, returning to the initial region. The distance between nodes $u,v \in R$, $D(u,v)$, measured in units of length, is calculated using the Euclidean metric
 \begin{equation}
-    D(u,v) \equiv D_{uv}= \sqrt{\left|x_{v} - x_{u}\right|^{2} + \left|y_{v} - y_{u} \right|^{2}} 
+    D(u,v) \equiv D_{uv}= \sqrt{\left|x_{v} - x_{u}\right|^{2} + \left|y_{v} - y_{u} \right|^{2}}. 
 \end{equation}
 The objective function to minimize for a graph with $n$ nodes can be written as
 \begin{equation}
 \label{eq:TSP_noconstraints}
-    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1}
+    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1},
 \end{equation}
 where the coefficients $x_{v,i}$ are binary variables that indicates if node $v \in R$ is in the position $i\in P$ of the tour, represented by the vector $\vec{x}$. Furthermore the distance between nodes is symmetric $D_{uv} = D_{vu}$ which is taken into account when creating the matrix $D_{uv}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,18 +120,18 @@ where the coefficients $x_{v,i}$ are binary variables that indicates if node $v 
 \subsection{Constraints}
 The traveling salesman has to visit each node just once in the whole path
 \begin{equation}
-    \sum_{i=0}^{i<n}x_{u,i} = 1 \quad  \forall \; u \in R
+    \sum_{i=0}^{i<n}x_{u,i} = 1 \quad  \forall \; u \in R,
 \end{equation}
 and each stop of the tour has one node
 \begin{equation}
-    \sum_{u}x_{u, i} = 1 \quad  \forall \; i \in P
+    \sum_{u}x_{u, i} = 1 \quad  \forall \; i \in P.
 \end{equation}
 The constraints can be taken into account in the cost function by using the Lagrange multipliers $\{\lambda_{i}\}_{i \in P}$ and $\{\lambda_{u}\}_{u \in R}$
 \begin{align}
         \label{eq: ObjectiveMatrixFunction}
     \begin{split}
    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1}\\
-   - \sum_{i=0}^{i<n}\lambda_{i}\left(\sum_{u} x_{u, i} - 1\right)^{2} - \sum_{u}\lambda_{u} \left( \sum_{i=0}^{i<n}x_{u,i} - 1\right)^{2}
+   - \sum_{i=0}^{i<n}\lambda_{i}\left(\sum_{u} x_{u, i} - 1\right)^{2} - \sum_{u}\lambda_{u} \left( \sum_{i=0}^{i<n}x_{u,i} - 1\right)^{2}.
 \end{split}
 \end{align}
 The problem can be re-written to have the functional form of a QUBO problem $\min_{x}x^{T}Qx$, where $Q$ is a matrix that stores the Hamiltonian coefficients. For this particular problem it is necessary to map the two indices of our binary variables $x_{u,i}$ into a single index, see Ref. \cite{Jain2021SolvingComputer}.

@@ -104,43 +104,7 @@ Q =
 \end{equation}
 \section{Running QUBO problem on D-WAVE's annealer}
 \subsection{Three-Node without discretization in transmission capacities}
-In this example we solved the three-node network with three candidate lines where the transmission capacities are fixed, i.e., if a line transmit electricity it does it always with the same value. In this way we can simplify the problem by not using slack variables for discretizing the transmisssion capacities.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Hybrid Classical-Quantum annealing
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+In this example we solved the three-node network with three candidate lines where the transmission capacities are fixed, i.e., if a line transmit electricity it does it always with the same value. In this way we can simplify the problem by not using slack variables for discretizing the transmission capacities.\\\\
 D-Wave\,\cite{D-WaveDocumentation} allows us to formulate the QUBO by hand and use the  solver .... or we can .... using CQM ....
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% IDEA PARA LA SECCION DE INVESTIGACION - PROPUESTA DE MEJORA DE PROTOCOLO
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proposed protocols}
-\subsection{QA-SA Heuristic Protocol}
-In the original protocol a random criterion of selection is assigned to the neighboring function. However, this function can be optimised for a given problem by changing the selection criterion accordingly. For instance, for a large expansion planning the operational cost of a generator -- the annualised cost per $MWh$ of a carrier (wind energy, solar energy, gas, among others) --  is the terms that contribute the most to our total cost function. Because of this we can decide to generate neighboring configuration such that we start by building those generators with less operational cost. This criterion could also considers the number of snapshots and differences of operational cost with respect the investment planning of each generator and decide according to that. Furthermore, our problem has real constraints which implies it is not a good idea to solve the sub-problem(s) with the quantum annealer. For this reason, we reverse the original protocol so that the quantum annealer tackle the master problem and the classical solver tackle the sub-problem(s).
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\textwidth]{Figures/QASAProtocol_Layer 1.pdf} 
-\caption{QA-SA protocol scheme.}
-\label{fig:QA_SAProtocol}
-\end{figure}
-\begin{enumerate}
-    \item Set the cost to a high value and initialize a configuration for the problem.
-    \item Solve the operational cost taking into account the constraints,
-    \begin{align}
-        \min  \sum_{j}c^{\text{iv}}_{j}l_{j} + \sum_{j}c_{j}^{(\text{oc})}g_{j} ,\quad \text{Subject to:}\\
-        D_{k}(t) = \sum_{j}g_{j}, \quad \forall\, k,t \\
-        0\leq g_{j} \leq g_{j}^{(max)}, \quad \forall\, j\\
-        0 \leq l_{i} \leq l_{i}^{max}
-    \end{align}
-    \item Update the master problem with the generator $\{g_{j}\}$ value 
-    \begin{equation}
-        \sum_{j}c_{j}^{(\text{oc})}g_{j}^{(\text{fixed})}
-    \end{equation}
-    and introduce a penalty if the line connecting node $k$ with generators $g_{j}$ is not built
-    \begin{equation}
-        P\left[D_{k}(t) - \sum_{j}g_{j}^{(\text{fixed})}l_{j,k}\right]^{2}
-    \end{equation}
-    \item Apply the selection criterion to keep or to discard the current configuration.
-    \item If stopping criterion is satisfied, then outputs the solution. Otherwise, generate a new configuration for $g_{j}$ and repeat steps 2 to 4.
-\end{enumerate}
+

@@ -9,8 +9,7 @@
     author      = {Sergio López Baños},
     title       = {Transmission Expansion Planning by Quantum Annealing},
     type        = {diplomathesis}, 
-    institution = {DLR - Deutsches Zentrumfür Luft- 
-                   und Raumfahrt},
+    institution = {Nebrija University},
     year        = {2023},
 }
 '''

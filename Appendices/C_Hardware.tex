@@ -69,29 +69,29 @@ In this section we show the key components of a quantum annealer and how the are
 Consider two superconductor of electric densities $\rho_{1}$ and $\rho_{2}$ and superconducting phases $\theta_{1}$ and $\theta_{2}$, so that their wave function can be written as
 \begin{equation}
 \label{eq: WaveEq}
-\psi_{1}=\sqrt{\rho_{1}}e^{i\theta_{1}} \quad \text{and} \quad\psi_{2}=\sqrt{\rho_{2}}e^{i\theta_{2}}
+\psi_{1}=\sqrt{\rho_{1}}e^{i\theta_{1}} \quad \text{and} \quad\psi_{2}=\sqrt{\rho_{2}}e^{i\theta_{2}},
 \end{equation}
 where the Schrodinger equation is satisfied separately
 \begin{equation}
-i\hbar\frac{\partial \psi_{1}}{\partial t}=U_{1}\psi_{1} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=U_{2}\psi_{2}
+i\hbar\frac{\partial \psi_{1}}{\partial t}=U_{1}\psi_{1} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=U_{2}\psi_{2}.
 \end{equation}
 Suppose we bring them closer and separate them by an insulating barrier. Because of the tunnelling effect the superconductors will be coupled
 \begin{equation}
-i\hbar\frac{\partial \psi_{1}}{\partial t}=U_{1}\psi_{1} + K\psi_{2} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=U_{2}\psi_{2} + K\psi_{1}
+i\hbar\frac{\partial \psi_{1}}{\partial t}=U_{1}\psi_{1} + K\psi_{2} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=U_{2}\psi_{2} + K\psi_{1}.
 \end{equation}
 Now, connect bot superconductor to a battery of voltage $V$. Then, a potential difference will appear between both sides of the Josephson's union, $U_{1} - U_{2} =qV$. To simplify the notation, assume that $U_{1} = qV/2$ and $U_{2} = -qV/2$, so
 \begin{equation}
-i\hbar\frac{\partial \psi_{1}}{\partial t}=\frac{qV}{2}\psi_{1} + K\psi_{2} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=\frac{-qV}{2}\psi_{2} + K\psi_{1}
+i\hbar\frac{\partial \psi_{1}}{\partial t}=\frac{qV}{2}\psi_{1} + K\psi_{2} \quad \text{and} \quad i\hbar\frac{\partial \psi_{2}}{\partial t}=\frac{-qV}{2}\psi_{2} + K\psi_{1}.
 \end{equation}
 Substituting the wave equations Eq.\,\eqref{eq: WaveEq}, yields to
 \begin{align}
 i\hbar \frac{e^{i\theta_{1}}}{2\sqrt{\rho_{1}}}\frac{\partial \rho_{1}}{\partial t} - \hbar\sqrt{\rho_{1}}e^{i\theta_{1}}\frac{\partial\theta_{1}}{\partial t} = \frac{qV}{2}\sqrt{\rho_{1}}e^{i\theta_{1}} + K\sqrt{\rho_{2}}e^{i\theta_{2}} \\
-i\hbar \frac{e^{i\theta_{2}}}{2\sqrt{\rho_{2}}}\frac{\partial \rho_{2}}{\partial t} - \hbar\sqrt{\rho_{2}}e^{i\theta_{2}}\frac{\partial\theta_{2}}{\partial t} = -\frac{qV}{2}\sqrt{\rho_{2}}e^{i\theta_{2}} + K\sqrt{\rho_{1}}e^{i\theta_{1}}
+i\hbar \frac{e^{i\theta_{2}}}{2\sqrt{\rho_{2}}}\frac{\partial \rho_{2}}{\partial t} - \hbar\sqrt{\rho_{2}}e^{i\theta_{2}}\frac{\partial\theta_{2}}{\partial t} = -\frac{qV}{2}\sqrt{\rho_{2}}e^{i\theta_{2}} + K\sqrt{\rho_{1}}e^{i\theta_{1}}.
 \end{align}
 Simplifying, 
 \begin{align}
 i\hbar \frac{1}{2\sqrt{\rho_{1}}}\frac{\partial \rho_{1}}{\partial t} - \hbar\sqrt{\rho_{1}}\frac{\partial\theta_{1}}{\partial t} = \frac{qV}{2}\sqrt{\rho_{1}} + K\sqrt{\rho_{2}}\left(\cos{\phi} + i\sin{\phi}\right) \\
-i\hbar \frac{1}{2\sqrt{\rho_{2}}}\frac{\partial \rho_{2}}{\partial t} - \hbar\sqrt{\rho_{2}}\frac{\partial\theta_{2}}{\partial t} = -\frac{qV}{2}\sqrt{\rho_{2}} + K\sqrt{\rho_{1}}\left(\cos{\phi} - i\sin{\phi}\right)
+i\hbar \frac{1}{2\sqrt{\rho_{2}}}\frac{\partial \rho_{2}}{\partial t} - \hbar\sqrt{\rho_{2}}\frac{\partial\theta_{2}}{\partial t} = -\frac{qV}{2}\sqrt{\rho_{2}} + K\sqrt{\rho_{1}}\left(\cos{\phi} - i\sin{\phi}\right),
 \end{align}
 with $\phi = \theta_{2} - \theta_{1}$, and splitting the real and imaginary part,
 \begin{align}
@@ -100,37 +100,37 @@ with $\phi = \theta_{2} - \theta_{1}$, and splitting the real and imaginary part
 \label{eq: theta1}
 \frac{\partial \theta_{1}}{\partial t} = - K\sqrt{\frac{\rho_{2}}{\rho_{1}}}\cos{\phi}-\frac{qV}{\hbar} \\
 \label{eq: theta2}
-\frac{\partial \theta_{2}}{\partial t} = - K\sqrt{\frac{\rho_{2}}{\rho_{1}}}\cos{\phi}+\frac{qV}{\hbar}
+\frac{\partial \theta_{2}}{\partial t} = - K\sqrt{\frac{\rho_{2}}{\rho_{1}}}\cos{\phi}+\frac{qV}{\hbar}.
 \end{align}
 Notice that a current between superconductor will exist as long as the superconducting phase difference $\phi \neq 0$.
 The current density is given by
 \begin{equation}
-J = \dot{\rho}_{1} = \frac{2K}{\hbar}\sqrt{\rho_{1}\rho_{2}}\sin{\phi} \equiv J_{c}\sin{\phi}
+J = \dot{\rho}_{1} = \frac{2K}{\hbar}\sqrt{\rho_{1}\rho_{2}}\sin{\phi} \equiv J_{c}\sin{\phi},
 \end{equation}
 knowing that $I_{c} = J_{c}S$ -- where $S$ is the section of the superconductors -- and assuming $\rho_{1} = \rho_{2} =\rho_{0}$ -- the electronic density of the superconductors -- yields to
 \begin{equation}
 \tag{First Joshepshon equation}
-I =\frac{2K\rho_{0}S}{\hbar}\sin{\phi} \equiv I_{c}\sin{\phi}
+I =\frac{2K\rho_{0}S}{\hbar}\sin{\phi} \equiv I_{c}\sin{\phi},
 \end{equation}
 where $I_{c}$ is the critical current.
 The key feature of previous expression is that the critical current depends on geometric factors $S$ -- section of semiconductors -- and $K$ -- width of the barrier -- that we can control in a lab.\\\\
 Subtracting Eq.\,\eqref{eq: theta1} and Eq.\,\eqref{eq: theta2} yields to
 \begin{equation}
-\frac{qV}{\hbar} = \frac{\partial\phi}{\partial t}
+\frac{qV}{\hbar} = \frac{\partial\phi}{\partial t}.
 \end{equation}
 Noticing that $q=2e$ -- charge of a Cooper pair -- and $\Phi_{0} = \frac{h}{2e}$ -- superconducting magnetic flux quantum --  allow us to rewrite last expression
 \begin{equation}
 \tag{Second Joshepshon equation}
-V = \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t}
+V = \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t}.
 \end{equation}
 We can compute the energy stored in a Josephson's union, $U$, by integrating the power, $I\cdot V$,
 \begin{equation}
-U = \int_{0}^{t}IVds = \int_{0}^{t}\frac{I_{c}\Phi_{0}}{2\pi}\sin{\phi}\frac{\partial \phi}{\partial s} = \frac{I_{c}\Phi_{0}}{2\pi}\left(1-\cos{\phi}\right)
+U = \int_{0}^{t}IVds = \int_{0}^{t}\frac{I_{c}\Phi_{0}}{2\pi}\sin{\phi}\frac{\partial \phi}{\partial s} = \frac{I_{c}\Phi_{0}}{2\pi}\left(1-\cos{\phi}\right),
 \end{equation}
 which yields to
 \begin{equation}
 \tag{Third Joshepshon equation}
-U = E_{J}\left(1-\cos{\phi}\right), \quad E_{J} = \frac{I_{c}\Phi_{0}}{2\pi}
+U = E_{J}\left(1-\cos{\phi}\right), \quad E_{J} = \frac{I_{c}\Phi_{0}}{2\pi},
 \end{equation}
 where $E_{J}$ is the Josephson energy.
 Finally, a Josephson's union has a capacity $C$ given by
@@ -140,15 +140,15 @@ Q = CV = C \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t}
 \end{equation}
 We can write the energy stored in a Josephson's union as
 \begin{equation}
-E_{C} = \frac{Q^{2}}{2C} = C\cdot \frac{\Phi_{0}^{2}}{2\left(2\pi\right)^{2}}\left(\frac{\partial \phi}{\partial t}\right)^{2}
+E_{C} = \frac{Q^{2}}{2C} = C\cdot \frac{\Phi_{0}^{2}}{2\left(2\pi\right)^{2}}\left(\frac{\partial \phi}{\partial t}\right)^{2}.
 \end{equation}
 According to Lagrange formalism, we can interpret $\phi$ as a generalised coordinate, then its conjugate generalised momentum is given by
 \begin{equation}
-\frac{\partial E_{C}}{\partial \left(\partial_{t}\phi\right)} = C \frac{\Phi_{0}^{2}}{\left(2\pi\right)^{2}}\frac{\partial \phi}{\partial t} = \frac{\Phi_{0}}{2\pi}Q = \hbar n
+\frac{\partial E_{C}}{\partial \left(\partial_{t}\phi\right)} = C \frac{\Phi_{0}^{2}}{\left(2\pi\right)^{2}}\frac{\partial \phi}{\partial t} = \frac{\Phi_{0}}{2\pi}Q = \hbar n,
 \end{equation}
 where $n$ indicate the number of Cooper pairs. This implies that $\hbar n$ and $\phi$ are conjugated variables, so that in the quantisation process
 \begin{equation}
-\left[\hbar \hat{n},\hat{\phi}\right] = i\hbar
+\left[\hbar \hat{n},\hat{\phi}\right] = i\hbar.
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Cooper-pair Box
@@ -159,16 +159,16 @@ IMAGEN A ALVARO
 A superconductor isle is connected to a superconductor reservoir by a Josephson's union of capacity $C$.
 Tunnelling effect allow Cooper pairs to go through the reservoir to the isle, so that the excess of Cooper pairs $n$ is a dynamic variable. The transfer rate of Cooper pairs is controlled by a gate potential $V_{g}$. In fact, the charge induced by the potential is
 \begin{equation}
-n_{g} =\frac{C_{g}V_{g}}{2e}
+n_{g} =\frac{C_{g}V_{g}}{2e}.
 \end{equation}
 The Hamiltonian of the system is
 \begin{equation}
-\mathcal{H} = E_{C}\left(n - n_{g}\right)^{2} + E_{J}\left(1 - \cos{\phi}\right)
+\mathcal{H} = E_{C}\left(n - n_{g}\right)^{2} + E_{J}\left(1 - \cos{\phi}\right),
 \end{equation}
 where $E_{C}$ is the required energy to add a Cooper pair to the isle.
-By (eq conjugada) we can consider the phase as the generator of translation in the Cooper pairs number space, 
+By (\textbf{EQ CONJUGADA}) we can consider the phase as the generator of translation in the Cooper pairs number space, 
 \begin{equation}
-e^{in_{0}\hat{\phi}}\ket{n} = \ket{n + n_{0}}
+e^{in_{0}\hat{\phi}}\ket{n} = \ket{n + n_{0}}.
 \end{equation}
 Then,
 \begin{equation}

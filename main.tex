@@ -35,12 +35,21 @@ headsepline, % Uncomment to get a line under the header
 %chapterinoneline, % Uncomment to place the chapter title next to the number on one line
 %consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
 ]{MastersDoctoralThesis} % The class file specifying the document structure
+%%%%%
+\usepackage[Lenny]{fncychap}
+\ChNameUpperCase
+\ChNumVar{\fontsize{40}{42}\usefont{OT1}{ptm}{m}{n}\selectfont}
+\ChTitleVar{\Large\bfseries}
+%%%%%
 \usepackage{ragged2e}
 \justifying
 \usepackage{physics}
 \usepackage{float}
 \usepackage{braket}
 \usepackage{amsmath}\setcounter{MaxMatrixCols}{20}
+\usepackage{amsthm} % Provides the environments of proofs
+\renewcommand\qedsymbol{QED}
+\usepackage{optidef}
 \usepackage{amsfonts,amssymb}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
@@ -176,25 +185,25 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
 
-\begin{declaration}
-\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
+%\begin{declaration}
+%\addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
+%\noindent I, \authorname, declare that this thesis titled, %\enquote{\ttitle} and the work presented in it are my own. I %confirm that:
 
-\begin{itemize} 
-\item This work was done wholly or mainly while in candidature for a research degree at this University.
-\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this is always clearly attributed.
-\item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
-\item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.
-\end{itemize}
+%\begin{itemize} 
+%\item This work was done wholly or mainly while in candidature %for a research degree at this University.
+%\item Where any part of this thesis has previously been %submitted for a degree or any other qualification at this %University or any other institution, this has been clearly %stated.
+%\item Where I have consulted the published work of others, this %is always clearly attributed.
+%\item Where I have quoted from the work of others, the source is %always given. With the exception of such quotations, this thesis %is entirely my own work.
+%\item I have acknowledged all main sources of help.
+%\item Where the thesis is based on work done by myself jointly %with others, I have made clear exactly what was done by others %and what I have contributed myself.
+%\end{itemize}
  
-\noindent Signed:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
+%\noindent Signed:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
  
-\noindent Date:\\
-\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
-\end{declaration}
+%\noindent Date:\\
+%\rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
+%\end{declaration}
 
 \cleardoublepage
 
@@ -245,7 +254,7 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 
 \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
 \textbf{AQC} & \textbf{A}diabatic \textbf{Q}uantum \textbf{C}omputing \\
-\textbf{CBD} & \textbf{C}lassical \textbf{B}ender \textbf{D}ecomposition\\
+\textbf{BD} &  \textbf{B}ender \textbf{D}ecomposition\\
 \textbf{DDP} & \textbf{D}ual \textbf{D}ynamic \textbf{P}rogramming\\
 \textbf{HQC} & \textbf{H}ybrid \textbf{Q}uantum-\textbf{C}lassical\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
@@ -278,17 +287,17 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 %	SYMBOLS
 %----------------------------------------------------------------------------------------
 
-\begin{symbols}{lll} % Include a list of Symbols (a three column table)
+%\begin{symbols}{lll} % Include a list of Symbols (a three column table)
 
-$a$ & distance & \si{\meter} \\
-$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
+%$a$ & distance & \si{\meter} \\
+%$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
 %Symbol & Name & Unit \\
 
-\addlinespace % Gap to separate the Roman symbols from the Greek
+%\addlinespace % Gap to separate the Roman symbols from the Greek
 
-$\omega$ & angular frequency & \si{\radian} \\
+%$\omega$ & angular frequency & \si{\radian} \\
 
-\end{symbols}
+%\end{symbols}
 
 %----------------------------------------------------------------------------------------
 %	DEDICATION
