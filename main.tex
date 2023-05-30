@@ -59,6 +59,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{wrapfig}
 % THEOREMS AND DEFINITIONS
 \usepackage{tcolorbox}
+
 \tcbuselibrary{breakable,theorems,skins}
 %-----------------------------------------------
 % Theorem environments definitions
@@ -136,7 +137,6 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 \begin{document}
 
 \frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
-
 \pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
 
 %----------------------------------------------------------------------------------------
@@ -144,10 +144,12 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 %----------------------------------------------------------------------------------------
 
 \begin{titlepage}
+\pagecolor{RojoNebrija}
+\color{white}
 \begin{center}
 
-%\vspace*{.06\textheight}
-\includegraphics[scale=0.5]{logos/Nebrija.jpeg}
+
+\centerline{\includegraphics[width=220mm]{logos/LogoPortada.png}}
 %{\scshape\LARGE \univname\par}\vspace{1.5cm} % University name
 %\textsc{\Large Master Thesis}\\[0.5cm] % Thesis type
 
@@ -172,15 +174,16 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 
 \large \textit{A thesis submitted in fulfilment of the requirements \\ for the degree of \degreename \\ in Nebrija University.}\\[0.3cm] % University requirement text
 \textit{The thesis was carried out in}\\[0.4cm]
-\groupname\\\deptname\\[1cm] % Research group name and department name
+\changeurlcolor{white}\groupname\\\deptname\\[1cm] % Research group name and department name
 \vfill
-\includegraphics[scale=0.65]{logos/DLR_Logo_EN_schwarz.png} % University/department logo - uncomment to place it
+\centerline{{\colorbox{white}{\makebox(608,75){\includegraphics[scale=0.65]{logos/DLR_Logo_EN_schwarz.png}}}}}
+ % University/department logo - uncomment to place it
 
 %{\large \today}\\[4cm] % Date 
 \vfill
 \end{center}
 \end{titlepage}
-
+\pagecolor{white}
 %----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------

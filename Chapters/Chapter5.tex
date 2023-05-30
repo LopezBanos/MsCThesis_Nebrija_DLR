@@ -1,6 +1,6 @@
 % Chapter 5
 
-\chapter{Conclusions and Outlook} % Main chapter title
+\chapter{Conclusions and Future Work} % Main chapter title
 
 \label{Chapter5} % For referencing the chapter elsewhere, use \ref{Chapter5} 
 
@@ -19,3 +19,54 @@
 \end{itemize}
 
 In the original protocol a random criterion of selection is assigned to the neighboring function. However, this function can be optimised for a given problem by changing the selection criterion accordingly so that the configuration space is explored in a clever way. For instance, for a large expansion planning the operational cost of a generator -- the annualised cost per $MWh$ of a carrier (wind energy, solar energy, gas, among others) --  is the term that contribute the most to our total cost function. For this reason, we can decide to generate neighboring configuration such that we start by building those generators with less operational cost. This criterion could also considers the number of snapshots and differences of operational cost with respect the investment planning of each generator and decide accordingly to that.
+
+
+\begin{equation}
+    \min_{x_{3},g_{1}(h),g_{2}(h),g_{3}(h)}\underbrace{30000x_{3}}_{\text{Investment Cost}} + \underbrace{\sum_{h}10g_{1}(h)+20g_{2}(h) + 5g_{3}(h)}_{\text{Operational Cost}}\\ 
+\end{equation}
+subject to a set of constraints,
+\begin{align}
+    0 \leq g_{1}(h) \leq 100, \quad \forall\,h\\
+    0 \leq g_{1}(h) \leq 200, \quad \forall\,h\\
+    \underbrace{0 \leq g_{2}(h) \leq x_{3}}_{\text{Linking Constraint}}, \quad \forall\,h \\
+    D(h) = g_{1}(h) + g_{2}(h) + g_{3}(h), \quad \forall\,h \\
+    x_{3} \geq 0
+\end{align}
+where $x_{3}$ represent the decision of creating a new element $g_{3}$, $h$ represents the snapshot considered and $D(h)$ represents a demand to be fulfilled by the elements $\{g_{j}\}$ at snapshot $h$. Notice that if we just minimize the investment cost, then $x_{3}$ would be set to zero despite the operational cost of the element $g_{3}$ is cheaper than the other elements. Moreover, notice that if we consider a large set of snapshots $h$, then the operational cost is the dominant term. Analogously, for a short set of snapshots the investment cost is the dominant term of the total cost function. In summary, extremal solutions lead to a high value of cost function in one of this ways
+\begin{itemize}
+    \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $D(h)$.
+    \item \textbf{Overinvestment} leads to a high value of the total cost function despite it fulfill the demand. Intuitively, we are creating more elements $\{g_{j}\}$ than we need. Usually there is an upper bound due to capital budget.
+\end{itemize}
+The optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimize the investment cost and operational cost fulfilling at the same time the constraints of the problem.
+
+For instance, suppose that the decision variable $x_{3}$ of the previous cost function is a complicated variable, it is involved in a linking constraint. Fixing that variable to a feasible value and considering a single snapshot $h=1$ would allow us to write the master problem as,
+\begin{equation}
+    \min_{x_{3}^{(i)}, \alpha^{(i)}} 30000x_{3}^{(i)} + \alpha^{(i)}
+\end{equation}
+subject to
+\begin{align}
+    x_{3}^{(i)} \geq 0 \\
+    \alpha^{(i)} \geq \alpha^{(\text{down})}
+\end{align}
+where $\alpha^{(\text{down})}$ is a lower bound of the master problem and $(i)$ indicate the iteration counter. Once the master problem is optimised we fix $x_{3}^{(\text{fixed})}$ to the optimal value found in the master problem and write the sub-problem as
+\begin{equation}
+    \min_{g_{1}^{(i)}(1), g_{2}^{(i)}(1), g_{3}^{(i)}(1)} 10g_{1}^{(i)}(1)+20g_{2}^{(i)}(1) + 5g_{3}^{(i)}(1)
+\end{equation}
+subject to
+\begin{align}
+    0 \leq g_{1}^{(i)}(1) \leq 100 \quad :\pi^{(i)} \\
+    0 \leq g_{1}^{(i)}(1) \leq 200 \quad :\mu^{(i)} \\
+    0 \leq g_{2}^{(i)}(1) \leq x_{3}^{((i))(\text{fixed})} \quad :\sigma^{(i)} \\
+    D(h) = g_{1}^{(i)}(1) + g_{2}^{(i)}(1) + g_{3}^{(i)}(1) \quad :\gamma^{(i)}
+\end{align}
+where $\pi^{(i)}$, $\mu^{(i)}$, $\sigma^{(i)}$ and $\gamma^{(i)}$ are the dual variables associated with each constraint. The sub-problem find the optimal configuration $\{g_{j}(1)\}$ for a given fixed value $x_{3}^{(\text{fixed})}$, then it updates the master problem parameter $\alpha^{(i)}$ according to
+\begin{equation}
+    \min_{x_{3}^{(i)}. \alpha^{(i)}} 30000x_{3}^{(i)} + \alpha^{(i)}
+\end{equation}
+subject to
+\begin{align}
+    x_{3}^{(i)} \geq 0 \\
+    \alpha^{(i)} \geq \alpha^{(\text{down})}\\
+    \alpha^{(i)} \geq -\
+\end{align}
+The last constraint represents the dual objective function of the sub-problem in iteration $i$. In other words, it is a function of $x_{3}$. $k$ represent the previous Benders Cuts (it is necessary?). We are following the systematic iterative process of figure \ref{fig:BDScheme}.
