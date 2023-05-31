@@ -6,36 +6,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer impose a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to tackle large-scale problems, by combining quantum and classical solvers.\\\\
-The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and \textit{master problem} (MP), so hopefully one of these problems is suitable for a quantum computer, e.g., a quantum annealer would receive a QUBO problem or a problem that can be cast into it. On the other hand, the rest of the problems are solved by the classical solver using cutting-edge algorithms. The MP and SP(s) are solved interactively until a given stopping criterion is satisfied. \\\\
-There are classical systematic approaches that converge such as the Benders decomposition algorithm\,\cite{Sahinidis1991BDConvergence} meanwhile others heuristic approaches do not guarantee the optimal solution but they require less computational resources to find a sub-optimal solution by exploring the configuration space according to some criteria.\\\\
+As we stated in previous chapters, quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer impose a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to tackle large-scale problems, by combining quantum and classical solvers.\\\\
+The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and a \textit{master problem} (MP), so hopefully one of these problems is suitable for a quantum computer. On one hand, a quantum annealer receives a QUBO problem or a problem that can be cast into it. On the other hand, the sub-problem(s) are being solved by the classical solver using cutting-edge algorithms. The MP and SP(s) are solved interactively until a given stopping criterion is satisfied. \\\\
+There are classical systematic approaches that always converge, such as the Benders decomposition algorithm\,\cite{Sahinidis1991BDConvergence}, meanwhile others heuristic approaches do not guarantee the optimal solution, but they require less computational resources to find a sub-optimal solution by exploring the configuration space according to some criteria.\\\\
 In this chapter, we describe the general formulation of a mixed-integer linear programming problem, then we present the most relevant results of dual dynamic programming theory which is the underlying theory of problem decomposition to finally show a quantum-classical benders decomposition protocol\,\cite{Zhao2021HybridProgramming}, an heuristic quantum-classical protocol\,\cite{Ding2019ImplementationDesign} and another version inspired on it.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MILP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Mixed-Integer Linear Programming}
-In the present work, we are interested in mixed-integer linear programming (MILP) problems because they appear in a wide range of real-world applications and they represent the mathematical formulation of TEP problems. More precisely, TEP problems contains real variables but these variables are often converted to integer values to solve the problem.\\\\
-The mathematical formulation of MILP problems is
+In the present work, we are interested in mixed-integer linear programming (MILP) problems because they appear in a wide range of real-world applications and they are the corresponding mathematical formulation of TEP problems. More precisely, TEP problems contain real variables but these variables are often converted into integer values to solve the problem.\\\\
+The general mathematical formulation of MILP problems is
 \begin{mini}|l|
 	{\textbf{x}}{f(\textbf{x})}{\label{eq: MILP}}{}{\left[f: \mathbb{R}^{n} \rightarrow \mathbb{R}\right]}
 	\addConstraint{h(\textbf{x})}{=0,}{\left[h: \mathbb{R}^{n} \rightarrow \mathbb{R}^{m}\right]}
 	\addConstraint{g(\textbf{x})}{\leq 0,\quad}{\left[g: \mathbb{R}^{n} \rightarrow \mathbb{R}^{p}\right],}
 \end{mini}
-where $m$ and $p$ are the number of equality and inequality constraints, respectively.\\\\
-TEP problems scale badly as the problem size grows. Thus, they cannot be solved at the desired resolution by nowadays classical computers with solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc}. There are already benchmarks comparing classical solvers and quantum annealers for energy problems where the best of these solvers -- Gurobi -- exceed the run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}.\textbf{COMENTARIO ORIOL}\\\\
+where $m$ and $p$ are the number of equality and inequality constraints respectively and $\textbf{x} \in \mathbb{Z}$.\\\\
+TEP problems scale badly as the problem size grows. Thus, big problems cannot be solved at the desired resolution by nowadays classical computers with solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc}. There are already benchmarks comparing classical solvers and quantum annealers for energy problems where even the fastest of these solvers -- Gurobi -- exceed the run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}.\\\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Classical Benders Decomposition
 %%%%%%%%%%%%%
 \section{Classical Benders Decomposition}
-The main idea behind classical \textit{Benders decomposition} (BD) -- also known as \textit{dual dynamic programming} (DDP) -- is to decompose the primal problem into a master problem and a sub-problem(s) once the complicated variables are detected. In the following sections we introduce the most remarkable results of dual dynamic programming. For a deeper understanding see\,\cite{bierlaire2018}.
+The main idea behind classical \textit{Benders decomposition} (BD) -- also known as \textit{dual dynamic programming} (DDP) -- is to decompose the primal problem into a master problem and a sub-problem(s) once the complicated variables are detected. In the following sections, we introduce the most remarkable results of dual dynamic programming. For a deeper understanding see Ref.\,\cite{bierlaire2018}.
 %%%%%%%%%%%%%
 \subsection{Complicated Variables}
 We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produce non-convex optimization problems. 
 \begin{definition}{Complicated variables}{}
 Those variables that allow us to split the original problem into sub-problem(s) when they are fixed. These variables appears in constraints in such a way that the problem cannot be decompose if they are not fixed. These type of constraints are known as linking constraints. 
 \end{definition}
-After splitting the original problem, the master problem is a relaxed version of the original problem. The global minimum is guarantee if and only if the objective function as function of the complicated variables is a convex envelope.\\\\
-For this reason, BD decompose the general problem \eqref{eq: MILP} into a MP with integer variables and a SP so that a clever re-arrange of the variables allow us to fixed complicated variables the MP and send these complicated variables as fixed for the sub-problem, then both problems are solved interactively until a stopping criterion is satisfied. The convergence of BD\,\cite{Sahinidis1991BDConvergence} guarantees that we can satisfy an arbitrary threshold value after a number of iterations. 
+After splitting the original problem, the master problem is a relaxed version of the original problem. The global minimum is guaranteed if and only if the objective function as function of the complicated variables is a convex envelope.\\\\
+For this reason, we propose BD to decompose the general problem \eqref{eq: MILP} into a MP with integer variables and a SP so that a clever re-arrange of the variables allow us to fix the complicated variables the MP and send these complicated variables as fixed for the sub-problem, then both problems are solved interactively until a stopping criterion is satisfied. The convergence of BD\,\cite{Sahinidis1991BDConvergence} guarantees that we can satisfy an arbitrary threshold value after a number of iterations. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dual Dynamic Programming}
 We can relax the primal problem by associating a penalty to each of its constraints,
@@ -57,8 +57,8 @@ where $m$ and $p$ are the number of equality and inequality constraints, respect
 \end{equation}
 are the penalty parameters.
 \end{definition}
-Notice that the dual function is an unsconstrained problem because all the constraints have been move into the Lagrangian.
-Considering the MILP problem \eqref{eq: MILP}, the inequality constraint $g(\textbf{x})\leq 0$ is violated if $g(\textbf{x})>0$. To take into account this in the cost function we need to introduce a positive cost, so $\mu^{\intercal}g(\textbf{x})>0$ which implies $\mu^{\intercal}$ has positive coefficients. \textbf{ESCRIBIR DE FORMA COMPACTA QUE TODOS LOS COEFFICIENTES DE MU SON MAYORES O IGUALES A CERO}
+Notice that the dual function is an unconstrained problem because all the constraints have been move into the Lagrangian.
+Considering the MILP problem \eqref{eq: MILP}, the inequality constraint $g(\textbf{x})\leq 0$ is violated if $g(\textbf{x})>0$. To take into account this in the cost function we need to introduce a positive cost, so $\mu^{\intercal}g(\textbf{x})>0$ which implies $\mu^{\intercal}$ has positive coefficients.
 \begin{equation}
     \mu \geq 0
 \end{equation}
@@ -93,21 +93,22 @@ We want to find the best possible lower bound by solving the following optimizat
 \begin{maxi}|l|
 	{\lambda, \mu}{q(\lambda, \mu)}{\label{eq: Abstract_Dual}}{}{\left[g: \mathbb{R}^{m+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq 0}{}
-	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,/\, q(\lambda, \mu) > - \infty \},}.
+	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu) > - \infty \},}.
 \end{maxi}
-Notice that we are choosing the penalties in such a way that te dual problem is bounded.
+Notice that we are choosing the penalties in such a way that the dual problem is bounded.
 \begin{theorem}{Weak Duality}{}
-If $\textbf{x}^{*}$ is the optimal solution of the primal, and $\lambda^{*}, \mu^{*}$ is the optimal solution of the dual, then
+If $\textbf{x}^{*}$ are the optimal solution of the primal, and $\lambda^{*}, \mu^{*}$ is the optimal solution of the dual, then
 \begin{equation}
     q(\lambda^{*}, \mu^{*}) \leq f(\textbf{x}^{*})
 \end{equation}
 \end{theorem}
 \begin{theorem}{Strong Duality}{}
-If $\textbf{x}^{*}$ is the optimal solution of the primal, and $\lambda^{*}, \mu^{*}$ is the optimal solution of the dual, then
+If $\textbf{x}^{*}$ is the optimal solution of the primal, and $\lambda^{*}, \mu^{*}$ are the optimal solution of the dual, then
 \begin{equation}
     q(\lambda^{*}, \mu^{*}) = f(\textbf{x}^{*})
 \end{equation}
 \end{theorem}
+In other words, the strong duality theorem guarantees that the upper bound and lower bound are going to converge into a point for the optimal solution, see Figure\,\ref{fig:BD_Convergence}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{Figures/BD_Convergence.pdf} 
@@ -115,7 +116,7 @@ If $\textbf{x}^{*}$ is the optimal solution of the primal, and $\lambda^{*}, \mu
 \label{fig:BD_Convergence}
 \end{figure}
 \begin{corollary}{}{}
-If one either the primal problem of the dual problem is unbounded, then both problems are unbounded.
+If either the primal problem or the dual problem are unbounded, then both problems are unbounded.
 \end{corollary}
 \begin{proof}
 If the primal is unbounded, then according to the weak duality theorem
@@ -140,18 +141,18 @@ Consider a feasible solution of the primal problem, $\textbf{x}$ and a feasible 
 %%%%%%%%%%%%%%
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{Figures/BDScheme.pdf} 
+\includegraphics[width=0.77\textwidth]{Figures/BDScheme.pdf} 
 \caption{Benders decomposition scheme.}
 \label{fig:BDScheme}
 \end{figure}
 The solution of the master problem, $f(\textbf{x)}$, generates a lower bound, meanwhile the solution of the sub-problem, $q(\lambda, \mu)$, generate an upper bound. Both problems are solved interactively until lower and upper bound satisfy a given stopping criterion $|f(\textbf{x}) - q(\lambda, \mu)| = \epsilon$. Figure \ref{fig:BDScheme} represents the iterative approach of BD.
 %%%%%%%%%%%%%%%%%%%
 \subsection{Benders' Decomposition: An Illustrative Example}
-As an example, consider a general convex function as function of a complicated variable $x_{3}$,
+As an example, consider the general convex function of \ref{fig:BDIlustration},
 \begin{equation}
     C(x_{3}) \propto x_{3}^{2}
 \end{equation}
-In each iteration of the BD scheme we are maximizing the lower bound -- dual problem -- and minimizing the upper bound -- primal problem --, graphically
+In each iteration of the BD scheme we are maximizing the lower bound -- dual problem -- and minimizing the upper bound -- primal problem --, as represented graphically
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{Figures/BenderIlustration.pdf} 
@@ -163,15 +164,15 @@ where Benders cuts are generated by updating the parameters $(\lambda,\mu)$ of t
 % QA + SA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hybrid quantum-classical algorithms}
-In Appx.\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} algorithm (SA) and solve a travelling salesman problem to illustrate it. A simulated annealing algorithm does not guarantee to get the optimal solution but the results we can get with a clever annealing schedule are good enough in accuracy and time. Analogously with a quantum annealing algorithm. In this section, we show how the decomposition of a QUBO problem allow us to use both quantum and classical solvers, where the classical solvers relaxed the original problem so that it can be tackled by the quantum solver.
+In Appx.\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} algorithm (SA) and solve a travelling salesman problem to illustrate it. A simulated annealing algorithm does not guarantee an optimal solution but the results we can get with a clever annealing schedule are good enough in accuracy and time. Analogously, with a quantum annealing algorithm. In this section, we show how the decomposition of a QUBO problem allow us to use both quantum and classical solvers, where the classical solvers relaxed the original problem so that it can be tackled by the quantum solver.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Quantum Benders' Decomposition: Single Cuts}
-The main idea behind the quantum Benders approach is to use the quantum annealer to solve either the primal problem or the dual problem. We are interested in solving the primal problem, also known as master problem, with a quantum annealer. The scheme is represented in \ref{fig:BDScheme}. In our case the candidates solution $\textbf{x}$ of the primal are the solution of the primal problem by a quantum annealer.
+The main idea behind the quantum Benders approach is to use the quantum annealer to solve either the primal problem or the dual problem. We are interested in solving the primal problem, also known as master problem, with a quantum annealer. The scheme is represented in Figure\,\ref{fig:BDScheme}. In our case, the candidates solution $\textbf{x}$ of the primal are the solution of the primal problem by a quantum annealer.
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Heuristic Protocols}
 As stated before, heuristic approaches do not guarantee to arrive at the optimal solution. However, these methods explore the configuration space in such a way that we do not get stuck in a local minimums. For a limited amount of computational resources and time, the solution that an heuristic approach can achieve is sub-optimal. Generally, these methods are better than a brute-force method when the problem is large enough so that there are not computational resources to solve it by getting the optimal solution.
 \subsubsection{SA-QA Protocol}
-We present a hybrid quantum-classical algorithm protocol based on combining SA and QA\,\cite{Ding2019ImplementationDesign} to solve the MP and SP(s), respectively.
+We present a hybrid quantum-classical algorithm protocol based on combining SA and QA\,\cite{Ding2019ImplementationDesign} to solve the MP and SP(s), respectively. See an scheme in Figure\,\ref{fig:SA_QAProtocol} 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.45\textwidth]{Figures/SAQAProtocol_Layer 1.pdf} 
@@ -190,13 +191,13 @@ We present a hybrid quantum-classical algorithm protocol based on combining SA a
     \item Apply the selection criterion to keep or to discard the current configuration.
     \item If the selection criterion is not satisfied, repeat steps 2 to 4 until a iteration index is equal to the value set in step 1, then decrease the temperature and reset the iteration index. If the selection criterion is satisfied, outputs the current cost function value and its solution $\vec{x}$.
 \end{enumerate}
-Notice that the algorithm solve the master problem with a simulating annealing algorithm in a classical solver and then the sub-problem(s) -- dual problems -- with the quantum computer, more precisely with a quantum annealer. For this reason, the sub-problem(s) must have binary constraints or low integer values if we do not want to deal with discretization errors or adding a big set of slack variables.\\\\
+Notice that the algorithm solves the master problem with a simulating annealing algorithm in a classical solver and then the sub-problem(s) -- dual problems -- with the quantum computer, more precisely with a quantum annealer. For this reason, the sub-problem(s) must have binary constraints or low integer values if we do not want to deal with discretization errors or adding a big set of slack variables.\\\\
 In order to apply both simulated and quantum annealing to problems in which the master problem contains most of the binary and integer variables -- as happen with TEP problems--, we have to reconsider or adapt the previous scheme.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QA-SA Protocol
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{QA-SA Protocol}
- As stated before, our sub-problem(s) has real constraints which implies it is not a good idea to solve them with a quantum annealer. For this reason, we reverse the original protocol so that the quantum annealer tackle the master problem in which the binary and integer decision variables appear and the classical solver tackle the sub-problem(s).\\\\
+ As stated before, our sub-problem(s) has real constraints which implies it is not a good idea to solve them with a quantum annealer. For this reason, we reverse the original protocol so that the quantum annealer tackle the master problem in which the binary and integer decision variables appear and the classical solver tackle the sub-problem(s). A scheme of the new protocol is in Figure\,\ref{fig:QA_SAProtocol}.\\\\
 In order to clarify the protocol to what has been shown in previous section we use the same notation $f(\textbf{x})$ to describe the upper bound of the primal problem and $q(\lambda)$ to describe the lower bound, where $(\lambda,\mu)$ represents the penalties of our problem, in other words, the Lagrange multipliers, and $\textbf{x}$ represent the decision variables. We are showing a heuristic approach, so the convergence is not guaranteed, in other words we are not getting the optimal values $(\textbf{x}^{*}, \lambda^{*},\mu^{*})$ that maximize the lower bound and minimize the upped bound in each iteration, instead we are optimizing the dual problem by SA algorithm and the master problem by QA, so that none of these methods guarantee the optimal solution to its combinatorial optimization problem.
 \begin{figure}[H]
 \centering
@@ -215,7 +216,7 @@ In order to clarify the protocol to what has been shown in previous section we u
 Notice that the parameters $\lambda$ and $\mu$ do not have to be the optimal parameters. SA does not guarantees to obtain the optimal solution of the dual problem.
     \item Update the master problem with $\{\lambda, \mu\}$ 
     \begin{equation}
-        q(\lambda,\mu) = \min_{\textbf{x}} \mathcal{L}(\textbf{x}, \lambda, \mu)
+        q(\lambda,\mu) = \min_{\textbf{x}} \mathcal{L}(\textbf{x}, \lambda, \mu).
     \end{equation}
      QA does not guarantee to obtain the optimal solution $\textbf{x}^{*}$ of the master problem.
     \item Apply the selection criterion to keep or to discard the current configuration.
