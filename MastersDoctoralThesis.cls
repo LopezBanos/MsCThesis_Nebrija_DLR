@@ -407,6 +407,8 @@ KOMA-script documentation for details.}]{fancyhdr}
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS PAGE DESIGN
 %----------------------------------------------------------------------------------------
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usepackage{xcolor}
 \colorlet{mdtRed}{red!50!black}
