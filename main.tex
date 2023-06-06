@@ -49,7 +49,7 @@ headsepline, % Uncomment to get a line under the header
 \usepackage{amsmath}\setcounter{MaxMatrixCols}{20}
 \usepackage{amsthm} % Provides the environments of proofs
 \renewcommand\qedsymbol{QED}
-\usepackage{optidef}
+\usepackage[short]{optidef}
 \usepackage{amsfonts,amssymb}
 \usepackage[utf8]{inputenc} % Required for inputting international characters
 \usepackage[T1]{fontenc} % Output font encoding for international characters
@@ -64,7 +64,7 @@ headsepline, % Uncomment to get a line under the header
 %-----------------------------------------------
 % Theorem environments definitions
 \newcounter{theo} % Extern counter for theorems
-\newtcbtheorem%[]% init options
+\newtcbtheorem[auto counter, number within = chapter]% init options
 {theorem}% name environment
 {Theorem}% Title
 {enhanced,before title={\stepcounter{theo}},colback=blue!10,colframe=blue!35!black,fonttitle=\bfseries,%
@@ -72,7 +72,7 @@ attach boxed title to top left={xshift=5mm,yshift*=-\tcboxedtitleheight/2},%
 boxed title style={colback=blue!35!black}}% options
 {th}% label prefix
 
-\newtcbtheorem[number within=theo]% init options
+\newtcbtheorem[auto counter, number within = chapter]% init options
 {corollary}% name environment
 {Corollary}% Title
 {enhanced,colback=green!10,colframe=green,fonttitle=\bfseries,colbacktitle=green!10,coltitle=black,%
@@ -80,13 +80,14 @@ attach boxed title to top left={xshift=5mm,yshift*=-\tcboxedtitleheight/2},%
 boxed title style={boxrule=0.6pt}}% options
 {co}% label prefix
 
-\newtcbtheorem[number within=def]% init options
+\newtcbtheorem[auto counter, number within = chapter]% init options
 {definition}% name environment
 {Definition}% Title
 {enhanced,colback=yellow!10,colframe=yellow,fonttitle=\bfseries,colbacktitle=yellow!10,coltitle=black,%
 attach boxed title to top left={xshift=5mm,yshift*=-\tcboxedtitleheight/2},%
 boxed title style={boxrule=0.6pt}}% options
 {def}% label prefix
+
 %------------------------------------------------
 
 
@@ -324,7 +325,7 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 \include{Chapters/Chapter3} 
 \include{Chapters/Chapter4}
 \include{Chapters/Chapter5}
-%\include{Chapters/Chapter4} 
+\include{Chapters/Chapter6} 
 %\include{Chapters/Chapter5} 
 
 %----------------------------------------------------------------------------------------
