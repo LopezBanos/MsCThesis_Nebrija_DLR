@@ -1,8 +1,8 @@
 % Chapter 4
 \chapter{Transmission Expansion Planning by Quantum Annealing} % Main chapter title
 \label{Chapter4} % For referencing the chapter elsewhere, use \ref{Chapter1} 
-\section{Statement of the problem}
-\textit{Transmission expansion planning} (TEP)\,\cite{Neumann2020TransmissionFlows} is a \textit{mixed integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system by reducing the cost function which is the sum of the investment cost of transmission lines and the operational cost of generators. It decides how many transmission lines to build and where to connect them in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. There are other components to build apart from transmission lines such as generators or storages, but considering them imply not only an increment in the number of variables of the problem but also an increment in the complexity to formulate it. The problem we are solving is not realistic at all, so we should consider it just as a starting point to get insight about the problem formulation and challenges.\\\\
+\section{Statement of the Problem}
+\textit{Transmission expansion planning} (TEP)\,\cite{Neumann2020TransmissionFlows} is a \textit{mixed integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system by reducing the cost function, which is the sum of the investment cost of transmission lines and the operational cost of generators. It decides how many transmission lines to build and where to connect them in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. There are other components to build apart from transmission lines such as generators or storages, but considering them imply not only an increment in the number of variables of the problem but also an increment in the complexity to formulate it. For this reason, the problem we are solving is not realistic at all but it encapsulate the most important features of the problem. We should consider it just as a starting point to get insight about the problem formulation and challenges.\\\\
 We can control the number of variables of the problem according to
 \begin{itemize}
     \item \textbf{Number of nodes:} Clustering techniques allow us to fix the number of nodes of the problem so that towns of a given network are grouped acting as a single big town.
@@ -10,7 +10,7 @@ We can control the number of variables of the problem according to
     \item \textbf{Connectivity of transmission lines}: We can control the connectivity between nodes so that we do not allow a node the possibility of being fully connected with the rest of nodes. Furthermore, because of legal procedures to build new lines in areas where there were no transmission lines, TEP focus on building lines in existing connections without changing the topology of the network.
     \item \textbf{Adding targets}: In this chapter we tackle a single target, i.e., the cost function -- investment and operational cost -- but there are other targets such as the increment of renewable energy sources in a given region or the reduction of the carbon footprint.
 \end{itemize}
-The TEP scales badly using classical algorithms\,\cite{Oertel2014ComplexityEvaluation} and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, intermittent loads, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. Because of the maturity of quantum computers large TEP problems cannot be solved fully by a quantum annealer. For this reason, we require of hybrid methods\,\cite{Ding2019ImplementationDesign,Zhao2021HybridProgrammingb} to decompose large problems into a master problem which can be solved by a quantum annealer and a sub-problem for which cutting-edge classical algorithms are going to be applied.\\\\
+The TEP scales badly using classical algorithms\,\cite{Oertel2014ComplexityEvaluation} and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, intermittent loads, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. But, because of the maturity of quantum computers, large TEP problems cannot be solved fully by a quantum annealer. For this reason, we require of hybrid methods\,\cite{Dilwali2016,Binato2001,Huang2019,MacRae2016,Zhao2021HybridProgrammingb} to decompose large problems into a master problem which can be solved by a quantum annealer and a sub-problem for which cutting-edge classical algorithms are going to be applied.\\\\
 There are two ways of formulating the transmission expansion problem. In one hand, the brownfield model considers the power flow of existing in a network $f_{kl}^{(0)}$ among with the power flow of a set of candidate lines $f_{kl}^{(1)}$. On the other hand, the greenfield model considers a empty network and a set of candidate lines $f_{kl}^{1}$.
 \begin{figure}[H]
   \begin{center}
@@ -33,7 +33,7 @@ Luckily, the \textit{dimod} python package from D-Wave allow us to name the vari
 	{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f}^{0},\mathbf{f}^{1}}{\underbrace{\sum_{kl\in C}c_{kl}x_{kl}}_{\text{Investment cost}} + \underbrace{\sum_{h\in H}\sum_{k}c_{k}^{(\text{oc})}g_{k}(h)}_{\text{Operational cost}} + \underbrace{\sum_{h\in H}\sum_{k}r_{k}(h)c_{k}}_{\text{Load shedding cost}}}{\label{eq: objective}}{}{}
 	\addConstraint{d_{k}(h)-\sum_{l\in E_{k}}f_{kl}^{0}(h) + \sum_{l\in C_{k}}f_{kl}^{1}(h) + g_{k}(h) + r_{k}(h)}{=0,}{\forall k\in N ,h\in H}{\label{const: PowerBalance}}
     \addConstraint{\abs{f_{kl}^{0}(h)} - \bar{f_{kl}^{0}}(h)}{\leq 0,\,}{\forall\, kl \in E,h\in H }{\label{const: ExistingLimits}}
-     \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)}{\leq 0,\,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
+     \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0,\,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
      \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0,\,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
     \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0,\,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
     \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C,}
@@ -44,9 +44,9 @@ where
     \item \textbf{Existing circuit flow limits Eq.\,\eqref{const: ExistingLimits}}: An existing transmission line cannot exceed its maximum capacity.
     \item \textbf{Candidate circuit flow limits Eq.\,\eqref{const: CandidateLimits}}:A candidate transmission line cannot exceed its maximum capacity.
     \item \textbf{Bus generation limits Eq.\,\eqref{const: BusLimits}}: The energy produced in a node cannot exceed its maximum energy production.
-    \item \textbf{Bus loads limits Eq.\,\eqref{const: BusLoads}}: To ensure that mathematically the demand is always fulfilled one can consider a load shedding term that is zero when demand at node $k$ is satisfied by the elements of the network and $r_{k} \neq 0$ when it is not fulfilled. These terms represent the fines impose by the goverments\textbf{???}, so it is an extra cost -- actually a huge extra cost -- added to the cost function.
+    \item \textbf{Bus loads limits Eq.\,\eqref{const: BusLoads}}: To ensure that mathematically the demand is always fulfilled one can consider a load shedding term that is zero when demand at node $k$ is satisfied by the elements of the network and $r_{k} \neq 0$ when it is not fulfilled. If $r_{k} \neq 0$ the demand is not fulfilled, i.e., the electricity markets cannot offer the required energy to your node and they pay you a fine because of that, which is an extra cost in the objective function. If the load shedding cost is high enough the demand is going to be always fulfilled since the load shedding term is the dominant term we want to minimize.
 \end{itemize}
-The previous model is called transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature (\textbf{INCLUIR LOS PAPERS RELEVANTES}). The reason of not including the operational cost is that they are considering a single snapshot so that the dominant term is the investment cost and the operational cost can removed from the objective function \,\eqref{eq: objective}. However, if one wants to consider large snapshots, then the operational cost is the dominant term. Furthermore, if we just minimize the investment cost, then we can build lines that connect the most expensive generators. Moreover, if we consider a large set of snapshots $h$, then the operational cost is the dominant term. Analogously, for a short set of snapshots the investment cost is the dominant term of the total cost function. In summary, extremal solutions lead to a high value of cost function in one of these ways
+The previous model is called transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature\,\cite{Gomes2019}. The reason of not including the operational cost is that they are considering a single snapshot so that the dominant term is the investment cost and the operational cost can removed from the objective function \,\eqref{eq: objective}. However, if one wants to consider large snapshots, then the operational cost is the dominant term. On the other hand, if we minimize the investment cost, then there is a change of building transmission lines that connect the most expensive generators to our nodes. In summary, extremal solutions lead to a high value of cost function in one of these ways
 \begin{itemize}
     \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $d(h)$.
     \item \textbf{Overinvestment} leads to a high value of the total cost function despite it fulfill the demand. Intuitively, we are creating more elements $\{x_{kl}\}$ than we need. Usually there is an upper bound due to the capital budget.
@@ -138,14 +138,31 @@ The investment cost of some candidate lines are not considered in public data of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benders Decomposition in TEP}
 In Ch.\,\ref{Chapter3} we shown three hybrid approaches that combine classical solver with quantum solvers. In this work we decided to explore the Benders' decomposition approach due to two main points. Firstly, the convergence properties of Benders' decomposition allows us to know how good a obtained solution is. Secondly, TEP problems has diagonal structure which means they are suitable for a Benders' decomposition approach.\\\\\
-In order to simplify the problem we are consider a single snapshot so that we can drop the $h$ index.
+In order to simplify the problem we are consider a single snapshot so that we can drop the $h$ index. As discussed in Ch.\,\ref{Chapter3}, we can formulate the problem by maximizing a dual function of by minimizing the primal problem with the dual as penalties. The Benders' decomposition algorithm that we propose consist in four steps,
+\begin{itemize}
+    \item \textbf{Step 1} (\textit{Initialization of Benders’ decomposition})\textbf{:} We initialize the iteration counter $t$, the upper bound $\bar{z}^{0}$, the lower bound $\underline{z}^{0}$, the load shedding and operational cost $\alpha^{0}$ and the penalty term associated with the violation of power flow constraints of candidate lines $\Pi_{f_{kl}^{1}}$.
+    \item \textbf{Step 2} (\textit{Master problem solved by a quantum annealer})\textbf{:} We maximize the lower bound $\underline{z}^{t}$ by taking the minimum value of 
+    \begin{equation}
+      \min \underline{z}^{t} \leq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right),  
+    \end{equation}
+    where the RHS increase its value in each iteration. In other words, the RHS represent the Benders' cuts.
+    \item \textbf{Step 3} (\textit{Slave problem solved by a classical solver})\textbf{:} We minimize $\alpha^{t}$ which includes the load shedding cost and the operational cost. After minimizing $\alpha^{t}$ we minimize the upper bound
+    \begin{equation}
+        \bar{z}^{t} = \min \{\bar{z}^{t-1}, \sum_{kl \in C}c_{kl}x_{kl}^{t} + \alpha^{t}\}.
+    \end{equation}
+    \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} If the difference between the upper and lower bound is less or equal a given threshold
+    \begin{equation}
+        \bar{z} - \underline{z} \leq \epsilon,
+    \end{equation}
+    then the Benders' algorithms stop and outputs the value of $\{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f^{1}}\}$ as the (sub-)optimal solution. Otherwise, it goes to step 2 with the new candidate solution as input.
+\end{itemize}
 \begin{tcolorbox}[colback=white!5!white,colframe=black!75!black,title=Benders' decomposition algorithm]
     \begin{tcolorbox}[colback=black!5!white,colframe=black!75!black,title= \textbf{Step 1:} Initialization of Benders' decomposition]
     \begin{align}
     t &= 1 & \text{Benders' iteration} \\
     \underline{z}^{0} &= -\infty & \text{Lower bound}\\
     \bar{z}^{0} &= \infty & \text{Upper bound} \\
-    \alpha^{0} &= 0 & \text{load shedding and operational cost} \\
+    \alpha^{0} &= 0 & \text{Load shedding and operational cost} \\
     \Pi_{f_{kl}^{1}}^{0} &= 0 \quad \forall kl\in C & \text{Lagrange multipliers}
     \end{align}
     \end{tcolorbox}
@@ -163,16 +180,16 @@ In order to simplify the problem we are consider a single snapshot so that we ca
 	{\mathbf{g},\mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\underbrace{\sum_{k}c_{k}^{(\text{oc})}g_{k}}_{\text{Operational cost}} + \underbrace{\sum_{k}r_{k}c_{k}}_{\text{Load shedding cost}}}{}{}{}
 	\addConstraint{d_{k}-\sum_{l\in E_{k}}f_{kl}^{0} + \sum_{l\in C_{k}}f_{kl}^{1} + g_{k} + r_{k}}{=0,}{\forall k\in N }{}
     \addConstraint{\abs{f_{kl}^{0}} - \bar{f_{kl}^{0}}}{\leq 0,\,}{\forall\, kl \in E}{}
-     \addConstraint{\abs{f_{kl}^{1}} - \bar{f_{kl}^{1}}}{\leq 0,\,}{\forall\, kl \in C}{}
+     \addConstraint{\abs{f_{kl}^{1}} - \bar{f_{kl}^{1}x^{t}_{kl}}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}.
     \end{mini!}
-    \end{tcolorbox}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \begin{tcolorbox}[colback=black!5!white,colframe=black!75!black,title=\textbf{Step 4:} Stopping criterion]
     \begin{align}
     \bar{z}^{t} &=\min \{\bar{z}^{t-1}, \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t}\} & \text{Update upper bound}
     \end{align}
+    \end{tcolorbox}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{tcolorbox}[colback=black!5!white,colframe=black!75!black,title=\textbf{Step 4:} Stopping criterion]
     If $\left(\bar{z}^{t} - \underline{z}^{t}\right)/\bar{z}^{t}\leq \epsilon$, then we found the (sub)-optimal solution, else $t=t+1$ and we have to repeat the algorithm from step 2 until the stopping criterion is satisfied.
     \end{tcolorbox}
 \end{tcolorbox}
