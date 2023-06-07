@@ -17,7 +17,7 @@ In this chapter, we describe the general formulation of a mixed-integer linear p
 \section{Mixed-Integer Linear Programming}
 In the present work, we are interested in mixed-integer linear programming (MILP) problems because they appear in a wide range of real-world applications and they are the corresponding mathematical formulation of TEP problems. More precisely, TEP problems contain real variables but these variables are often converted into integer values to solve the problem.\\\\
 The general mathematical formulation of MILP problems is
-\begin{mini!}[4]
+\begin{mini!}[2]
 	{\mathbf{x}}{f(\mathbf{x})}{\label{eq: MILP}}{}{\left[f: \mathbb{R}^{n} \rightarrow \mathbb{R}\right]}
 	\addConstraint{h(\mathbf{x})}{=0,}{\left[h: \mathbb{R}^{n} \rightarrow \mathbb{R}^{m}\right]}
 	\addConstraint{g(\mathbf{x})}{\leq 0,\quad}{\left[g: \mathbb{R}^{n} \rightarrow \mathbb{R}^{p}\right],}
@@ -92,7 +92,7 @@ A feasible solution satisfies the constraints, meaning that $h(\mathbf{x}^{*})=0
   \end{equation}
 \end{corollary}
 We want to find the best possible lower bound by solving the following optimization problem
-\begin{maxi!}[4]
+\begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{\label{eq: Abstract_Dual}}{}{\left[q: \mathbb{R}^{m+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq 0}{}
 	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu) > - \infty \}.}
@@ -210,7 +210,7 @@ In order to explain the protocol in accordance to what has been shown in previou
 \begin{enumerate}
     \item Set an initial feasible configuration to the primal problem $\mathbf{x}$.
     \item Solve the dual problem by SA,
-\begin{maxi!}[4]
+\begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{}{}{\left[q: \mathbb{R}^{m+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq 0}{}
 	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,/\mid, q(\lambda, \mu) > - \infty \}}.

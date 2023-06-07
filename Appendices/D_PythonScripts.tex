@@ -9,70 +9,10 @@ This appendix contains all the scripts used in the thesis. These scripts can be 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Two Heirs Problem}
 %////////////////////
-\begin{algorithm}
-\caption{Two Heirs Problem}\label{alg:twoheirs}
-\begin{algorithmic}
-\Require $n \geq 0$
-\Ensure $y = x^n$
-\State $y \gets 1$
-\State $X \gets x$
-\State $N \gets n$
-\While{$N \neq 0$}
-\If{$N$ is even}
-    \State $X \gets X \times X$
-    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
-\ElsIf{$N$ is odd}
-    \State $y \gets y \times X$
-    \State $N \gets N - 1$
-\EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-%////////////////////
 \inputminted[linenos]{python}{Scripts/Two_Heirs.py}
 \section{Traveling Salesman Problem (TSP)}
 %////////////////////
-\begin{algorithm}
-\caption{Travelling Salesman Problem}\label{alg:tsp}
-\begin{algorithmic}
-\Require $n \geq 0$
-\Ensure $y = x^n$
-\State $y \gets 1$
-\State $X \gets x$
-\State $N \gets n$
-\While{$N \neq 0$}
-\If{$N$ is even}
-    \State $X \gets X \times X$
-    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
-\ElsIf{$N$ is odd}
-    \State $y \gets y \times X$
-    \State $N \gets N - 1$
-\EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-%////////////////////
 \inputminted[linenos]{python}{Scripts/tsp_simulated_annealing.py}
 \section{Transmission expansion problem: A three node example}
-%////////////////////
-\begin{algorithm}
-\caption{Transmission Expansion Planning (TEP) Problem}\label{alg:tep}
-\begin{algorithmic}
-\Require $n \geq 0$
-\Ensure $y = x^n$
-\State $y \gets 1$
-\State $X \gets x$
-\State $N \gets n$
-\While{$N \neq 0$}
-\If{$N$ is even}
-    \State $X \gets X \times X$
-    \State $N \gets \frac{N}{2}$  \Comment{This is a comment}
-\ElsIf{$N$ is odd}
-    \State $y \gets y \times X$
-    \State $N \gets N - 1$
-\EndIf
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
 %////////////////////
 \section{Quantum Benders Decomposition algorithm for TEP problems}
