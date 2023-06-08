@@ -2,24 +2,24 @@
 \chapter{Transmission Expansion Planning by Quantum Annealing} % Main chapter title
 \label{Chapter4} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \section{Statement of the Problem}
-\textit{Transmission expansion planning} (TEP)\,\cite{Neumann2020TransmissionFlows} is a \textit{mixed integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system by reducing the cost function, which is the sum of the investment cost of transmission lines and the operational cost of generators. It decides how many transmission lines to build and where to connect them in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. There are other components to build apart from transmission lines such as generators or storages, but considering them imply not only an increment in the number of variables of the problem but also an increment in the complexity to formulate it. For this reason, the problem we are solving is not realistic at all but it encapsulate the most important features of the problem. We should consider it just as a starting point to get insight about the problem formulation and challenges.\\\\
+\textit{Transmission expansion planning} (TEP)\,\cite{Neumann2020TransmissionFlows} is a \textit{mixed integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system by minimizing the cost function, which is the sum of the investment cost of transmission lines and the operational cost of generators. It decides how many transmission lines to build and where to connect them in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. There are other components to build apart from transmission lines such as generators or storages, but considering them imply not only an increment in the number of variables of the problem but also an increment in the complexity to formulate it. For this reason, the problem we are solving is not realistic but it encapsulates the most important features of the problem. We should consider it just as a starting point to get insight about the problem formulation and challenges.\\\\
 We can control the number of variables of the problem according to
 \begin{itemize}
-    \item \textbf{Number of nodes:} Clustering techniques allow us to fix the number of nodes of the problem so that towns of a given network are grouped acting as a single big town.
-    \item \textbf{Snapshots of time}: In expansion problems is common to consider hourly snapshots of time of one year, i.e., a total of 8760 snapshots but we can restrict the problem to a subset of snapshots without loss of generality.
-    \item \textbf{Connectivity of transmission lines}: We can control the connectivity between nodes so that we do not allow a node the possibility of being fully connected with the rest of nodes. Furthermore, because of legal procedures to build new lines in areas where there were no transmission lines, TEP focus on building lines in existing connections without changing the topology of the network.
-    \item \textbf{Adding targets}: In this chapter we tackle a single target, i.e., the cost function -- investment and operational cost -- but there are other targets such as the increment of renewable energy sources in a given region or the reduction of the carbon footprint.
+    \item \textbf{Number of nodes:} clustering techniques allow us to fix the number of nodes of the problem so that towns of a given network are grouped acting as a single big town.
+    \item \textbf{Snapshots of time}: in expansion problems it is common to consider hourly snapshots of time of one year, i.e., a total of 8760 snapshots. However, we can restrict the problem to a subset of snapshots without loss of generality.
+    \item \textbf{Connectivity of transmission lines}: we can control the connectivity between nodes so that we do not allow a node the possibility of being fully connected with the rest of nodes. Furthermore, because of legal procedures to build new lines in areas where there were no transmission lines, TEP focuses on building lines in existing connections without changing the topology of the network.
+    \item \textbf{Adding targets}: in this chapter we tackle a single target, i.e., the cost function -- investment and operational cost -- but there are other targets such as the increment of renewable energy sources in a given region or the reduction of the carbon footprint.
 \end{itemize}
-The TEP scales badly using classical algorithms\,\cite{Oertel2014ComplexityEvaluation} and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, intermittent loads, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. But, because of the maturity of quantum computers, large TEP problems cannot be solved fully by a quantum annealer. For this reason, we require of hybrid methods\,\cite{Dilwali2016,Binato2001,Huang2019,MacRae2016,Zhao2021HybridProgrammingb} to decompose large problems into a master problem which can be solved by a quantum annealer and a sub-problem for which cutting-edge classical algorithms are going to be applied.\\\\
-There are two ways of formulating the transmission expansion problem. In one hand, the brownfield model considers the power flow of existing in a network $f_{kl}^{(0)}$ among with the power flow of a set of candidate lines $f_{kl}^{(1)}$. On the other hand, the greenfield model considers a empty network and a set of candidate lines $f_{kl}^{1}$.
+The TEP scales badly using classical algorithms\,\cite{Oertel2014ComplexityEvaluation} and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, intermittent loads, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. However,  since quantum computers are still not sufficiently mature, large TEP problems cannot be solved fully by a quantum annealer. For this reason, we require of hybrid methods\,\cite{Dilwali2016,Binato2001,Huang2019,MacRae2016,Zhao2021HybridProgrammingb} to decompose large problems into a master problem which can be solved by a quantum annealer and a sub-problem for which cutting-edge classical algorithms are going to be applied.\\\\
+There are two ways of formulating the TEP. On the one hand, the brownfield model considers the power flow of existing lines in a network $f_{kl}^{0}$ among with the power flow of a set of candidate lines $f_{kl}^{1}$. On the other hand, the greenfield model considers an empty network and a set of candidate lines $f_{kl}^{1}$.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.9\textwidth]{Figures/3NodeBrownGreen.pdf}
   \end{center}
-  \caption{Three node example. \textbf{Right:} Network considering current transmission lines and candidate lines, brownfield model. \textbf{Left:} Network considering just candidate lines, greenfield model.}
+  \caption{Three node example. \textbf{Left:} Network considering current transmission lines and candidate lines, brownfield model. \textbf{Right:} Network considering just candidate lines, greenfield model.}
   \label{fig: ThreeNode}
 \end{figure}
-For simplicity, we are gonna consider the greenfield approach so we do not have to take into account the constants associated with the existing lines. We can map two indexes $ij$ to a single index $k$ by using a bijective function for a given number of nodes $N$, see Ref.\,\cite{Jain2021SolvingComputer},
+For simplicity, we are going to consider the greenfield approach so that we do not have to take into account the constants associated with the existing lines. We can map two indices $ij$ to a single index $k$ by using a bijective function for a given number of nodes $N$, see Ref.\,\cite{Jain2021SolvingComputer},
 \begin{equation}
 k(i,j,N) = \begin{cases}
     iN - i\left(i+1\right)/2 + j - (i+1), & i<j\\
@@ -28,7 +28,7 @@ k(i,j,N) = \begin{cases}
 \end{cases}
     \label{eq: TwoIndexesmap}
 \end{equation}
-Luckily, the \textit{dimod} python package from D-Wave allow us to name the variables so that we do not need to use the previous function to reformulate the problem. We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\cite{Dilwali2016},
+Luckily, the \textit{dimod} python package from D-Wave allows us to work with two indices so that we do not need to use the previous function to reformulate the problem. We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\cite{Dilwali2016},
 \begin{mini!}[2]
 	{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f}^{0},\mathbf{f}^{1}}{\underbrace{\sum_{kl\in C}c_{kl}x_{kl}}_{\text{Investment cost}} + \underbrace{\sum_{h\in H}\sum_{k}c_{k}^{(\text{oc})}g_{k}(h)}_{\text{Operational cost}} + \underbrace{\sum_{h\in H}\sum_{k}r_{k}(h)c_{k}}_{\text{Load shedding cost}}}{\label{eq: objective}}{}{}
 	\addConstraint{d_{k}(h)-\sum_{l\in E_{k}}f_{kl}^{0}(h) + \sum_{l\in C_{k}}f_{kl}^{1}(h) + g_{k}(h) + r_{k}(h)}{=0,}{\forall k\in N ,h\in H}{\label{const: PowerBalance}}
@@ -46,12 +46,12 @@ where
     \item \textbf{Bus generation limits Eq.\,\eqref{const: BusLimits}}: The energy produced in a node cannot exceed its maximum energy production.
     \item \textbf{Bus loads limits Eq.\,\eqref{const: BusLoads}}: To ensure that mathematically the demand is always fulfilled one can consider a load shedding term that is zero when demand at node $k$ is satisfied by the elements of the network and $r_{k} \neq 0$ when it is not fulfilled. If $r_{k} \neq 0$ the demand is not fulfilled, i.e., the electricity markets cannot offer the required energy to your node and they pay you a fine because of that, which is an extra cost in the objective function. If the load shedding cost is high enough the demand is going to be always fulfilled since the load shedding term is the dominant term we want to minimize.
 \end{itemize}
-The previous model is called transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature\,\cite{Gomes2019}. The reason of not including the operational cost is that they are considering a single snapshot so that the dominant term is the investment cost and the operational cost can removed from the objective function \,\eqref{eq: objective}. However, if one wants to consider large snapshots, then the operational cost is the dominant term. On the other hand, if we minimize the investment cost, then there is a change of building transmission lines that connect the most expensive generators to our nodes. In summary, extremal solutions lead to a high value of cost function in one of these ways
+The previous model is called a transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature\,\cite{Gomes2019}. The reason for not including the operational cost is that other authors consider are considering a single snapshot so that the dominant term is the investment cost. However, if one wants to consider large snapshots, then the operational cost is the dominant term. On the other hand, if we minimize the investment cost, then there is a change of building transmission lines that connect the most expensive generators to the nodes. In summary, extremal solutions lead to a high value of the cost function in one of these ways:
 \begin{itemize}
     \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $d(h)$.
-    \item \textbf{Overinvestment} leads to a high value of the total cost function despite it fulfill the demand. Intuitively, we are creating more elements $\{x_{kl}\}$ than we need. Usually there is an upper bound due to the capital budget.
+    \item \textbf{Overinvestment} leads to a high value of the total cost function even though it satisfies the demand. Intuitively, we are creating more elements $\{x_{kl}\}$ than we need. Usually there is an upper bound due to the capital budget.
 \end{itemize}
-The TEP combinatorial optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimize the investment cost and operational cost fulfilling at the same time the constraints of the problem.\\\\
+The TEP combinatorial optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimizes the investment cost and operational cost while fulfilling at the same time the constraints of the problem.\\\\
 We can write the problem in Hamiltonian formulation by including the constraints as penalty terms,
 \begin{align}
     \mathcal{H} = \sum_{kl\in C}c_{kl}x_{kl} + \sum_{h \in H}\sum_{k}c_{k}^{(\text{oc})}g_{k}(h)+ \sum_{h \in H}\sum_{k}c_{k}r_{k}(h)\\
@@ -89,9 +89,9 @@ The meaning of the variables is explained in the following table
   \hline
   $r_{k}$ & Shedding load at bus $k$ & Integer\\
   \hline	
- $d_{k}(t)$ & Demand of node $i$ at snapshot $t$ & Integer\\
+ $d_{k}(h)$ & Demand of node $k$ at snapshot $h$ & Integer\\
   \hline	
- $g_{k}(t)$ & Current generation at node $k$ at snapshot $t$ & Integer\\
+ $g_{k}(h)$ & Current generation at node $k$ at snapshot $h$ & Integer\\
   \hline	
  $\bar{g}_{k}$ & Maximum generation at bus $k$ & Integer\\
   \hline	
@@ -105,20 +105,20 @@ The meaning of the variables is explained in the following table
 \caption{Description of variables involved in TEP problems\,\cite{Dilwali2016}.}
 \label{table:TEPNomenclature}
 \end{table}
-The investment cost $c_{kl}$ is the cost of building the transmission line $x_{kl}$ and it is a constant -- we are not considering time-dependent costs --, analogously, the operational cost $c_{j}^{(\text{oc})}$ represents the annualised cost per [MWh] of the produced energy $g_{k}(h)$ at snapshot $h$. For simplicity, we set the operational cost to each carrier -- wind turbine, solar or run of river among others -- to a fixed value -- mean cost of that carrier -- so that we do not have to consider the variation of the cost as function of the node or the time.\\\\
-Notice, that the total cost depends on the investment cost and the operational cost. As stated before the number of possible configurations of our problem scale badly. For this reason, knowing if we are considering a large set of snapshots -- large investment planning - or just a tiny subset of snapshots gives us clues about what region of the configuration space we should explore. There are two regions to be considered,
+The investment cost $c_{kl}$ is the cost of building the transmission line $x_{kl}$ and it is a constant -- we are not considering time-dependent costs. Analogously, the operational cost $c_{j}^{(\text{oc})}$ represents the annualised cost per MWh of the produced energy $g_{k}(h)$ at snapshot $h$. For simplicity, we set the operational cost to each carrier -- wind turbine, solar or run of river among others -- to a fixed value -- mean cost of that carrier -- so that we do not have to consider the variation of the cost as function of the node or the time.\\\\
+Notice, that the total cost depends on the investment cost and the operational cost. As stated before, the number of possible configurations of our problem scales badly. For this reason, knowing if we are considering a large set of snapshots -- large investment planning - or a small subset of snapshots gives us clues about what region of the configuration space we should explore. There are two regions to be considered,
 \begin{itemize}
-    \item \textbf{Large expansion planning:} Consider we are given a 10 year expansion planning problem, then if we produce the energy with the  cheapest carriers -- e.g. wind turbines -- we will reduce the operational cost drastically as compared with producing the energy with other carriers. Maybe the fact of producing the energy with the cheapest carriers implies we build the more expensive transmission lines, hence increasing the investment cost.
-    \item \textbf{Short expansion planning:} Consider a single-snapshot, then it is obvious that the minimum total cost function imply a minimum in the investment cost regardeless of the operational cost, since the operational cost are lower as compared with the investment cost and only have one snapshot to act.
+    \item \textbf{Large expansion planning:} consider we are given a 10 year expansion planning problem. Then, if we produce the energy with the  cheapest carriers -- e.g. wind turbines -- we will reduce the operational cost drastically as compared with producing the energy with other carriers. However, it is possible that the fact of producing the energy with the cheapest carriers implies the need of building the most expensive transmission lines, hence increasing the investment cost.
+    \item \textbf{Short expansion planning:} consider a single-snapshot.  Then, it is clear that the minimum total cost function implies a minimum in the investment cost regardeless of the operational costs, since the operational cost are lower as compared with the investment cost when there is only one snapshot to optimize over.
 \end{itemize}
-This trade-off between investment cost and operational cost is what determine the minimum value of the total cost function.\\\\
-To summarise, we receive as input a given energy demand for a set of nodes $i$ for a set of snapshots $t$, then we optimise the network so that we build the minimum amount of transmission lines -- minimizing in that way the investment cost -- so that the energy demand is satisfied for each snapshot. We are also taking into account the operational cost of each carrier so there is a trade-off between the investment cost of transmission lines and the operational cost of generators used to produce the energy to satisfy the demand.
+This trade-off between investment cost and operational cost is what determines the minimum value of the total cost function.\\\\
+To summarise, given energy demand for a set of nodes $N$ for a set of snapshots $H$, the goal is to optimise the network so as to build the minimum amount of transmission lines -- minimizing in that way the investment cost -- while satisfying the energy demand for each snapshot. We are also taking into account the operational cost of each carrier so there is a trade-off between the investment cost of transmission lines and the operational cost of generators used to produce the energy to satisfy the demand.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       SOLVING A SMALL PROBLEM WITH A REAL QUANTUM ANNEALER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Running QUBO problem on D-WAVE's annealer}
-In order to get the data, we can load known networks from IEEE such as \textbf{EJEMPLOS CITADOS?} or we can build our own data. We are considering a single snapshot of a three node fully connected network with non existing lines -- each node has a candidate to any other node of the network -- without the load shedding term.\\
-The investment cost of some candidate lines are not considered in public data of IEEE because usually the TEP considers adding line to the existing building lines. For this reason, we created the data of or TEP problem, shown in Table\,\ref{table:TEPNomenclature}, for a three node network.
+In order to get the data, we can load known networks from IEEE such as \textbf{EJEMPLOS CITADOS?} or we can build our own data. We are considering a single snapshot of a three node fully connected network with non-existing lines -- each node has a candidate to any other node of the network -- without the load shedding term.\\
+The investment costs of some candidate lines are not considered in public data of IEEE because usually the TEP considers adding lines to the existing building lines. For this reason, we used synthetic data for our TEP problem.
 %///////////////////////////////////////
 \begin{algorithm}
 \caption{Three Node Fully Connected Network - Single Demand}\label{alg:threenode}
@@ -137,24 +137,24 @@ The investment cost of some candidate lines are not considered in public data of
 %       BENDERS DECOMPOSITION for TEP [Large Problems]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benders Decomposition in TEP}
-In Ch.\,\ref{Chapter3} we shown three hybrid approaches that combine classical solver with quantum solvers. In this work we decided to explore the Benders' decomposition approach due to two main points. Firstly, the convergence properties of Benders' decomposition allows us to know how good a obtained solution is. Secondly, TEP problems has diagonal structure which means they are suitable for a Benders' decomposition approach.\\\\\
-In order to simplify the problem we are consider a single snapshot so that we can drop the $h$ index. As discussed in Ch.\,\ref{Chapter3}, we can formulate the problem by maximizing a dual function of by minimizing the primal problem with the dual as penalties. The Benders' decomposition algorithm that we propose consist in four steps,
+In Ch.\,\ref{Chapter3} we showed three hybrid approaches that combine classical and quantum solvers. In this work we decided to explore the Benders' decomposition approach due to two main points. Firstly, the convergence properties of Benders' decomposition allows us to know how good a solution is. Secondly, TEP problems have diagonal structure which means they are suitable for a Benders' decomposition approach.\\\\\
+In order to simplify the problem we are considering a single snapshot so that we can drop the $h$ index. As discussed in Ch.\,\ref{Chapter3}, we can formulate the problem by maximizing a dual function or by minimizing the primal problem with the dual as penalties. The Benders' decomposition algorithm that we propose consists of four steps:
 \begin{itemize}
     \item \textbf{Step 1} (\textit{Initialization of Benders’ decomposition})\textbf{:} We initialize the iteration counter $t$, the upper bound $\bar{z}^{0}$, the lower bound $\underline{z}^{0}$, the load shedding and operational cost $\alpha^{0}$ and the penalty term associated with the violation of power flow constraints of candidate lines $\Pi_{f_{kl}^{1}}$.
     \item \textbf{Step 2} (\textit{Master problem solved by a quantum annealer})\textbf{:} We maximize the lower bound $\underline{z}^{t}$ by taking the minimum value of 
     \begin{equation}
       \min \underline{z}^{t} \leq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right),  
     \end{equation}
-    where the RHS increase its value in each iteration. In other words, the RHS represent the Benders' cuts.
+    where the RHS increases its value in each iteration. In other words, the RHS represents the Benders' cuts.
     \item \textbf{Step 3} (\textit{Slave problem solved by a classical solver})\textbf{:} We minimize $\alpha^{t}$ which includes the load shedding cost and the operational cost. After minimizing $\alpha^{t}$ we minimize the upper bound
     \begin{equation}
         \bar{z}^{t} = \min \{\bar{z}^{t-1}, \sum_{kl \in C}c_{kl}x_{kl}^{t} + \alpha^{t}\}.
     \end{equation}
-    \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} If the difference between the upper and lower bound is less or equal a given threshold
+    \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} If the difference between the upper and lower bound is less or equal than a given threshold
     \begin{equation}
         \bar{z} - \underline{z} \leq \epsilon,
     \end{equation}
-    then the Benders' algorithms stop and outputs the value of $\{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f^{1}}\}$ as the (sub-)optimal solution. Otherwise, it goes to step 2 with the new candidate solution as input.
+    then the Benders' algorithm stops and outputs the value of $\{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f^{1}}\}$ as the (sub-)optimal solution. Otherwise, it goes to step 2 with the new candidate solution as input.
 \end{itemize}
 \begin{tcolorbox}[colback=white!5!white,colframe=black!75!black,title=Benders' decomposition algorithm]
     \begin{tcolorbox}[colback=black!5!white,colframe=black!75!black,title= \textbf{Step 1:} Initialization of Benders' decomposition]
@@ -170,7 +170,7 @@ In order to simplify the problem we are consider a single snapshot so that we ca
     \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title= \textbf{Step 2:} Master problem solved by a quantum annealer]
     \begin{mini!}[2]
 	{\mathbf{x}^{t}}{\underline{z}^{t}}{}{}{}
-	\addConstraint{\underline{z}}{\geq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right)}{}{}
+	\addConstraint{\underline{z}}{\leq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right)}{}{}
     \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C}.
     \end{mini!}
     \end{tcolorbox}
