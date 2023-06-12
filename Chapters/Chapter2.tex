@@ -280,10 +280,9 @@ Notice that slack variables have to be included in our problem which implies the
 % Two Heirs Problem
 %------------------------------------------------------------------
 \subsection{Example: Two Heirs Problem}
- As an example suppose we are given a 3-binary QUBO problem where each variable $x_{i} \in \{0,1\}$ represents an asset with an associated value $v_{i}$.
+ As an example suppose we are given a 3-binary QUBO problem, see Table\,\ref{tab:Assets},where each variable $x_{i} \in \{0,1\}$ represents an asset with an associated value $v_{i}$.
 \begin{table}[H]
 \centering
-\label{tab:Assets}
 \begin{tabular}{ |c || c| }
   \hline			
   \textbf{Index} & \textbf{Value}  \\
@@ -296,6 +295,7 @@ Notice that slack variables have to be included in our problem which implies the
         \hline	
 \end{tabular}
 \caption{Two heirs example given three assets.}
+\label{tab:Assets}
 \end{table}
 We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,1\}$ in the QUBO formulation and by $\{-1,1\}\equiv \{\uparrow, \downarrow\}$ in the Ising formulation, respectively -- so that the difference between the value each heir receives is minimum, which represents our cost function. Assume that $A$ is a subset of $S = \{s_{0},s_{1},s_{2}\}$ indicating which assets are given to Alice, $s=-1$, analogously  $B = S - A$ indicates the assets received by Bob, $s=1$, then
 \begin{align} 
