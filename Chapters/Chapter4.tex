@@ -11,25 +11,26 @@ We can control the number of variables of the problem according to
     \item \textbf{Adding targets}: in this chapter we minimize the cost function as function of the investment cost of transmission lines, operational cost of generators and the load shedding cost, which is going to be explained later. But, there are other targets such as the increment of renewable energy sources in a given region or the reduction of the carbon footprint that we are not taking into account.
 \end{itemize}
 The resolution of MILP associated to TEP scales badly using classical algorithms\,\cite{Oertel2014ComplexityEvaluation} and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, intermittent loads, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators. However,  since quantum computers are still not sufficiently mature, large TEP problems cannot be solved fully by a quantum annealer. For this reason, we require hybrid methods\,\cite{Dilwali2016,Binato2001,Huang2019,MacRae2016,Zhao2021HybridProgrammingb} to decompose large problems into a master problem, which can be solved by a quantum annealer, and a sub-problem for which cutting-edge classical algorithms are going to be applied.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Nomenclature}
-In this section we introduce the notation of the TEP problem. Let $N$ be the set of nodes of that network, $H$ the set of snapshots, $C$ the set of candidate transmission lines and $E$ the set of existing lines. Then $x_{kl}$, with $kl \in C$, represents the binary variable of the transmission line from node $k\in N$ to $l\in N$ -- it decides if that transmission line is built --, $d_{k}(h)$ represents the demand at node $k\in N$ in snapshot $h\in H$, $f_{kl}^{0}$  with $kl \in E$ represents the power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $\bar{f}_{kl}^{0}$  with $kl \in E$ represents the maximum power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $f_{kl}^{1}$  with $kl \in C$ represents the power flow being transmitted in candidate line from node $k\in N$ to $l\in N$, $\bar{f}_{kl}^{1}$  with $kl \in E$ represents the maximum power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $g_{k}$ represents the energy produced at node $k\in N$, $\bar{g}_{k}$ represents the maximum energy production at node $k\in N$ and $r_{k}$ represents the load shedding, which can be thought as an artificial generator with a very big operational cost. Lastly, $c_{kl}$ is the coefficient of investment cost of transmission line from node $k \in N$ to $l \in N$, $c_{k}^{\text{oc}}$ is the operational cost of generator $k \in N$ and $c_{k}$ is the load shedding cost associated with $r_{k}$.
+In this section we introduce the notation of the TEP problem. Let $N$ be the set of nodes of a given network, $H$ the set of snapshots, $C$ the set of candidate transmission lines and $E$ the set of existing lines. Then $x_{kl}$, with $kl \in C$, represents the binary variable of the transmission line from node $k\in N$ to $l\in N$ -- it decides if that transmission line is built $x_{kl} = 1$ or not $x_{kl} = 0$ --, $d_{k}(h)$ represents the demand at node $k\in N$ in snapshot $h\in H$, $f_{kl}^{0}$  with $kl \in E$ represents the power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $\bar{f}_{kl}^{0}$  with $kl \in E$ represents the maximum power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $f_{kl}^{1}$  with $kl \in C$ represents the power flow being transmitted in candidate line from node $k\in N$ to $l\in N$, $\bar{f}_{kl}^{1}$  with $kl \in E$ represents the maximum power flow being transmitted in existing line from node $k\in N$ to $l\in N$, $g_{k}$ represents the energy produced at node $k\in N$, $\bar{g}_{k}$ represents the maximum energy production at node $k\in N$ and $r_{k}$ represents the load shedding, which can be thought as an artificial generator with a very large operational cost. Lastly, $c_{kl}$ is the coefficient of investment cost of transmission line from node $k \in N$ to $l \in N$, $c_{k}^{\text{oc}}$ is the operational cost of generator $k \in N$ and $c_{k}$ is the load shedding cost associated with $r_{k}$.
 \begin{table}[H]
 \centering
-\begin{tabular}{|c||l|c|} 
+\begin{tabular}{|c|l|c|} 
  \hline	
  \textbf{Symbol} & \textbf{Description} & \textbf{Type} \\
  \hline	
- $N$ & Set of nodes of the network & Integer\\
+ $N$ & Set of nodes of the network & Set\\
   \hline	
-  $H$ & Set of snapshots & Integer\\
+  $H$ & Set of snapshots & Set\\
   \hline
- $C$ & Set of candidate transmission lines & Integer\\
+ $C$ & Set of candidate transmission lines & Set\\
     \hline	
- $C_{k}$ & Set of candidate transmission lines from all nodes to node $k$ & Integer\\
+ $C_{k}$ & Set of candidate transmission lines from all nodes to node $k$ & Set\\
   \hline	
- $E$ & Set of existing transmission lines & Integer\\
+ $E$ & Set of existing transmission lines & Set\\
    \hline	
- $E_{k}$ & Set of existing transmission lines from all nodes to node $k$ & Integer\\
+ $E_{k}$ & Set of existing transmission lines from all nodes to node $k$ & Set\\
   \hline	
  $x_{kl}$ & Transmission line from node $k$ to $l$ & Binary\\
     \hline	
@@ -78,11 +79,11 @@ k(i,j,N) = \begin{cases}
 \end{figure}
 Luckily, the \textit{dimod} python package from D-Wave allows us to work with two indices so that we do not need to use the previous function to reformulate the problem. 
 \subsection{Network Topology}
-TEP problems usually considers to build new lines in existing connections so that we not changing the network topology. One of the reasons to add lines in existing connections is because the legal permission are granted. However, in a future scenario with a high share of decentralized renewable energies, new connections have to be considered. Hence, we are going to able new connections by changing the topology. Moreover, we allow all lines to be connected to each node, i.e., we are considering fully connected networks.
+TEP problems usually considers the building of new lines in existing connections so that we do not change the network topology. One of the reasons for adding lines in existing connections is because the legal permissions are granted. However, in a future scenario with a high share of decentralized renewable energies, new connections have to be considered. Hence, we are going to enable new connections by changing the topology. Moreover, we allow all lines to be connected to each node, i.e., we are considering fully connected networks.
 \subsection{Formulation}
 We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\cite{Dilwali2016} as follows
 \begin{mini!}[2]
-	{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f}^{0},\mathbf{f}^{1}}{\underbrace{\sum_{kl\in C}c_{kl}x_{kl}}_{\text{Investment cost}} + \underbrace{\sum_{h\in H}\sum_{k}c_{k}^{(\text{oc})}g_{k}(h)}_{\text{Operational cost}} + \underbrace{\sum_{h\in H}\sum_{k}r_{k}(h)c_{k}}_{\text{Load shedding cost}}}{\label{eq: objective}}{}{}
+	{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f}^{0},\mathbf{f}^{1}}{\underbrace{\sum_{kl\in C}c_{kl}x_{kl}}_{\text{Investment cost}} + \underbrace{\sum_{h\in H}\sum_{k}c_{k}^{(\text{oc})}g_{k}(h)}_{\text{Operational cost}} + \underbrace{\sum_{h\in H}\sum_{k}r_{k}(h)c_{k}}_{\text{Load shedding cost}}}{}{}{\label{eq: objective}}
 	\addConstraint{d_{k}(h)-\sum_{l\in E_{k}}f_{kl}^{0}(h) + \sum_{l\in C_{k}}f_{kl}^{1}(h) + g_{k}(h) + r_{k}(h)}{=0,}{\forall k\in N ,h\in H}{\label{const: PowerBalance}}
     \addConstraint{\abs{f_{kl}^{0}(h)} - \bar{f_{kl}^{0}}(h)}{\leq 0,\,}{\forall\, kl \in E,h\in H }{\label{const: ExistingLimits}}
      \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0,\,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
@@ -93,36 +94,36 @@ We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\
 \end{mini!}
 where the variables are described in Table\,\ref{table:TEPNomenclature}. We next briefly describe each equation:
 \begin{itemize}
-    \item \textbf{Objective function Eq.\,\ref{eq: objective}}: it is the sum of investment cost of transmission lines, operational cost of generators and load shedding cost.
-    \item \textbf{Power balance Eq.\,\eqref{const: PowerBalance}}: it represents the power balance constraints, i.e., if the demand $d_{k}(h)$ at node $k$ and snapshot $h$ is fulfilled by the generator $g_{k}$ at node $k$ and the power flow incoming from other nodes $f_{kl}^{0}(h)$ and $f_{kl}^{1}(h)$. The term $r_{k}$ is the load shedding. It can be thought as an artificial generator whose operational cost is very big. It represents the fine for not fulfilling the demand in a node and it guarantees that the problem is feasible. To ensure that mathematically the demand is always fulfilled one can consider a load shedding term that is zero when demand at node $k$ is satisfied by the elements of the network and $r_{k} \neq 0$ when it is not fulfilled. If $r_{k} \neq 0$ the demand is not fulfilled, i.e., the electricity markets cannot offer the required energy to a given node and then pay a fine, which is an extra cost in the objective function. If the load shedding cost is high enough the demand is going to be always fulfilled since the load shedding term is the dominant term we want to minimize.
+    \item \textbf{Objective function Eq.\,\eqref{eq: objective}}: it is the sum of investment cost of transmission lines, operational cost of generators and load shedding cost.
+    \item \textbf{Power balance Eq.\,\eqref{const: PowerBalance}}: it represents the power balance constraints, i.e., if the demand $d_{k}(h)$ at node $k$ and snapshot $h$ is fulfilled by the generator $g_{k}$ at node $k$ and the power flow incoming from other nodes $f_{kl}^{0}(h)$ and $f_{kl}^{1}(h)$. The term $r_{k}$ is the load shedding. It can be thought of as an artificial generator whose operational cost is very large. It represents the fine for not fulfilling the demand in a node and it guarantees that the problem is feasible. To ensure that mathematically the demand is always fulfilled one can consider a load shedding term that is zero when demand at node $k$ is satisfied by the elements of the network and $r_{k} \neq 0$ when it is not fulfilled. If $r_{k} \neq 0$ the demand is not fulfilled, i.e., the electricity markets cannot offer the required energy to a given node and then pay a fine, which is an extra cost in the objective function. If the load shedding cost is high enough the demand is going to be always fulfilled since the load shedding term is the dominant term we want to minimize.
     \item \textbf{Existing circuit flow limits Eq.\,\eqref{const: ExistingLimits}}: the power flow of an existing transmission $f_{kl}^{0}$ line cannot exceed its maximum capacity, $\bar{f}_{kl}^{1}$.
     \item \textbf{Candidate circuit flow limits Eq.\,\eqref{const: CandidateLimits}}: the power flow of a candidate transmission line $f_{kl}^{1}$ cannot exceed its maximum capacity, $\bar{f}_{kl}^{1}$.
     \item \textbf{Node generation limits Eq.\,\eqref{const: BusLimits}}: the energy produced in a node $k$, $g_{k}$, cannot exceed its maximum energy production, $\bar{g}_{k}$.
     \item \textbf{Node loads limits Eq.\,\eqref{const: BusLoads}}: the load shedding at node $k$, $r_{k}$, cannot exceed the load $d_{k}$ of that node. 
 \end{itemize}
 \subsection{Remarks}
-The previous model is called a transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature\,\cite{Gomes2019}. The reason for usually not including the operational cost is that other authors consider are considering a single snapshot so that the dominant term is the investment cost. However, if one wants to consider a large number of snapshots, then the operational cost is the dominant term. On the other hand, if we minimize the investment cost, then there is a change of building transmission lines that connect the most expensive generators to the nodes. In summary, extremal solutions lead to a high value of the cost function in one of the following ways:
+The previous model is called a transport model since we are not considering Kirchoff's equations. Notice that we include the operational cost which is usually not included in the literature\,\cite{Gomes2019}. The reason for usually not including the operational cost is that other authors consider a single snapshot so that the dominant term is the investment cost. However, if one wants to consider a large number of snapshots, then the operational cost is the dominant term. On the other hand, if we minimize the investment cost, then there is a change of building transmission lines that connect the most expensive generators to the nodes. In summary, extremal solutions lead to a high value of the cost function in one of the following ways:
 \begin{itemize}
     \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $d(h)$.
     \item \textbf{Overinvestment} leads to a high value of the total cost function even though it satisfies the demand. Intuitively, we are creating more lines $\{x_{kl}\}$ than we need. Usually, there is an upper bound due to the capital budget.
 \end{itemize}
 The TEP combinatorial optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimizes the investment cost and operational cost while fulfilling at the same time the constraints of the problem.\\\\
 The investment cost $c_{kl}$ is the cost of building the transmission line $x_{kl}$ and it is a constant -- we are not considering time-dependent costs. Analogously, the operational cost $c_{j}^{(\text{oc})}$ represents the annualised cost per MWh of the produced energy $g_{k}(h)$ at snapshot $h$. For simplicity, we set the operational cost to each carrier -- wind turbine, solar or run of river among others -- to a fixed value -- mean cost of that carrier -- so that we do not have to consider the variation of the cost as function of the node or the time.\\\\
-Notice, that when the solution is feasible, i.e., $r_{k} = 0\ quad \forall k\in N$,then the total cost depends on the investment cost and the operational cost. As stated before, the number of possible configurations of our problem scales badly. For this reason, knowing if we are considering a large set of snapshots -- large investment planning - or a small subset of snapshots gives us clues about what region of the configuration space we should explore. There are two regions to be considered:
+Notice, that when the solution is feasible, i.e., $r_k$ for all $k\in N$, then the total cost depends on the investment cost and the operational cost. As stated before, the number of possible configurations of our problem scales badly. For this reason, knowing if we are considering a large set of snapshots -- large investment planning - or a small subset of snapshots gives us clues about what region of the configuration space we should explore. There are two regions to be considered:
 \begin{itemize}
     \item \textbf{Large expansion planning:} for instance if we consider a 10 year expansion planning problem and we produce the energy with the cheapest carriers -- e.g. wind turbines -- we will reduce the operational cost drastically as compared with producing the energy with other carriers. However, it is possible that the fact of producing the energy with the cheapest carriers implies the need of building the most expensive transmission lines, hence increasing the investment cost.
-    \item \textbf{Short expansion planning:} for instance if we consider a single-snapshot.  Then, it is clear that the minimum total cost function implies a minimum in the investment cost regardless of the operational costs, since the operational cost are lower as compared with the investment cost when there is only one snapshot to optimize over.
+    \item \textbf{Short expansion planning:} for instance if we consider a single-snapshot.  Then, it is clear that the minimum total cost function implies a minimum in the investment cost regardless of the operational costs, since the operational costs are lower as compared with the investment cost when there is only one snapshot to optimize over.
 \end{itemize}
 This trade-off between investment cost and operational cost is what determines the minimum value of the total cost function.\\\\
-To summarise, given energy demand for a set of nodes $N$ for a set of snapshots $H$, the goal is to optimise the network so as to build the minimum amount of transmission lines -- minimizing in that way the investment cost -- while satisfying the energy demand for each snapshot. We are also taking into account the operational cost of each carrier so there is a trade-off between the investment cost of transmission lines and the operational cost of generators used to produce the energy to satisfy the demand.
+To summarise, given the energy demand for a set of nodes $N$ for a set of snapshots $H$, the goal is to optimise the network so as to build the minimum amount of transmission lines -- minimizing in that way the investment cost -- while satisfying the energy demand for each snapshot. We are also taking into account the operational cost of each carrier so there is a trade-off between the investment cost of transmission lines and the operational cost of generators used to produce the energy to satisfy the demand.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       SOLVING A SMALL PROBLEM WITH A REAL QUANTUM ANNEALER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Small Network on D-Wave's annealer}
- We are considering a single snapshot of a three node fully connected network with non-existing lines with a single demand at node $2$ and without the load shedding term. Each node has a single generator $g_{k}$ of with a nominal power -- maximum capacity -- of $10$ energy units.
+ We are considering a single snapshot of a three-node fully-connected network with nonexistent lines with a single demand at node $2$ and without the load shedding term. Each node has a single generator $g_{k}$ with a nominal power -- maximum capacity -- of $10$ energy units.
  \begin{table}[H]
 \centering
-\begin{tabular}{ |c ||c| c| }
+\begin{tabular}{ |c |c| c| }
   \hline			
   \textbf{Symbol} & \textbf{Description} & \textbf{Value}  \\
     \hline		
@@ -142,12 +143,12 @@ We use synthetic data for our TEP problem described in Table\,\ref{tab:SmallNetw
 The objective function for the three node fully connected network described above is
 \begin{mini!}[2]
 	{\mathbf{x}, \mathbf{g}}{\underbrace{\mathbf{C}^{\intercal}\mathbf{x}}_{\text{Investment Cost}} + \underbrace{\mathbf{C}_{\text{oc}}^{\intercal}\mathbf{g}}_{\text{Operational Cost}}}{}{}{}
- 	\addConstraint{g_{k}}{\leq \bar{g}_{k} }{}{\forall\, k \in N}
-	\addConstraint{d_{k}}{= g_{k}  + \underbrace{\sum_{l\neq k, l\in N}g_{k}x_{kl}}}_{\text{Quadratic Constraint}}{}{\forall\, k \in N}
+ 	\addConstraint{g_{k}}{\leq \bar{g}_{k} }{\forall\, k \in N}{}
+	\addConstraint{d_{k}}{= g_{k}  + \underbrace{\sum_{l\neq k, l\in N}g_{k}x_{kl}}_{\text{Quadratic Constraint}}}{\forall\, k \in N}{}
     \addConstraint{\mathbf{d}, \mathbf{g}}{\geq 0\,}{}{}
     \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C}.
     \end{mini!}
-Notice that we are not considering the power flow limits $f_{kl}^{1}$ of candidate lines. Any candidate line can transmit any amount of energy. In other words, we wrote the problem in such a way that none power flow limits is going to be violated, see Figure\,\ref{fig: Green_inital}.
+Notice that we are not considering the power flow limits $f_{kl}^{1}$ of candidate lines. Any candidate line can transmit any amount of energy. In other words, we wrote the problem in such a way that none of the power flow limits is going to be violated, see Figure\,\ref{fig: Green_inital}.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.4\textwidth]{Figures/Green_Initial.pdf}
@@ -155,7 +156,7 @@ Notice that we are not considering the power flow limits $f_{kl}^{1}$ of candida
   \caption{Graphic formulation of three node problem.}
   \label{fig: Green_inital}
 \end{figure}
-The demand at node $2$ is $12$ energy units, so it cannot be fulfilled by its own generator and require energy from at least one of the neighboring nodes which means we need to build at least one transmission line connected to node $2$.
+The demand at node $2$ is $12$ energy units, so it cannot be fulfilled by its own generator and requires energy from at least one of the neighboring nodes which means we need to build at least one transmission line connected to node $2$. The results are going to be presented in next chapter.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       BENDERS DECOMPOSITION for TEP [Large Problems]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,8 +174,8 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \begin{mini!}[2]
 	{\mathbf{g},\mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\alpha^{t} \equiv \underbrace{\sum_{k}c_{k}^{(\text{oc})}g_{k}}_{\text{Operational cost}} + \underbrace{\sum_{k}r_{k}c_{k}}_{\text{Load shedding cost}}}{}{}{}
 	\addConstraint{d_{k}-\sum_{l\in E_{k}}f_{kl}^{0} + \sum_{l\in C_{k}}f_{kl}^{1} + g_{k} + r_{k}}{=0,}{\forall k\in N }{}
-    \addConstraint{\abs{f_{kl}^{0}} - \bar{f_{kl}^{0}}}{\leq 0,\,}{\forall\, kl \in E}{}
-     \addConstraint{\abs{f_{kl}^{1}} - \bar{f_{kl}^{1}x^{t}_{kl}}}{\leq 0,\,}{\forall\, kl \in C}{}
+    \addConstraint{\abs{f_{kl}^{0}} - \bar{f}_{kl}^{0}}{\leq 0,\,}{\forall\, kl \in E}{}
+     \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}.
     \end{mini!}
@@ -214,8 +215,8 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \begin{mini!}[2]
 	{\mathbf{g},\mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\alpha^{t} \equiv \underbrace{\sum_{k}c_{k}^{(\text{oc})}g_{k}}_{\text{Operational cost}} + \underbrace{\sum_{k}r_{k}c_{k}}_{\text{Load shedding cost}}}{}{}{}
 	\addConstraint{d_{k}-\sum_{l\in E_{k}}f_{kl}^{0} + \sum_{l\in C_{k}}f_{kl}^{1} + g_{k} + r_{k}}{=0,}{\forall k\in N }{}
-    \addConstraint{\abs{f_{kl}^{0}} - \bar{f_{kl}^{0}}}{\leq 0,\,}{\forall\, kl \in E}{}
-     \addConstraint{\abs{f_{kl}^{1}} - \bar{f_{kl}^{1}x^{t}_{kl}}}{\leq 0,\,}{\forall\, kl \in C}{}
+    \addConstraint{\abs{f_{kl}^{0}} - \bar{f}_{kl}^{0}}{\leq 0,\,}{\forall\, kl \in E}{}
+     \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}.
     \end{mini!}
