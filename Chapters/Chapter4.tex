@@ -89,7 +89,7 @@ We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\
      \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0,\,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
      \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0,\,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
     \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0,\,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
-    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{}
     \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C,}
 \end{mini!}
 where the variables are described in Table\,\ref{table:TEPNomenclature}. We next briefly describe each equation:
@@ -107,19 +107,17 @@ The previous model is called a transport model since we are not considering Kirc
     \item \textbf{Underinvestment} leads to a high value of the total cost function because the system is not able to fulfill the demand $d(h)$.
     \item \textbf{Overinvestment} leads to a high value of the total cost function even though it satisfies the demand. Intuitively, we are creating more lines $\{x_{kl}\}$ than we need. Usually, there is an upper bound due to the capital budget.
 \end{itemize}
-The TEP combinatorial optimization problem is a trade-off between operational cost and investment cost where the optimal solution minimizes the investment cost and operational cost while fulfilling at the same time the constraints of the problem.\\\\
 The investment cost $c_{kl}$ is the cost of building the transmission line $x_{kl}$ and it is a constant -- we are not considering time-dependent costs. Analogously, the operational cost $c_{j}^{(\text{oc})}$ represents the annualised cost per MWh of the produced energy $g_{k}(h)$ at snapshot $h$. For simplicity, we set the operational cost to each carrier -- wind turbine, solar or run of river among others -- to a fixed value -- mean cost of that carrier -- so that we do not have to consider the variation of the cost as function of the node or the time.\\\\
 Notice, that when the solution is feasible, i.e., $r_k$ for all $k\in N$, then the total cost depends on the investment cost and the operational cost. As stated before, the number of possible configurations of our problem scales badly. For this reason, knowing if we are considering a large set of snapshots -- large investment planning - or a small subset of snapshots gives us clues about what region of the configuration space we should explore. There are two regions to be considered:
 \begin{itemize}
     \item \textbf{Large expansion planning:} for instance if we consider a 10 year expansion planning problem and we produce the energy with the cheapest carriers -- e.g. wind turbines -- we will reduce the operational cost drastically as compared with producing the energy with other carriers. However, it is possible that the fact of producing the energy with the cheapest carriers implies the need of building the most expensive transmission lines, hence increasing the investment cost.
     \item \textbf{Short expansion planning:} for instance if we consider a single-snapshot.  Then, it is clear that the minimum total cost function implies a minimum in the investment cost regardless of the operational costs, since the operational costs are lower as compared with the investment cost when there is only one snapshot to optimize over.
 \end{itemize}
-This trade-off between investment cost and operational cost is what determines the minimum value of the total cost function.\\\\
 To summarise, given the energy demand for a set of nodes $N$ for a set of snapshots $H$, the goal is to optimise the network so as to build the minimum amount of transmission lines -- minimizing in that way the investment cost -- while satisfying the energy demand for each snapshot. We are also taking into account the operational cost of each carrier so there is a trade-off between the investment cost of transmission lines and the operational cost of generators used to produce the energy to satisfy the demand.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       SOLVING A SMALL PROBLEM WITH A REAL QUANTUM ANNEALER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Small Network on D-Wave's annealer}
+\section{Small Network solve by D-Wave's simulators}
  We are considering a single snapshot of a three-node fully-connected network with nonexistent lines with a single demand at node $2$ and without the load shedding term. Each node has a single generator $g_{k}$ with a nominal power -- maximum capacity -- of $10$ energy units.
  \begin{table}[H]
 \centering
@@ -165,11 +163,12 @@ In Ch.\,\ref{Chapter3} we showed three hybrid approaches that combine classical 
 In order to simplify the problem we consider a single snapshot so that we can drop the $h$ index. As discussed in Ch.\,\ref{Chapter3}, we can formulate the problem by maximizing a dual function or by minimizing the primal problem with the dual as penalties. The Benders' decomposition algorithm that we propose consists of four steps:
 \begin{itemize}
     \item \textbf{Step 1} (\textit{Initialization of Benders’ decomposition})\textbf{:} we initialize the iteration counter $t$, the upper bound $\bar{z}^{0}$, the lower bound $\underline{z}^{0}$, the load shedding and operational cost $\alpha^{0}$ and the penalty term associated with the violation of power flow constraints of candidate lines $\Pi_{f_{kl}^{1}}$.
-    \item \textbf{Step 2} (\textit{Master problem solved by a quantum annealer})\textbf{:} we maximize the lower bound $\underline{z}^{t}$ by taking the minimum value of 
-    \begin{equation}
-      \min \underline{z}^{t} \leq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \underbrace{\sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right)}_{\text{Benders' cuts}},  
-    \end{equation}
-    where the RHS increases its value in each iteration. In other words, the RHS represents the Benders' cuts.
+    \item \textbf{Step 2} (\textit{Master problem solved by a quantum annealer})\textbf{:} we increase the lower bound $\underline{z}^{t}$ by taking the minimum value of 
+        \begin{mini!}[2]
+	   {\mathbf{x}}{\underline{z}^{t}}{}{}{}
+	   \addConstraint{\underline{z}^{t} \geq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \underbrace{\sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)}_{\text{Benders' cuts}}}{=0,}{\quad \forall \tau = 1,...,t-1.}{}
+        \end{mini!}
+    In that equation $\alpha^{t-1}$ represent the summation of the objective function of the slave problem(s) and $\Pi_{f_{kl}^{1}}^{\tau}$ represent the Benders' cut of iteration $\tau$ where $\tau < t$, for the linking constraint of Eq.\,\eqref{const: CandidateLimits}. Notice that we have a Benders' cut for every candidate circuit flow constraint $f_{kl}^{1}$. In every iteration of Benders' algorithm we are adding cuts, in other words we are restricting the region of feasible solutions.
     \item \textbf{Step 3} (\textit{Slave problem solved by a classical solver})\textbf{:} we minimize $\alpha^{t}$ which includes the load shedding cost and the operational cost.
     \begin{mini!}[2]
 	{\mathbf{g},\mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\alpha^{t} \equiv \underbrace{\sum_{k}c_{k}^{(\text{oc})}g_{k}}_{\text{Operational cost}} + \underbrace{\sum_{k}r_{k}c_{k}}_{\text{Load shedding cost}}}{}{}{}
@@ -177,9 +176,10 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \addConstraint{\abs{f_{kl}^{0}} - \bar{f}_{kl}^{0}}{\leq 0,\,}{\forall\, kl \in E}{}
      \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
-    \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}.
+    \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}
+        \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}.
     \end{mini!}
-    \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} after minimizing $\alpha^{t}$ we minimize the upper bound
+    \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} after minimizing $\alpha^{t}$ we reduce the upper bound
     \begin{equation}
         \bar{z}^{t} = \min \{\bar{z}^{t-1}, \sum_{kl \in C}c_{kl}x_{kl}^{t} + \alpha^{t}\}.
     \end{equation}
@@ -189,7 +189,6 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \end{equation}
     then the Benders' algorithm stops and outputs the value of $\{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f^{1}}\}$ as the (sub-)optimal solution. Otherwise, it goes to step 2 with the new candidate solution as input.
 \end{itemize}
-
 \begin{figure}
     \centering
     \begin{tcolorbox}[colback=white!5!white,colframe=black!75!black,title=Benders' decomposition algorithm]
@@ -206,19 +205,20 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title= \textbf{Step 2:} Master problem solved by a quantum annealer]
     \begin{mini!}[2]
 	{\mathbf{x}^{t}}{\underline{z}^{t}}{}{}{}
-	\addConstraint{\underline{z}}{\leq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{t-1}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{t-1}\right)}{}{}
-    \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C}.
+	\addConstraint{\underline{z}^{t}}{\geq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)\quad}{\forall\, \tau =1,...,t-1}{}
+    \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C}{}.
     \end{mini!}
     \end{tcolorbox}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=\textbf{Step 3:} Slave problem solved by a classical solver]
     \begin{mini!}[2]
 	{\mathbf{g},\mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\alpha^{t} \equiv \underbrace{\sum_{k}c_{k}^{(\text{oc})}g_{k}}_{\text{Operational cost}} + \underbrace{\sum_{k}r_{k}c_{k}}_{\text{Load shedding cost}}}{}{}{}
-	\addConstraint{d_{k}-\sum_{l\in E_{k}}f_{kl}^{0} + \sum_{l\in C_{k}}f_{kl}^{1} + g_{k} + r_{k}}{=0,}{\forall k\in N }{}
+	\addConstraint{d_{k}-\sum_{l\in E_{k}}f_{kl}^{0} + \sum_{l\in C_{k}}f_{kl}^{1} + g_{k} + r_{k}}{=0,\quad}{\forall k\in N }{}
     \addConstraint{\abs{f_{kl}^{0}} - \bar{f}_{kl}^{0}}{\leq 0,\,}{\forall\, kl \in E}{}
      \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}.
+        \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{}
     \end{mini!}
     \end{tcolorbox}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -228,8 +228,8 @@ für Luft- und Raumfahrt}} % Your department's name and URL, this is used in the
 
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-The \textit{transmission expansion planning} problem (TEP) can be formulated as a \textit{mixed-integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system. It decides how many transmission lines to build in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. The TEP scales badly using classical algorithms and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators.
-Quantum annealers are single-purpose quantum computers specialized in solving combinatorial optimization problems. Because of the maturity of quantum computers large problems cannot be tackled purely with a quantum computer. Due to this fact, we show how to formulate TEP problems in QUBO/Ising format and we solve a small TEP problem fully with a quantum annealer. Moreover, we propose a decomposition protocol for the TEP problem, Benders' decomposition algorithm, so that we could use a hybrid quantum-classical approach to tackle bigger problems by addressing the binary master problem to a quantum annealer and a set of slave sub-problems to classical solvers. This would allow us to take advantage of cutting-edge classical algorithms to solve the linear part along with quantum annealers to get, hopefully, a speed-up from it.
+The \textit{transmission expansion planning} problem (TEP) can be formulated as a \textit{mixed-integer linear programming} (MILP) problem that aims at finding the optimal way to expand the capacity of an energy system. The solution provides the optimal layout of transmission lines that are to be built in order to satisfy the energy demand on a distributed energy system with a high share of renewable energy sources. The TEP scales badly using classical algorithms and, at the same time, energy system models are getting larger and more complex due to the integration of decentralized weather-dependent renewable energy sources, sector coupling and the increase of storage components. Currently, the problem is often linearized or the scope and granularity of the model are reduced using clustering algorithms. For this reason, any computational time reduction will have substantial implications in closing the granularity gap between what the current models can solve and the desired resolution needed by energy system operators.
+Quantum annealers are single-purpose quantum computers specialized in solving combinatorial optimization problems. Since quantum computers are still not sufficiently mature, large problems cannot be tackled purely with a quantum computer.  We propose a decomposition protocol for the TEP problem which is similar in spirit to Benders' decomposition algorithm, which allows us to use a hybrid quantum-classical approach to tackle bigger problems by providing the binary master problem to a quantum annealer and a set of slave sub-problems to classical solvers. Therefore, our method can take advantage of cutting-edge classical algorithms and current quantum annelers. The ultimate goal is to find solutions that are closer to the optimum while achieving a speed up.
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
@@ -240,7 +240,7 @@ Quantum annealers are single-purpose quantum computers specialized in solving co
 \addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
 I have no words to express my gratitude to my supervisor Álvaro Díaz Fernández not only for his lecture notes, corrections and feedback on the thesis but also for his academic advices. His expertise and attention to the details have played a crucial role in the success of my thesis. \\\\
 Also, I am grateful for the working environment and the support that the German Aerospace Center (DLR) has offered to me for the preparation of this thesis at the Institute of Networked Energy Systems. In particular, I am deeply thankful to Oriol Raventós Morera, for introducing me to the research world and for their insightful comments and suggestions.\\\\
-Lastly, I would like to thanks my family. For their support in every decision I made and for their unconditional love.
+Last, I would like to thanks my family. For their support in every decision I made and for their unconditional love.
 \end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
@@ -261,6 +261,7 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 \begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
 \textbf{AQC} & \textbf{A}diabatic \textbf{Q}uantum \textbf{C}omputing \\
 \textbf{BD} &  \textbf{B}ender \textbf{D}ecomposition\\
+\textbf{CPU} &  \textbf{C}entral \textbf{P}rocessing \textbf{U}nit\\
 \textbf{DDP} & \textbf{D}ual \textbf{D}ynamic \textbf{P}rogramming\\
 \textbf{HQC} & \textbf{H}ybrid \textbf{Q}uantum-\textbf{C}lassical\\
 \textbf{HPC} & \textbf{H}igh \textbf{P}erformance \textbf{C}omputing\\
@@ -309,7 +310,7 @@ Lastly, I would like to thanks my family. For their support in every decision I 
 %	DEDICATION
 %----------------------------------------------------------------------------------------
 
-\dedicatory{Dedico esta Tesis de Máster a mis padres, cuyo esfuerzo ha permitido que estudiase en la universidad y cuyos consejos me han guiado, inspirado y motivado en el camino.} 
+\dedicatory{Dedico esta Tesis de Máster a mis padres, cuyo esfuerzo ha permitido que estudiase en la universidad y cuyo ejemplo me ha guiado, inspirado y motivado en el camino.} 
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS

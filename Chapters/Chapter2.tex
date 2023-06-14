@@ -22,16 +22,16 @@ We need to construct an initial Hamiltonian $\mathcal{H}(t=0) = \mathcal{H}_{i}$
 The adiabatic theorem guarantees that if we start with an initial Hamiltonian $\mathcal{H}_{i}$ in a given eigenspace and the evolution is carried out sufficiently slowly -- in further sections we demonstrate what slowly means in detail -- then we end up in the equivalent eigenspace of the final Hamiltonian $\mathcal{H}_{f}$. \\\\
 The adiabatic protocol can be summarized as follows:
 \begin{itemize}
-    \item \textbf{Step 1 (Mapping):} Map the problem into a Hamiltonian $\mathcal{H}_{f}$. Typically, the problem is encoded in the ground state.
-    \item \textbf{Step 2 (Initialise $\mathcal{H}_{i}$):} Initialise the system in the ground state of a Hamiltonian $\mathcal{H}_{i}$, easy to compute and to experimentally prepare. For instance, the ground state of $\mathcal{H} = - \sum_{i}^{n}\hat{\sigma}_{i}^{x}$ is the eigenvector $\ket{+}^{\otimes n}$.
-    \item \textbf{Step 3 (Adiabatic Theorem):} Slowly evolve the system from $H_{i}$ to $H_{f}$. The adiabatic theorem guarantees that, under certain conditions that will be explained later, the system will end up in the ground state of $H_{f}$.
-    \item \textbf{Step 4 (Measure):} Measure the eigenstate of $H_{f}$. The result encodes a solution to our problem.
+    \item \textbf{Step 1 (Mapping):} map the problem into a Hamiltonian $\mathcal{H}_{f}$. Typically, the problem is encoded in the ground state.
+    \item \textbf{Step 2 (Initialise $\mathcal{H}_{i}$):} initialise the system in the ground state of a Hamiltonian $\mathcal{H}_{i}$, easy to compute and to experimentally prepare. For instance, the ground state of $\mathcal{H} = - \sum_{i}^{n}\hat{\sigma}_{i}^{x}$ is the eigenvector $\ket{+}^{\otimes n}$.
+    \item \textbf{Step 3 (Adiabatic Theorem):} slowly evolve the system from $H_{i}$ to $H_{f}$. The adiabatic theorem guarantees that, under certain conditions that will be explained later, the system will end up in the ground state of $H_{f}$.
+    \item \textbf{Step 4 (Measure):} measure the eigenstate of $H_{f}$. The result encodes a solution to our problem.
 \end{itemize}
 Notice that we wrote in the last step that the result of the measurement provides "a solution" not "the solution". This is because there are two possibilities for a finite-dimensional Hamiltonian:
 \begin{itemize}
-    \item \textbf{Non-degenerate Hamiltonian:} We start with an initial Hamiltonian $\mathcal{H}_{i}$ in its ground eigenstate $\ket{g(t=0)}$ and end up in the equivalent eigenstate -- ground state -- of the final Hamiltonian $\mathcal{H}_{f}$ where the eigenvalue is $E_{g}(t=T)$ and the eigenvector is\\
+    \item \textbf{Non-degenerate Hamiltonian:} we start with an initial Hamiltonian $\mathcal{H}_{i}$ in its ground eigenstate $\ket{g(t=0)}$ and end up in the equivalent eigenstate -- ground state -- of the final Hamiltonian $\mathcal{H}_{f}$ where the eigenvalue is $E_{g}(t=T)$ and the eigenvector is\\
     $\ket{g(t=T)}$.
-    \item \textbf{Degenerate Hamiltonian:} We start with an initial Hamiltonian $\mathcal{H}_{i}$ in its ground eigen-\\
+    \item \textbf{Degenerate Hamiltonian:} we start with an initial Hamiltonian $\mathcal{H}_{i}$ in its ground eigen-\\
     space spanned by $\{\ket{g^{i}(t=0)}\}_{i \in \left[1,d\right]}$, where $d$ is the degeneracy of the ground state, and end up in the equivalent eigenspace of the final Hamiltonian $\mathcal{H}_{f}$ with eigenvalue $E_{g}(t=T)$.
 \end{itemize}
 Intuitively, one can think that a problem can have multiple configurations that lead to the same minimum eigenvalue.
@@ -167,7 +167,7 @@ is the Berry's phase.
 In previous sections, we stated that under a sufficiently slowly Hamiltonian evolution the adiabatic theorem is satisfied. In this section, we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution\,\cite{Sarandy2005AdiabaticSystems}. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$.\\\\
 We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = \frac{t}{T}$ and Berry's phase.
 \begin{equation}
-    e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}
+    e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}.
 \end{equation}
 Notice we have added two Berry's phases terms with opposite sign so they cancel out. Integrating the last equation and re-arranging terms leads to
 \begin{equation}
@@ -210,7 +210,7 @@ Therefore, we can simplify Eq.\,\eqref{eq:Fnm}
  \end{equation}
  where
  \begin{align}
-     &F = \max_{0 \leq s \leq 1} \left|c_{n}(0)\braket{m(s)|\frac{d\mathcal{H}(s)}{ds}| n(s)}\right| \\
+     &F = \max_{0 \leq s \leq 1} \left|c_{n}(0)\braket{m(s)|\frac{d\mathcal{H}(s)}{ds}| n(s)}\right|, \\
      &g = \min_{0 \leq s \leq 1} |g_{nm}(s)|.
  \end{align}
 %-------------------------------------------------------------------------------------
@@ -257,9 +257,13 @@ When writing a given combinatorial problem into its QUBO formulation the constra
  \textbf{Constraint} & \textbf{QUBO penalty} \\
  \hline
  $x_{1}=x_{2}$ & $P\left(x_{1} + x_{2} -2x_{1}x_{2}\right)$  \\
+ \hline
  $x_{1}\leq x_{2}$ &  $P\left(x_{1} -x_{1}x_{2}\right)$   \\
+ \hline
  $x_{1} + x_{2} = 1$ & $P\left(1-x_{1}-x_{2}+2x_{1}x_{2}\right)$ \\
+ \hline
  $x_{1} + x_{2} \leq 1$    & $P\left(x_{1}x_{2}\right)$ \\
+ \hline
 $x_{1} + x_{2} \geq 1$ &   $P\left(1-x_{1}-x_{2}+x_{1}x_{2}\right)$ \\
  \hline
 \end{tabular}
@@ -324,7 +328,7 @@ If the evolution is carried out under the adiabatic conditions,
 \end{equation}
 then we end up in $\mathcal{H}_{f}$ with one of the following solutions
 \begin{align}
-    \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{\downarrow\uparrow\downarrow} \\
+    \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{\downarrow\uparrow\downarrow}, \\
     \mathcal{H}_{f}\ket{g(s=1)} = E_{g}(s=1)\ket{\uparrow\downarrow\uparrow}.
 \end{align}
 \begin{figure}[H]

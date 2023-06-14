@@ -2,7 +2,7 @@
 
 \chapter{Hardware} % Main appendix title
 \label{AppendixC} % For referencing this appendix elsewhere, use \ref{AppendixB}
-In classical computing the CPU is the central processing unit. The fundamental components of a CPU are the transistors. According to Moore's law, the number of transistors integrated in a micro-controller is doubled every two years. Equivalently, the size of transistor is getting smaller every two year. However, we are approaching a size where quantum effects are starting to appear. For this reason, a quantum processor, aka, QPU, is required. There are different ways of implementing a qubit physically. We summarise some of them in the next table.
+In classical computing the \textit{central processing unit} (CPU). The key components of a CPU are called transistors. According to Moore's law, the number of transistors integrated in a micro-controller is doubled every two years. Equivalently, the size of transistor is getting smaller every two year. However, we are approaching to a size where quantum effects are starting to appear and have to be taken into account. For this reason, a \textit{quantum processor unit} (QPU) is required. There are different ways of implementing a qubit physically. We summarise some of them in the next table.
 \begin{table}[H]
 \centering
 \begin{tabular}{ |c|c|c|c|c|  }
@@ -109,36 +109,32 @@ J = \dot{\rho}_{1} = \frac{2K}{\hbar}\sqrt{\rho_{1}\rho_{2}}\sin{\phi} \equiv J_
 \end{equation}
 knowing that $I_{c} = J_{c}S$ -- where $S$ is the section of the superconductors -- and assuming $\rho_{1} = \rho_{2} =\rho_{0}$ -- the electronic density of the superconductors -- yields to
 \begin{equation}
-\tag{First Joshepshon equation}
 I =\frac{2K\rho_{0}S}{\hbar}\sin{\phi} \equiv I_{c}\sin{\phi},
 \end{equation}
-where $I_{c}$ is the critical current.
+which is the first Joshepshon equation where $I_{c}$ is the critical current.
 The key feature of previous expression is that the critical current depends on geometric factors $S$ -- section of semiconductors -- and $K$ -- width of the barrier -- that we can control in a lab.\\\\
 Subtracting Eq.\,\eqref{eq: theta1} and Eq.\,\eqref{eq: theta2} yields to
 \begin{equation}
 \frac{qV}{\hbar} = \frac{\partial\phi}{\partial t}.
 \end{equation}
-Noticing that $q=2e$ -- charge of a Cooper pair -- and $\Phi_{0} = \frac{h}{2e}$ -- superconducting magnetic flux quantum --  allow us to rewrite last expression
+Noticing that $q=2e$ -- charge of a Cooper pair -- and $\Phi_{0} = \frac{h}{2e}$ -- superconducting magnetic flux quantum --  allow us to rewrite last expression as
 \begin{equation}
-\tag{Second Joshepshon equation}
-V = \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t}.
+V = \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t},
 \end{equation}
-We can compute the energy stored in a Josephson's union, $U$, by integrating the power, $I\cdot V$,
+which is the second Joshepshon equation. We can compute the energy stored in a Josephson's union, $U$, by integrating the power, $I\cdot V$,
 \begin{equation}
 U = \int_{0}^{t}IVds = \int_{0}^{t}\frac{I_{c}\Phi_{0}}{2\pi}\sin{\phi}\frac{\partial \phi}{\partial s} = \frac{I_{c}\Phi_{0}}{2\pi}\left(1-\cos{\phi}\right),
 \end{equation}
 which yields to
 \begin{equation}
-\tag{Third Joshepshon equation}
 U = E_{J}\left(1-\cos{\phi}\right), \quad E_{J} = \frac{I_{c}\Phi_{0}}{2\pi},
 \end{equation}
-where $E_{J}$ is the Josephson energy.
+which is the third Joshepshon equation where $E_{J}$ is the Josephson energy.
 Finally, a Josephson's union has a capacity $C$ given by
 \begin{equation}
-\tag{Forth Joshepshon equation}
-Q = CV = C \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t}
+Q = CV = C \frac{\Phi_{0}}{2\pi}\frac{\partial \phi}{\partial t},
 \end{equation}
-We can write the energy stored in a Josephson's union as
+which is the forth Joshepshon equation. We can write the energy stored in a Josephson's union as
 \begin{equation}
 E_{C} = \frac{Q^{2}}{2C} = C\cdot \frac{\Phi_{0}^{2}}{2\left(2\pi\right)^{2}}\left(\frac{\partial \phi}{\partial t}\right)^{2}.
 \end{equation}

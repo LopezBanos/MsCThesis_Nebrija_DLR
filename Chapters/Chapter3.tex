@@ -32,11 +32,11 @@ The main idea behind classical \textit{Benders' decomposition} (BD) -- also know
 %%%%%%%%%%%%%
 \subsection{Complicated Variables}
 We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produces non-convex optimization problems. 
-\begin{definition}{Complicated variables}
+\begin{definition}{}{Complicated variables}
 Those variables that allow us to split the original problem into sub-problem(s) when they are fixed. These variables appear in constraints in such a way that the problem cannot be decomposed if they are not fixed. These type of constraints are known as linking constraints. 
 \end{definition}
 After splitting the original problem, the master problem is a relaxed version of the original problem. The global minimum is guaranteed if and only if the objective function as a function of the complicated variables is a convex envelope.\\\\
-For this reason, we propose BD to decompose the general problem \eqref{eq: MILP} into an MP with integer variables and an SP so that a clever rearrangement of the variables allows us to fix the complicated variables of the MP -- once the MP is solved -- and send these complicated variables as fixed for the sub-problem. This process is performed iteratively until a stopping criterion is satisfied. The convergence of BD\,\cite{Sahinidis1991BDConvergence} guarantees that we can satisfy an arbitrary threshold value after a number of iterations. 
+BD to decompose the general problem \eqref{eq: MILP} into an MP with integer variables and an SP so that a clever rearrangement of the variables allows us to fix the complicated variables of the MP -- once the MP is solved -- and send these complicated variables as fixed for the sub-problem. This process is performed iteratively until a stopping criterion is satisfied. The convergence of BD\,\cite{Sahinidis1991BDConvergence} guarantees that we can satisfy an arbitrary threshold value after a number of iterations. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dual Dynamic Programming}
 We can relax the primal problem by associating a penalty to each of its constraints,
@@ -95,7 +95,7 @@ We want to find the best possible lower bound by solving the following optimizat
 \begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{\label{eq: Abstract_Dual}}{}{\left[q: \mathbb{R}^{m+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq 0}{}
-	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu) > - \infty \}.}
+	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu)\,  \text{Bounded} \}.}
 \end{maxi!}
 Notice that we are choosing the penalties in such a way that the dual problem is bounded.
 \begin{theorem}{Weak Duality}{}
@@ -110,7 +110,7 @@ If $\mathbf{x}^{*}$ is the optimal solution of the primal, and $\lambda^{*}, \mu
     q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*})
 \end{equation}
 \end{theorem}
-In other words, the strong duality theorem guarantees that the upper bound and lower bound are going to converge into a point for the optimal solution, see Figure\,\ref{fig:BD_Convergence} adapted from\,\cite{Zhao2021HybridProgramming}.
+In other words, the strong duality theorem guarantees that the upper bound and lower bound are going to converge into a point for the optimal solution, see Fig.\,\ref{fig:BD_Convergence} adapted from\,\cite{Zhao2021HybridProgramming}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/BD_Convergence.pdf} 
@@ -137,17 +137,34 @@ then they are optimal.
 \begin{proof}
 Consider a feasible solution of the primal problem, $\mathbf{x}$, and a feasible solution of the dual problem, $(\lambda, \mu)$, then
 \begin{equation}
-    f(\mathbf{x}) \geq q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}) \geq q(\lambda, \mu)
+    f(\mathbf{x}) \geq q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}) \geq q(\lambda, \mu).
 \end{equation}
 \end{proof}
 %%%%%%%%%%%%%%
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{Figures/BDScheme.pdf} 
-\caption{Benders' decomposition scheme. An iterative process is followed where the lower and upper bound are maximized and minimized, respectively, until a stopping criterion is satisfied.}
-\label{fig:BDScheme}
-\end{figure}
-We conclude this section by summarizing Benders' decomposition algorithm. We propose a trial solution $\mathbf{x}$ that we feed into the dual problem and we maximize it, i.e., we find the $\lambda^{*}$ and $\mu^{*}$ that maximize the problem. The value of this problem generates a lower bound. Then we insert those optimal parameters $\lambda^{*}$ and $\mu^{*}$ in the Lagrange function and minimize it by finding $\mathbf{x}^{*}$. Finally, if a given stopping criterion is satisfied, then we stop the iterative process, otherwise we update the dual problem with the new candidate solution $\mathbf{x}^{*}$ and repeat the algorithm. Figure \ref{fig:BDScheme} represents the iterative approach of BD.
+\subsubsection{Duality points of view: energy market example.}
+Suppose that an electricity market has to sells its energy production to different customer. However, the maximum amount of energy per customer is fixed to $10$ units of energy where each unit of energy cost $1$\$.\\
+The electricity company decides to relaxed the constraints allowing the customer Bob to buy more than $10$ units of energy but he has to pay $2$\$ for each extra unit of energy. Bob as customer decide to buy extra units of energy because with one unit of energy he produces a chip that he sells for $3$\$, so that he decides to buy every extra energy unit he can by getting a profit of $1$\$ for each unit of energy he buys. The electricity market notice that Bob is buying too much energy and it cannot provide the require energy to other customers, so that the electricity market pays a fine because of that. In order to relaxed the constraints but at the same time satisfy the demand of other customers, the electricity market decides to increase the cost of the extra unit of energy to $3$\$. Now, the current prices of extra energy units makes Bob generates zero profit so he is no longer interested in buying extra units of energy. In other words, Bob has no interest in violating the constraint, despite this constraint is relaxed and he could violated if he wish.\\\\
+Notice that we have two points of view when solving combinatorial optimization problem. We can be the customer, who is the one solving the problem, and of the one who defines the rules, i.e., the one who sets the constraints and maximize the prices.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Benders' Cuts}
+Now we are going to introduce Benders' cuts which are the key component of Benders' decomposition algorithm. Suppose we are given the following MILP problem,
+\begin{mini!}[2]
+	{x,y}{z = -y - x}{}{}{\label{eq: Exampleobjective}}
+    \addConstraint{a\cdot x}{= y \,}{}{\label{const: LinkingConstrain}}
+    \addConstraint{b \cdot x}{\leq c}{}
+\end{mini!}
+with $a,b,c \in \mathbb{R}$. Equation\,\ref{const: LinkingConstrain} represents a linking constraint since it mix both decision variables. Considering $x$ as the complicated variable we can fix it into a feasible value so that we simplified the problem,
+\begin{mini!}[2]
+	{y}{- y}{}{}{}
+    \addConstraint{a\cdot x_{\text{fixed}}}{= y \,}{}{}
+    \addConstraint{b \cdot x_{\text{fixed}}}{\leq c}{}
+\end{mini!}
+Notice that the last constraint is already satisfied for a feasible value of $x$, so
+\begin{mini!}[2]
+	{y^{t}}{- y^{t}}{}{}{}
+    \addConstraint{a\cdot x^{t}_{\text{fixed}}}{= y^{t} \,}{}{}
+\end{mini!}
+where $t$ indicates Benders iteration.
 %%%%%%%%%%%%%%%%%%%
 \subsection{Benders' Decomposition: An Illustrative Example}
 As an example, consider the general convex function of \ref{fig:BDIlustration},
@@ -162,6 +179,15 @@ In each iteration of the BD scheme we are maximizing the lower bound -- dual pro
 \label{fig:BDIlustration}
 \end{figure}
 Benders' cuts are generated by updating the parameters $(\lambda,\mu)$ of the dual function. In other words, the iterative process restricts the feasible region until we get the optimal value.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Benders' Scheme}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{Figures/BDScheme.pdf} 
+\caption{Benders' decomposition scheme. An iterative process is followed where the lower and upper bound are maximized and minimized, respectively, until a stopping criterion is satisfied.}
+\label{fig:BDScheme}
+\end{figure}
+We conclude this section by summarizing Benders' decomposition algorithm. We propose a trial solution $\mathbf{x}$ that we feed into the dual problem and we maximize it, i.e., we find the $\lambda^{*}$ and $\mu^{*}$ that maximize the problem. The value of this problem generates a lower bound. Then we insert those optimal parameters $\lambda^{*}$ and $\mu^{*}$ in the Lagrange function and minimize it by finding $\mathbf{x}^{*}$. Finally, if a given stopping criterion is satisfied, then we stop the iterative process, otherwise we update the dual problem with the new candidate solution $\mathbf{x}^{*}$ and repeat the algorithm. Figure \ref{fig:BDScheme} represents the iterative approach of BD.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QA + SA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
