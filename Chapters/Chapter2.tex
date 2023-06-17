@@ -23,7 +23,7 @@ The adiabatic theorem, whose proof we give below, guarantees that if we start wi
 The adiabatic protocol can be summarized as follows:
 \begin{itemize}
     \item \textbf{Step 1 (Mapping):} map the problem into a Hamiltonian $\mathcal{H}_{f}$. Typically, the problem is encoded in the ground state.
-    \item \textbf{Step 2 (Initialise $\mathcal{H}_{i}$):} initialise the system in the ground state of a Hamiltonian $\mathcal{H}_{i}$, easy to compute and to experimentally prepare. For instance, the ground state of $\mathcal{H} = - \sum_{i}^{n}\hat{\sigma}_{i}^{x}$ is the eigenvector $\ket{+}^{\otimes n}$.
+    \item \textbf{Step 2 (Initialise $\mathcal{H}_{i}$):} initialise the system in the ground state of a Hamiltonian $\mathcal{H}_{i}$, easy to compute and to experimentally prepare. For instance, the ground state of $\mathcal{H}_{i} = - \sum_{i}^{n}\hat{\sigma}_{i}^{x}$ is the eigenvector $\ket{+}^{\otimes n}$.
     \item \textbf{Step 3 (Adiabatic Theorem):} slowly evolve the system from $H_{i}$ to $H_{f}$. The adiabatic theorem guarantees that, under certain conditions that will be explained later, the system will end up in the ground state of $H_{f}$.
     \item \textbf{Step 4 (Measure):} measure the eigenstate of $H_{f}$. The result encodes a solution to our problem.
 \end{itemize}
@@ -35,38 +35,35 @@ Notice that we wrote in the last step that the result of the measurement provide
 Intuitively, one can think that a problem can have multiple configurations that lead to the same minimum eigenvalue.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Adiabatic Theorem: A First Approach}
-We now provide a simple argument to build intuition into the adiabatic theorem. The next section will be devoted to a formal proof. In order to continue, let us define the following dimensionless variable
-\begin{equation}
-    s \equiv \frac{t}{T}\, , \quad s \in [0,1]\ .
-\end{equation}
-In what follows, we consider an $n$-qubit system with a discrete and non-degenerate spectrum. A state of that system can be written as a linear combination of the instantaneous eigenstates of the Hamiltonian $\ket{\psi(s)} = \sum_{i}c_{i}(s)\ket{i(s)}$ as function of $s$. Its evolution is given by the time-dependent Schrödinger equation, see Appendix\,\ref{AppendixA},
+We now provide a simple argument to build intuition into the adiabatic theorem. The next section will be devoted to a formal proof.\\\\
+In what follows, we consider an $n$-qubit system with a discrete and non-degenerate spectrum. A state of that system can be written as a linear combination of the instantaneous eigenstates of the Hamiltonian $\ket{\psi(t)} = \sum_{i}c_{i}(t)\ket{i(t)}$ as function of $t$. Its evolution is given by the time-dependent Schrödinger equation, see Appendix\,\ref{AppendixA},
 \begin{equation}
 \label{eq:GeneralEv}
-    i\hbar \ket{\dot{\psi}(s)} = \mathcal{H}(s) \ket{\psi(s)}\ .
+    i\hbar \ket{\dot{\psi}(t)} = \mathcal{H}(t) \ket{\psi(t)}\ .
 \end{equation}
-In general, Eq.\,\eqref{eq:GeneralEv} represents a system of coupled differential equations for the evolution of the state $\ket{\psi(s)}$ which has a non-trivial solution. However, we can re-write the Hamiltonian in diagonal form using the change-of-basis matrix $U(s)$,
+In general, Eq.\,\eqref{eq:GeneralEv} represents a system of coupled differential equations for the evolution of the state $\ket{\psi(s)}$ which has a non-trivial solution. However, we can re-write the Hamiltonian in diagonal form using the diagonalization matrix $U(s)$,
 \begin{equation}
-    \mathcal{H}_{d}(s) = U^{-1}(s)\mathcal{H}(s)U(s) = \begin{bmatrix}
+    \mathcal{H}_{d}(t) = U^{-1}(t)\mathcal{H}(t)U(t) = \begin{bmatrix}
            \lambda_{0} & 0 & \hdots & 0 \\
            0 &  \ddots & & \vdots \\
            \vdots &   & \ddots & 0 \\
            0 & \hdots & 0 & \lambda_{2^{n-1}}
          \end{bmatrix}\ .
 \end{equation}
-We also define $\ket{\psi_{d}(s)} = U^{-1}(s)\ket{\psi(s)}$ as the state we get after applying the inverse transformation $U^{-1}(s)$ to the state $\ket{\psi(s)}$. Using the identity $\mathbb{I} = U(s)U^{-1}(s)$ and multiplying both sides of Eq.\,\eqref{eq:GeneralEv} by $U^{-1}(s)$ yields
+We also define $\ket{\psi_{d}(t)} = U^{-1}(t)\ket{\psi(t)}$ as the state we get after applying the inverse transformation $U^{-1}(t)$ to the state $\ket{\psi(t)}$. Using the identity $\mathbb{I} = U(t)U^{-1}(t)$ and multiplying both sides of Eq.\,\eqref{eq:GeneralEv} by $U^{-1}(t)$ yields
 \begin{equation}
-     i\hbar U^{-1}(s) \frac{\partial \left(U(s)U^{-1}(s)\ket{\psi(s)}\right)}{\partial s} = U^{-1}(s)\mathcal{H}(s) \left(U(s)U^{-1}(s)\right)\ket{\psi(s)}\ .
+     i\hbar U^{-1}(t) \frac{\partial \left(U(t)U^{-1}(t)\ket{\psi(t)}\right)}{\partial t} = U^{-1}(t)\mathcal{H}(t) \left(U(t)U^{-1}(t)\right)\ket{\psi(t)}\ .
 \end{equation}
 Rearranging terms
 \begin{equation}
-     i\hbar U^{-1}(s) \frac{\partial U(s)}{\partial s}\ket{\psi_{d}(s)} + i\hbar  \frac{\partial \ket{\psi_{d}(s)}}{\partial s}= \mathcal{H}_{d}(s)\ket{\psi_{d}(s)}\ .
+     i\hbar U^{-1}(t) \frac{\partial U(t)}{\partial t}\ket{\psi_{d}(t)} + i\hbar  \frac{\partial \ket{\psi_{d}(t)}}{\partial t}= \mathcal{H}_{d}(t)\ket{\psi_{d}(t)}\ .
 \end{equation}
-If we assume $\mathcal{H}(s)$ varies slowly, then it is reasonable that $U(s)$ varies slowly as well, $\dot{U}(s) \simeq 0$, which implies
+If we assume $\mathcal{H}(t)$ varies slowly, then it is reasonable that $U(t)$ varies slowly as well, $\dot{U}(t) \simeq 0$, which implies
 \begin{equation}
-    i\hbar  \frac{\partial \ket{\psi_{d}(s)}}{\partial s} \simeq \mathcal{H}_{d}(s)\ket{\psi_{d}(s)}\ .
+    i\hbar  \frac{\partial \ket{\psi_{d}(t)}}{\partial t} \simeq \mathcal{H}_{d}(t)\ket{\psi_{d}(t)}\ .
 \end{equation}
-Now, the evolution of the state $\ket{\psi_{d}(s)}$ is led by a diagonal Hamiltonian $\mathcal{H}_{d}(s)$ so we have a set of uncoupled differential equations for each amplitude component of the state $\ket{\psi_{d}(s)}$. Furthermore, if the state of the system $\ket{\psi_{d}(s)}$ is an eigenstate of the Hamiltonian $\ket{n(s)}$, then the evolution of our system is conducted inside the eigenspace generated by $\ket{n(s)}$.\\\\
-To sum up, under a general evolution such as Eq.\,\eqref{eq:GeneralEv} we get, in general, a system of coupled differential equations, but if the adiabatic approximation is satisfied, this evolution is led by a diagonal Hamiltonian, i.e., we get a system of uncoupled differential equations. Graphically, this means the eigenenergies $E_{n}(s)$ of the Hamiltonian's instantaneous eigenstates $\ket{n(s)}$ do not cross.
+Now, the evolution of the state $\ket{\psi_{d}(t)}$ is led by a diagonal Hamiltonian $\mathcal{H}_{d}(t)$ so we have a set of uncoupled differential equations for each amplitude component of the state $\ket{\psi_{d}(t)}$. Furthermore, if the state of the system $\ket{\psi_{d}(t)}$ is an eigenstate of the Hamiltonian $\ket{n(t)}$, then the evolution of our system is conducted inside the eigenspace generated by $\ket{n(t)}$.\\\\
+To sum up, under a general evolution such as Eq.\,\eqref{eq:GeneralEv} we get, in general, a system of coupled differential equations, but if the adiabatic approximation is satisfied, this evolution is led by a diagonal Hamiltonian, i.e., we get a system of uncoupled differential equations that enable us to evolve the ground state of an initial Hamiltonian into the ground state of a final Hamiltonian under the adiabatic conditions, see Figure\,\ref{fig:Eigenenergies}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{Figures/Eigenenergies.pdf}
@@ -79,11 +76,11 @@ Quoting Goldstone \textit{et al.}\,\cite{Farhi2000QuantumEvolution},
 \textit{...if the gap between the two lowest levels, $E_{1} - E_{0}$, is strictly greater than zero for all $0 \leq t \leq T$, then}
 \end{displayquote}
 \begin{equation}
-    \lim_{T\longrightarrow \infty} | \braket{g(t=T) | \psi(t=T)}| = 1\ .
+    \lim_{T\longrightarrow \infty} \| \braket{g(t=T) | \psi(t=T)}\|^{2} = 1\ .
 \end{equation}
 Equivalently, the probability of being in the ground state, $\ket{g(t=T)}$, of the target Hamiltonian $\mathcal{H}_{f}$ at the end of evolution is 1 if and only if the total time required for the evolution is infinite. Otherwise, the probability of being in the ground state is
 \begin{equation}
-    || \braket{g(t=T) | \psi(t=T)}||^{2} = 1 - \epsilon^{2}\ ,
+    \| \braket{g(t=T) | \psi(t=T)}\|^{2} = 1 - \epsilon^{2}\ ,
 \end{equation}
 where $|\epsilon| \leq 1$ takes into account the error due to the adiabatic approximation, $\dot{U}(s) \simeq 0$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,14 +152,17 @@ whose solution is
 \end{equation}
 where
 \begin{equation}
-    \gamma_{m}(t) = i\int_{0}^{t}\braket{m(t^{\prime})|\dot{m}(t^{\prime})}dt^{\prime} \quad \gamma_{m}\in \mathbb{R}\ ,
+    \gamma_{m}(t) = i\int_{0}^{t}\braket{m(t^{\prime})|\dot{m}(t^{\prime})}dt^{\prime}\ , \qquad \gamma_{m}\in \mathbb{R}\ ,
 \end{equation}
 is the Berry phase.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       TOTAL EVOLUTION TIME
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Total Evolution Time}
-In previous sections, we stated that under a sufficiently slow Hamiltonian evolution the adiabatic theorem is satisfied. In this section, we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution. The following derivation closely follows that of Ref.\,\cite{Sarandy2005AdiabaticSystems}. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$.\\\\
+In previous sections, we stated that under a sufficiently slow Hamiltonian evolution the adiabatic theorem is satisfied. In this section, we define what "slow" means by deriving an expression to estimate the total time $T$ required for the adiabatic evolution. The following derivation closely follows that of Ref.\,\cite{Sarandy2005AdiabaticSystems}. We also demonstrate that the total time not only depends on the energy gap between the ground state and the first excited state but also on the term $\braket{m(s)|d\mathcal{H}(s)/ds|n(s)}$, where $s$ is a dimensionless time variable given by
+\begin{equation}
+    s \equiv \frac{t}{T}\, , \quad s \in [0,1]\ .
+\end{equation}
 We start by re-writing Eq.\,\eqref{eq:GeneralCoefficientsNoadiabaticApprox} in terms of the normalised time $s = t/T$ and Berry's phase
 \begin{equation}
     e^{i\gamma_{m}(sT)}\frac{1}{T}\frac{\partial }{\partial s}\left[c_{m}(sT)e^{-i\gamma_{m}(sT)}\right] = -\sum_{n\neq m} c_{n}(sT) \frac{\braket{m(sT)|\dot{\mathcal{H}}(sT)|n(sT)}}{g_{nm}(sT)}e^{-i\left(\theta_{n}(sT) - \theta_{m}(sT)\right)}\ .
@@ -217,12 +217,12 @@ Therefore, we can simplify Eq.\,\eqref{eq:Fnm}
 \section{Quantum Annealing}
 \textit{Quantum annealing} (QA) takes its name from a classical heuristic algorithm named s\textit{imulated annealing} (SA), see Appendix\,\ref{AppendixB}. It is a particularization of AQC where the Hamiltonian is the Ising's Hamiltonian
 \begin{equation}
-    \mathcal{H} = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z}\ .
+    \mathcal{H}_{f} = -\sum_{ij}\mathcal{J}_{ij}\sigma_{i}^{z}\sigma_{j}^{z} - h\sum_{i}\sigma_{i}^{z}\ .
 \end{equation}
 Spin information is given by the eigenvalues of Pauli Z-operators $\sigma^{z}$, where the possibles outcomes are $\{-1,1\}$ corresponding to the eigenvectors $\{\ket{\uparrow},\ket{\downarrow}\}$, respectively.\\\\
 We also need an initial Hamiltonian whose ground state is easy to compute and prepare, e.g.,
 \begin{equation}
-    \mathcal{H} = -\sum_{i}^{n}\sigma_{i}^{x}\ ,
+    \mathcal{H}_{i} = -\sum_{i}^{n}\sigma_{i}^{x}\ ,
 \end{equation}
 with ground state $\ket{+}^{n}$. This ground state considers all the possible configurations of our system with a uniform distribution.\\\\
 The time-dependent Hamiltonian is given by
