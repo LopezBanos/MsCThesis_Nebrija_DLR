@@ -166,7 +166,7 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \item \textbf{Step 2} (\textit{Master problem solved by a quantum annealer})\textbf{:} we increase the lower bound $\underline{z}^{t}$ by taking the minimum value of 
         \begin{mini!}[2]
 	   {\mathbf{x}}{\underline{z}^{t}}{}{}{}
-	   \addConstraint{\underline{z}^{t} \geq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \underbrace{\sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)}_{\text{Benders' cuts}}}{=0,}{\quad \forall \tau = 1,...,t-1.}{}
+	   \addConstraint{\underline{z}^{t} \geq \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \underbrace{\sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)}_{\text{Benders' cuts}}}{=0,}{\quad \forall \tau = 1,\hdots,t-1.}{}
         \end{mini!}
     In that equation $\alpha^{t-1}$ represent the summation of the objective function of the slave problem(s) and $\Pi_{f_{kl}^{1}}^{\tau}$ represent the Benders' cut of iteration $\tau$ where $\tau < t$, for the linking constraint of Eq.\,\eqref{const: CandidateLimits}. Notice that we have a Benders' cut for every candidate circuit flow constraint $f_{kl}^{1}$. In every iteration of Benders' algorithm we are adding cuts, in other words we are restricting the region of feasible solutions.
     \item \textbf{Step 3} (\textit{Slave problem solved by a classical solver})\textbf{:} we minimize $\alpha^{t}$ which includes the load shedding cost and the operational cost.
@@ -177,7 +177,7 @@ In order to simplify the problem we consider a single snapshot so that we can dr
      \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}
-        \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}.
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}.
     \end{mini!}
     \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} after minimizing $\alpha^{t}$ we reduce the upper bound
     \begin{equation}
@@ -205,7 +205,7 @@ In order to simplify the problem we consider a single snapshot so that we can dr
     \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title= \textbf{Step 2:} Master problem solved by a quantum annealer]
     \begin{mini!}[2]
 	{\mathbf{x}^{t}}{\underline{z}^{t}}{}{}{}
-	\addConstraint{\underline{z}^{t}}{\geq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)\quad}{\forall\, \tau =1,...,t-1}{}
+	\addConstraint{\underline{z}^{t}}{\geq  \sum_{kl\in C}c_{kl}x_{kl}^{t} + \alpha^{t-1} - \sum_{kl\in C}\Pi^{\tau}_{f_{kl}^{1}}\left(x_{kl}^{t} - x_{kl}^{\tau}\right)\quad}{\forall\, \tau =1,\hdots,t-1}{}
     \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C}{}.
     \end{mini!}
     \end{tcolorbox}
