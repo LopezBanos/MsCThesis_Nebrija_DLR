@@ -16,7 +16,7 @@ This work aims to show the challenges of applying hybrid quantum-classical metho
 %%%%%
 \section{Future Work}
 This master thesis has presented an iterative approach to solve TEP problems, but the data we have used is synthetic. There are different sources of energy models but depending on the source we have to load the data in different ways. We will use the PyPSA python package\,\cite{PyPSA-Eur:PyPSA-Eur} to take care of that issue.\\\\
-Dealing with real data implies not only dealing with real numbers -- that can be rounded to integers -- but also with a large number of variables which increase the complexity of the problem. These points do not change the implementation, but if we plan to add new components such as storages -- which implies taking into account a multi-snapshot dependence -- the linear equations that describe our problem are going to change. PyPSA can simplify the linear model for any number of targets considered in the original problem and to plot of the associated network for a given number of nodes $N$, Figure\,\ref{fig:GeneralNetworks}.This enables us to read these linear equations and include it into our Benders' decomposition scheme. For this task we plan to use QUARK\,\cite{dlrsc2023quark}, a reformulation kernel that allows us to send the algorithm to different quantum machines.
+Dealing with real data implies not only dealing with real numbers -- that can be rounded to integers -- but also with a large number of variables which increase the complexity of the problem. These points do not change the implementation, but if we plan to add new components such as storages -- which implies taking into account a multi-snapshot dependence -- the linear equations that describe our problem are going to change. PyPSA can simplify the linear model for any number of targets considered in the original problem and to plot the associated network for a given number of nodes $N$, as in Figure\,\ref{fig:GeneralNetworks}.This enables us to read these linear equations and include them into our Benders' decomposition scheme. For this task we plan to use QUARK\,\cite{dlrsc2023quark}, a reformulation kernel that allows us to send the algorithm to different quantum machines.
 \begin{figure}[H]
 \centering
 \begin{subfigure}[c]{0.5\linewidth}
@@ -42,7 +42,7 @@ Dealing with real data implies not only dealing with real numbers -- that can be
 \label{fig:3d}
 \end{subfigure}
     
-\caption{Germany network generated with PyPSA for $N$ cluster from eGo100 data\,\cite{Mueller2018}.}
+\caption{Germany network generated with PyPSA for $N$ clusters from eGo100 data\,\cite{Mueller2018}.}
 \label{fig:GeneralNetworks}
 \end{figure}
 Last, we could compare our hybrid quantum-classical algorithm with the ones provided by the quantum solvers. We think that a specific hybrid quantum-classical approach should provide a better solution in term of computational time and optimal value than the general hybrid solvers from D-Wave. Furthermore, we should be able to determine the exact usage of quantum solver we employing in the problem, which is not possible with solvers such as D-Wave.
