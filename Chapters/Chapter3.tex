@@ -6,10 +6,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-As we stated in previous chapters, quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer imposes a big constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to tackle large-scale problems, by combining quantum and classical solvers.\\\\
+As we stated in previous chapters, quantum computers are not mature enough to solve real-world problems. For instance, the embedding of a QUBO problem into the architecture of a quantum annealer imposes an important constraint in the number of variables our problem can have. For this reason, a \textit{hybrid quantum-classical} (HQC) approach is currently the best method one can use to tackle large-scale problems, by combining quantum and classical solvers.\\\\
 The aim of HQC approaches is to decompose a problem into a \textit{sub-problem(s)} (SP(s)) and a \textit{master problem} (MP), with the hope that one of these problems is suitable for a quantum computer. On the one hand, a quantum annealer receives a QUBO problem or a problem that can be cast into it. On the other, the other problems are solved by the classical solver using cutting-edge algorithms. The MP and SP(s) are solved iteratively until a given stopping criterion is satisfied. \\\\
 There are classical systematic approaches that always converge for convex functions, such as the Benders' decomposition algorithm\,\cite{Pereira1991}, while other heuristic approaches do not guarantee the optimal solution, but they require less computational resources to find a sub-optimal solution by exploring the configuration space according to some criteria.\\\\
-In this chapter, we describe the general formulation of a mixed-integer linear programming problem, then we present the most relevant results of dual dynamic programming theory which is the underlying theory of problem decomposition. Finally we show a quantum-classical Benders' decomposition protocol\,\cite{Zhao2021HybridProgramming}, a heuristic quantum-classical protocol\,\cite{Ding2019ImplementationDesign} and another version inspired on it.
+In this chapter, we describe the general formulation of a mixed-integer linear programming problem, then we present the most relevant results of dual dynamic programming theory, which is the underlying theory of problem decomposition. Finally, we show a quantum-classical Benders' decomposition protocol\,\cite{Zhao2021HybridProgramming}, a heuristic quantum-classical protocol\,\cite{Ding2019ImplementationDesign} and another version inspired on it.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MILP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,12 +18,12 @@ In this chapter, we describe the general formulation of a mixed-integer linear p
 In the present work, we are interested in mixed-integer linear programming (MILP) problems because they appear in a wide range of real-world applications and they are the corresponding mathematical formulation of TEP problems. More precisely, TEP problems contain real variables but these variables are often converted into integer values to solve the problem.\\\\
 The general mathematical formulation of MILP problems is
 \begin{mini!}[2]
-	{\mathbf{x}}{f(\mathbf{x}, \mathbf{y})}{\label{eq: MILP}}{}{\left[f: \mathbb{R}^{n}\times \mathbb{Z}^{m} \rightarrow \mathbb{R}\right]}
+	{\mathbf{x},\mathbf{y}}{f(\mathbf{x}, \mathbf{y})}{\label{eq: MILP}}{}{\left[f: \mathbb{R}^{n}\times \mathbb{Z}^{m} \rightarrow \mathbb{R}\right]}
 	\addConstraint{h(\mathbf{x},\mathbf{y})}{=\textbf{0}\quad}{\left[h: \mathbb{R}^{n}\times \mathbb{Z}^{m} \rightarrow \mathbb{R}^{q}\right]}
 	\addConstraint{g(\mathbf{x})}{\leq \textbf{0}\quad}{\left[g: \mathbb{Z}^{n} \rightarrow \mathbb{R}^{p}\right],}
 \end{mini!}
 where $q$ and $p$ are the number of equality and inequality constraints and $(\mathbf{x},\mathbf{y})$ are the real and integer variables, respectively.\\\\
-TEP problems scale badly as the problem size grows. Thus, big problems cannot be solved at the desired resolution by nowadays classical computers with solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc}. There are already benchmarks comparing classical solvers and quantum annealers for energy problems where even the fastest of these solvers -- Gurobi -- cannot find the optimal solution in a fixed run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}. \\\\
+TEP problems scale badly as the problem size grows. Thus, large problems cannot be solved at the desired resolution by nowadays classical computers with solvers such as Gurobi\,\cite{gurobi}, CPLEX\,\cite{cplex2009v12} or cbc\,\cite{cbc}. There are already benchmarks comparing classical solvers and quantum annealers for energy problems where even the fastest of these solvers -- Gurobi -- cannot find the optimal solution in a fixed run-time, see Ref.\,\cite{Fernandez-Campoamor2021CommunityAnnealing}. \\\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Classical Benders Decomposition
 %%%%%%%%%%%%%
@@ -33,23 +33,23 @@ The main idea behind classical \textit{Benders' decomposition} (BD) -- also know
 \subsection{Complicated Variables}
 We can consider a decision variable to be complicated if the decision variable is involved in most of the constraints or the decision variable produces non-convex optimization problems. 
 \begin{definition}{}{Complicated variables}
-Those variables that allow us to split the original problem into sub-problem(s) when they are fixed. These variables appear in constraints in such a way that the problem cannot be decomposed if they are not fixed. These type of constraints are known as linking constraints. 
+Complicated variables are those that allow us to split the original problem into sub-problem(s) when they are fixed. These variables appear in constraints in such a way that the problem cannot be decomposed if they are not fixed. These type of constraints are known as linking constraints. 
 \end{definition}
 After splitting the original problem, the master problem is a relaxed version of the original problem. The global minimum is guaranteed if and only if the objective function as a function of the complicated variables is a convex envelope.\\\\
-BD to decompose the general problem \eqref{eq: MILP} into an MP with integer variables and an SP so that a clever rearrangement of the variables allows us to fix the complicated variables of the MP -- once the MP is solved -- and send these complicated variables as fixed for the sub-problem. This process is performed iteratively until a stopping criterion is satisfied. The convergence of BD\,\cite{Sahinidis1991BDConvergence} guarantees that we can satisfy an arbitrary threshold value after a number of iterations. 
+The BD method is used to decompose the general problem \eqref{eq: MILP} into an MP with integer variables and an SP so that a clever rearrangement of the variables allows us to fix the complicated variables of the MP -- once the MP is solved -- and send these complicated variables as fixed for the sub-problem. This process is performed iteratively until a stopping criterion is satisfied. The convergence of BD guarantees that we can satisfy an arbitrary threshold value after a number of iterations\,\cite{Sahinidis1991BDConvergence}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dual Dynamic Programming}
-Suppose that an electricity market has to sells its energy production to different customer. However, the maximum amount of energy per customer is fixed to $10$ units of energy where each unit of energy cost $1$\$. The electricity company decides to relax the constraints allowing the customer Bob to buy more than $10$ units of energy but paying $2$\$ for each extra unit of energy. Bob decides to buy extra units of energy because with one unit of energy he produces a chip that he sells for $3$\$, then Bob buys every extra energy unit he can, getting a profit of $1$\$ for each extra unit of energy. The electricity market notices that Bob is buying too much energy and it cannot provide the required energy to other customers, paying a fine because of that. In order to relax the constraints but at the same time be able to satisfy the demand of other customers, the electricity market decides to increase the price of the extra unit of energy to $3$\$. Now, the current price of extra unit of energy implies that Bob does not get profit so he is no longer interested in buying extra units of energy. In other words, Bob has no interest in violating the constraint, despite this constraint is relaxed and he could violated if he wish.\\\\
-Notice that we have two points of view when solving combinatorial optimization problem. We can be the customer, who is the one solving the problem, and of the one who defines the rules, i.e., the one who sets the constraints and optimize the prices.\\\\
+Suppose that an electricity market has to sell its energy production to different customers. However, the maximum amount of energy per customer is fixed to $10$ units of energy where each unit of energy cost $1$\$. The electricity company decides to relax the constraints allowing customer Bob to buy more than $10$ units of energy but paying $2$\$ for each extra unit of energy. Bob decides to buy extra units of energy because with one unit of energy he produces a chip that he sells for $3$\$. Then, Bob buys every extra energy unit he can, getting a profit of $1$\$ for each extra unit of energy. The electricity market notices that Bob is buying too much energy and it cannot provide the required energy to other customers, paying a fine because of that. In order to relax the constraints but at the same time be able to satisfy the demand of other customers, the electricity market decides to increase the price of the extra unit of energy to $3$\$. Now, the current price of extra unit of energy implies that Bob does not get profit so he is no longer interested in buying extra units of energy. In other words, Bob has no interest in violating the constraint, which he could do because it has been relaxed.\\\\
+Notice that we have two points of view when solving combinatorial optimization problems. We can adopt either the customer's viewpoint, who wants to solve the optimization problem, or the market's, which defines the constraints and prices.\\\\
 We can relax the primal problem\,\eqref{eq: MILP} by associating a penalty to each of its constraints,
 \begin{equation}
-    \lambda\in\mathbb{R}^{q}\,\, \text{and} \quad \mu\in\mathbb{R}^{p},
+    \lambda\in\mathbb{R}^{q}\,\, \textrm{and} \, \mu\in\mathbb{R}^{p},
 \end{equation}
 also known as Lagrange multipliers. Then the Lagrangian of the primal problem is
 \begin{equation}
     \mathcal{L}(\mathbf{x},\mathbf{y}, \lambda, \mu) = f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x},\mathbf{y}) + \mu^{\intercal}g(\mathbf{x}).
 \end{equation}
-The Lagrangian allows us to reformulate the problem by augmenting the objective function with a set of constraint functions weighted by the Lagrange multipliers, so that our new problem has zero constraints since they are already taken into account.
+The Lagrangian allows us to reformulate the problem by augmenting the objective function with a set of constraint functions weighted by the Lagrange multipliers, so that our new problem has zero constraints.
 \begin{definition}{Dual function}{}
 The dual function, $q: \left[\mathbb{R}^{q+p}\rightarrow\mathbb{R}\right]$, maps the set of parameters $\lambda$ and $\mu$ to a minimization problem
 \begin{equation}
@@ -57,12 +57,12 @@ The dual function, $q: \left[\mathbb{R}^{q+p}\rightarrow\mathbb{R}\right]$, maps
 \end{equation}
 where $q$ and $p$ are the number of equality and inequality constraints and
 \begin{equation}
-    \lambda\in\mathbb{R}^{q}\,\, \text{and} \quad \mu\in\mathbb{R}^{p},
+    \lambda\in\mathbb{R}^{q}\,\, \textrm{and}\, \mu\in\mathbb{R}^{p},
 \end{equation}
 are the penalty parameters.
 \end{definition}
 Notice that the dual function is an unconstrained problem because all the constraints have been moved into the Lagrangian.
-Considering the MILP problem \eqref{eq: MILP}, the inequality constraint $g(\mathbf{x})\leq \mathbf{0}$ is violated if $g(\mathbf{x})>\mathbf{0}$. To take into account this in the cost function we need to introduce a positive cost, so $\mu^{\intercal}g(\mathbf{x})>0$ which implies $\mu^{\intercal}$ has positive coefficients, that is
+Considering the MILP problem \eqref{eq: MILP}, the inequality constraint $g(\mathbf{x})\leq \mathbf{0}$ is violated if $g(\mathbf{x})>\mathbf{0}$. To take into account this in the cost function we need to introduce a positive cost, so $\mu^{\intercal}g(\mathbf{x})>0$ which implies $\mu$ has positive coefficients, that is
 \begin{equation}
     \mu \geq \mathbf{0}.
 \end{equation}
@@ -79,7 +79,7 @@ Suppose that $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is an optimal solution -- so it 
 \end{equation}
 is a lower bound of the primal problem, for
 \begin{equation}
-    \lambda\in\mathbb{R}^{q}\,\, \text{and} \quad \mu\in\mathbb{R}^{p}.
+    \lambda\in\mathbb{R}^{q}\, \textrm{and}\, \mu\in\mathbb{R}^{p}.
 \end{equation}
 \end{theorem}
 \begin{proof}
@@ -91,14 +91,14 @@ A feasible solution satisfies the constraints, meaning that $h(\mathbf{x}^{*}, \
 \begin{corollary}{}{}
   In particular, if $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is an optimal solution of the primal and $(\mathbf{x}, \mathbf{y})$ is a feasible solution of the primal, then
   \begin{equation}
-      \underbrace{q({\lambda,\mu})}_{\text{Lower Bound}} \leq f(\mathbf{x}^{*}, \mathbf{y}^{*}) \leq \underbrace{f(\mathbf{x}, \mathbf{y})}_{\text{Upper Bound}}
+      \underbrace{q({\lambda,\mu})}_{\textrm{Lower Bound}} \leq f(\mathbf{x}^{*}, \mathbf{y}^{*}) \leq \underbrace{f(\mathbf{x}, \mathbf{y})}_{\textrm{Upper Bound}}
   \end{equation}
 \end{corollary}
 We want to find the best possible lower bound by solving the following optimization problem
 \begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{\label{eq: Abstract_Dual}}{}{\left[q: \mathbb{R}^{q+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq \mathbf{0}}{}
-	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu)\,  \text{Bounded} \}.}
+	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu)\,  \textrm{Bounded} \}.}
 \end{maxi!}
 Notice that we are choosing the penalties in such a way that the dual problem is bounded.
 \begin{theorem}{Weak Duality}{}
@@ -106,7 +106,7 @@ If $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is the optimal solution of the primal, and
 \begin{equation}
     q(\lambda^{*}, \mu^{*}) \leq f(\mathbf{x}^{*}, \mathbf{y}^{*}).
 \end{equation}
-This inequality holds even if for non-convex problems.
+This inequality holds even for non-convex problems.
 \end{theorem}
 The difference between the lower bound and the upper bound is known as the optimal duality gap which is always non-negative.
 \begin{theorem}{Strong Duality}{}
@@ -133,7 +133,7 @@ If the primal is unbounded, then according to the weak duality theorem
 which implies the dual problem is unbounded. Analogously, if the dual problem is unbounded, then the primal problem is unbounded too.
 \end{proof}
 \begin{corollary}{}{}
-If there exist $\mathbf{x}^{*}, \mathbf{y}^{*},\lambda^{*}\,\text{and}\, \mu^{*}$ such that,
+If there exist $\mathbf{x}^{*}, \mathbf{y}^{*},\lambda^{*}\,\textrm{and}\, \mu^{*}$ such that,
 \begin{equation}
     q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}, \mathbf{y}^{*})
 \end{equation}
@@ -148,7 +148,7 @@ Consider a feasible solution of the primal problem, $(\mathbf{x}, \mathbf{y})$, 
 %%%%%%%%%%%%%%
 \subsection{Karush–Kuhn–Tucker Conditions}
 In this section we introduce a first-order necessary conditions for a solution of convex problems to be optimal, the \textit{Karush–Kuhn–Tucker} (KKT) conditions. For a deeper understanding see Ref.\,\cite{Boyd2004}.\\\\
-Suppose we are given a LP problem, i.e., a problem with real variables $x_{i}\in\mathbf{x}$ whose functions are differentiable. Then its Lagrangian can be written as
+Suppose we are given an LP problem, i.e., a problem with real variables $x_{i}\in\mathbf{x}$ whose functions are differentiable. Then its Lagrangian can be written as
 \begin{equation}
     \mathcal{L}(\mathbf{x}, \lambda, \mu) = f(\mathbf{x}) + \lambda^{\intercal}h(\mathbf{x}) + \mu^{\intercal}g(\mathbf{x}).
 \end{equation}
@@ -158,23 +158,23 @@ We can get the dual problem of \,\eqref{eq: MILP} by writing a set of equations 
     h(\mathbf{x}) &= \mathbf{0} \\
     \mathbf{0}\leq - g(\mathbf{x})&\perp \mu \geq \mathbf{0} 
 \end{align}
-is known as KKT conditions. Notice that if the optimization problem we are minimizing does not have any constraint, then we could consider just the first equation, i.e., the partial derivatives of the Lagrangian.\\\\
+are known as the KKT conditions. Notice that if the optimization problem we are minimizing does not have any constraint, then we could consider just the first equation, i.e., the partial derivatives of the Lagrangian.\\\\
 MILP problems mix real and integer variables which implies they are not convex and its functions are not differentiable so that KKT conditions are no longer valid. However, if we decompose the MILP problem into an \textit{integer programming} (IP) problem and a \textit{linear programming} (LP) problem we could solve the LP using the KKT conditions and the IP with a standard solver or in our case with a quantum annealer.\\\\
 From previous sections, we know that a MILP problem can be written as,
 \begin{align}
     \max_{\lambda,\mu} q(\lambda,\mu) &=\max_{\lambda,\mu}\left[\min_{\mathbf{x},\mathbf{y}}\mathcal{L}(\mathbf{x}, \mathbf{y},\lambda,\mu)\right] \\
-    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}, \mathbf{y}}f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\text{MILP problem}} ,
+    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}, \mathbf{y}}f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{MILP problem}} ,
 \end{align}
-where the outer optimization problem is a maximization over the Lagrange multipliers $\left(\lambda,\mu\right)$ and the inner optimization problem is a minimization over the primal variables $\mathbf{x}$ and $\mathbf{y}$. Notice that the inner problem is an unconstrained problem since the constraints of the original problem are already taken into account as penalties in the Lagrangian. The inner problem has integer variables so we cannot use the KKT conditions but if the integers variables are fixed, $\mathbf{y}^{*}$, then the inner problem is a LP.
+where the outer optimization problem is a maximization over the Lagrange multipliers $\left(\lambda,\mu\right)$ and the inner optimization problem is a minimization over the primal variables $\mathbf{x}$ and $\mathbf{y}$. Notice that the inner problem is an unconstrained problem since the constraints of the original problem are already taken into account as penalties in the Lagrangian. The inner problem has integer variables so we cannot use the KKT conditions but if the integer variables are fixed, $\mathbf{y}^{*}$, then the inner problem is a LP
 \begin{align}
     \max_{\lambda,\mu} q(\lambda,\mu) &=\max_{\lambda,\mu}\left[\min_{\mathbf{x}}\mathcal{L}(\mathbf{x}, \mathbf{y}^{*},\lambda,\mu)\right] \\
-    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}}f(\mathbf{x}, \mathbf{y}^{*}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}^{*}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\text{LP problem}} ,
+    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}}f(\mathbf{x}, \mathbf{y}^{*}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}^{*}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{LP problem}} ,
 \end{align}
   \vspace{6pt}
     \hrule
 %%%%%%%%%%%%%%%%%%%
 \subsubsection{Example: \textit{Quadratic Convex Minimization Problem}}
-Consider the following combinatorial optimization problem,
+Consider the following optimization problem,
 \begin{mini!}[2]
 	{x}{f(x) = mx^{2} + nx}{}{}{\quad \left[f: \mathbb{R} \rightarrow \mathbb{R}\right]}
 	\addConstraint{h(x)= ax - b }{=0}{\quad\left[h: \mathbb{R} \rightarrow \mathbb{R}\right]}.
@@ -198,7 +198,7 @@ apply the KKT conditions in the inner problem,
     \frac{\partial \mathcal{L}}{\partial x} &= 2mx + n + a\lambda = 0 \\
     x &= - \frac{n + a\lambda}{2m}\label{eq: xInner}.
 \end{align}
-Inserting the $x$ in term of $\lambda$ in the inner problem yields to,
+Inserting $x$ in terms of $\lambda$ in the inner problem yields
 \begin{equation}
     \max_{\lambda} \left[\frac{(n+a\lambda)^{2}}{4m} - \frac{n(n+a\lambda)}{2m} - \lambda\left(\frac{-a(n+a\lambda)}{2m} - b\right)\right].
 \end{equation}
@@ -210,8 +210,8 @@ we get
 \begin{equation}
     \lambda = - \left(\frac{2mb}{a^{2}} + \frac{n}{a}\right).
 \end{equation}
-If we now insert in Eq.\,\eqref{eq: xInner} we get the optimal solution of the primal problem.\\\\
-This example shows two different ways of solving a combinatorial optimization problem and how they are equivalent.
+If we now insert this in Eq.\,\eqref{eq: xInner} we get the optimal solution of the primal problem.\\\\
+This example shows two different ways of solving an optimization problem and how they are equivalent.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Benders' cuts}
@@ -221,13 +221,13 @@ Consider the following two-variable MILP problem,
 	\addConstraint{h(x,y)= ax - by }{=0}{}{\label{cons:ExLink}}
 	\addConstraint{g(x)=cx}{\leq 0}{}
     \addConstraint{x}{\geq 0}{}
-    \addConstraint{0 \leq y}{\leq 1,}{}
+    \addConstraint{y}{\in \{0,1\},}{}
 \end{mini!}
-where $a,b,c,m,n \in \mathbb{R}$, Eq.\,\eqref{cons:ExLink} is a linking constraint and the integer variable is binary. Fixing the complicated variable to a feasible value $y^{*}$ would allow us to split the original problem into a SP which is a LP:
+where $a,b,c,m,n \in \mathbb{R}$, Eq.\,\eqref{cons:ExLink} is a linking constraint and the integer variable is binary. Fixing the complicated variable to a feasible value $y^{*}$ would allow us to split the original problem into an SP which is an LP:
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Slave problem]
 \begin{mini!}[2]
 	{x}{\alpha \equiv mx}{}{}{}
-	\addConstraint{h(x)= ax - by^{*} }{=0}{\quad :\lambda}{}
+	\addConstraint{h(x,y^{*})= ax - by^{*} }{=0}{\quad :\lambda}{}
 	\addConstraint{g(x)=cx}{\leq 0}{\quad :\Pi}
     \addConstraint{x}{\geq 0}{\quad :\mu.}
 \end{mini!}
@@ -236,31 +236,31 @@ We can write the problem as
 \begin{equation}
     \max_{\lambda,\mu}\left(\min_{x}\mathcal{L}(x,y^{*},\lambda,\Pi,\mu)\right)
 \end{equation}
-and using the KKT conditions in the inner optimization problem yields to its dual optimization problem
+and using the KKT conditions in the inner optimization problem yields its dual optimization problem
 \begin{maxi!}[2]
 	{\lambda,\Pi,\mu}{-by^{*}\lambda}{}{}{}
 	\addConstraint{\frac{\partial \mathcal{L}}{\partial x}}{= m + a\lambda + c\Pi - \mu = 0}{}
 \end{maxi!}
-Since the objective function only has the $\lambda$ we can re-write the previous problem as an inequality by dropping the $(\Pi,\mu)$ Lagrange multipliers
+Since the objective function only has $\lambda$ and not $\Pi$ and $\mu$ we can re-write the previous problem as an inequality by dropping the $(\Pi,\mu)$ Lagrange multipliers
 \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Dual formulation of slave problem]
 \begin{maxi!}[2]
 	{\lambda}{-by^{*}\lambda}{}{}{}
 	\addConstraint{m + a\lambda}{\geq 0}{}
 \end{maxi!}
 \end{tcolorbox}
-The resolution of the dual problem yields to the candidate values $x^{*}$ and $\lambda^{*}$.\\
-On the other hand, the MP, which is a IP, is given by
+The resolution of the dual problem leads to the candidate values $x^{*}$ and $\lambda^{*}$.\\
+On the other hand, the MP, which is an IP, is given by
 \begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Master problem]
 \begin{mini!}[2]
 	{y, \alpha}{\underline{z} = ny + \alpha}{}{}{}
-	\addConstraint{\alpha}{\geq \alpha_{\text{down}}}{}
-    \addConstraint{\alpha}{\geq \underbrace{\lambda \left(- by\right)}_{\text{Benders' cuts}}}{}
-    \addConstraint{0 \leq y}{\leq 1.}{}
+	\addConstraint{\alpha}{\geq \alpha_{\textrm{down}}}{}
+    \addConstraint{\alpha}{\geq \underbrace{\lambda \left(- by\right)}_{\textrm{Benders' cuts}}}{}
+    \addConstraint{y}{\in\{0,1\}.}{}
 \end{mini!}
 \end{tcolorbox}
-where $\alpha_{\text{down}}$ is a lower bound for $\alpha$ that we must fix so that we have bounded problems.
+where $\alpha_{\text{down}}$ is a lower bound for $\alpha$ that we must fix so that the problem is bounded.
 \begin{tcolorbox}[colback=black!5!white,colframe=black!75!black,title=Strong Duality condition]
-For lineal problems it is guarantee that
+For lineal problems it is guaranteed that
 \begin{equation}
     mx^{*} + ny^{*} =-by^{*}\lambda^{*}
 \end{equation}
@@ -272,13 +272,13 @@ for the optimal values $x^{*},y^{*}$ and $\lambda^{*}$.
 % QA + SA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hybrid quantum-classical algorithms}
-In Appx.\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} (SA) and solve a travelling salesman problem to illustrate it. A simulated annealing algorithm does not guarantee an optimal solution but the results we can get with a clever annealing schedule can be good enough in accuracy and time. The same applies to a quantum annealing algorithm. In this section, we show how the decomposition of a QUBO problem allows us to use both quantum and classical solvers, where the classical solvers relax the original problem so that it can be tackled by the quantum solver.
+In Appxendix\,\ref{AppendixB}, we show the foundations of \textit{simulated annealing} (SA) and solve a travelling salesman problem to illustrate it. A simulated annealing algorithm does not guarantee an optimal solution but the results we can get with a clever annealing schedule can be good enough in accuracy and time. The same applies to a quantum annealing algorithm. In this section, we show how the decomposition of a QUBO problem allows us to use both quantum and classical solvers, where the classical solvers relax the original problem so that it can be tackled by the quantum solver.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Quantum Benders' Decomposition}
 The main idea behind the quantum Benders approach is to use the quantum annealer to solve either the primal problem or the dual problem. We are interested in solving the primal problem, also known as master problem, with a quantum annealer. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Heuristic Protocols}
-As stated before, heuristic approaches do not guarantee to arrive at the optimal solution. However, these methods explore the configuration space in such a way that we do not get stuck in a local minimum. For a limited amount of computational resources and time, the solution that a heuristic approach can achieve is sub-optimal. Generally, these methods are better than a brute-force method when the problem is large enough so that there are no computational resources that are able to solve it by getting the optimal solution.
+As stated before, heuristic approaches do not guarantee to arrive at the optimal solution. However, these methods explore the configuration space in such a way that we do not get stuck in a local minimum. For a limited amount of computational resources and time, the solution that a heuristic approach can achieve is sub-optimal. Generally, these methods are better than a brute-force method when the problem is large enough so that there are no computational resources that are able to provide the optimal solution.
 \subsubsection{SA-QA Protocol}
 We present a hybrid quantum-classical algorithm protocol based on combining SA and QA\,\cite{Ding2019ImplementationDesign} to solve the MP and SP(s), respectively. Figure\,\ref{fig:SA_QAProtocol} shows a graphical representation of the SA-QA protocol, which we describe in more detail below. 
 \begin{figure}[H]
@@ -288,7 +288,7 @@ We present a hybrid quantum-classical algorithm protocol based on combining SA a
 \label{fig:SA_QAProtocol}
 \end{figure}
 \begin{enumerate}
-    \item Set the upper and lower bound of the problem -- so that we avoid dealing with unbound problems -- and initialize a configuration for the problem, i.e., annealing schedule, initial and final temperature, and a selection criterion.
+    \item Set the upper and lower bound of the problem -- so that we avoid dealing with unbounded problems -- and initialize a configuration for the problem, i.e., annealing schedule, initial and final temperature, and a selection criterion.
     \item Randomly generate a new configuration by changing the values of the binary variables according to a neighboring function that generates a new configuration in one of these ways:
     \begin{enumerate}
         \item Randomly pick a binary variable with value 1 and set it to 0.
@@ -297,16 +297,16 @@ We present a hybrid quantum-classical algorithm protocol based on combining SA a
     \end{enumerate}
     \item Given the new configuration, solve the sub-problem(s) -- dual problems -- with a quantum annealing algorithm.
     \item Apply the selection criterion to keep or discard the current configuration.
-    \item If the selection criterion is not satisfied, repeat steps 2 to 4 until a iteration index is equal to the value set in step 1, then decrease the temperature and reset the iteration index. If the selection criterion is satisfied, the protocol outputs the current cost function value and its solution $\mathbf{x}$.
+    \item If the selection criterion is not satisfied, repeat steps 2 to 4 until an iteration index is equal to the value set in step 1, then decrease the temperature and reset the iteration index. If the selection criterion is satisfied, the protocol outputs the current cost function value and its solution $\mathbf{x}$.
 \end{enumerate}
-Notice that the algorithm solves the master problem with a simulating annealing algorithm in a classical solver and then the sub-problem(s) -- dual problems -- with the quantum computer, more precisely with a quantum annealer. For this reason, the sub-problem(s) must have binary constraints or low integer values if we do not want to deal with discretization errors or adding a big set of slack variables.\\\\
+Notice that the algorithm solves the master problem with a simulated annealing algorithm in a classical solver and then the sub-problem(s) -- dual problems -- with the quantum computer, more precisely with a quantum annealer. For this reason, the sub-problem(s) must have binary constraints or low integer values if we do not want to deal with discretization errors or adding a big set of slack variables.\\\\
 In order to apply both simulated and quantum annealing to problems in which the master problem contains most of the binary and integer variables -- as is the case with the TEP problem --, we have to reconsider or adapt the previous scheme.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % QA-SA Protocol
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{QA-SA Protocol}
  As stated before, our sub-problem(s) has real constraints which implies it is not a clever approach to solve them with a quantum annealer. For this reason, we reverse the original protocol so that the quantum annealer tackles the master problem in which the binary and integer decision variables appear and the classical solver tackles the sub-problem(s). A scheme of the new protocol is shown in Figure\,\ref{fig:QA_SAProtocol}.\\\\
-In order to explain the protocol in accordance to what has been shown in previous section we use the same notation $f(\mathbf{x})$ to describe the upper bound of the primal problem and $q(\lambda,\mu)$ to describe the lower bound, where $(\lambda,\mu)$ represents the penalties of our problem, in other words, the Lagrange multipliers, and $\mathbf{x}$ represent the decision variables. We are showing a heuristic approach, meaning that the convergence is not guaranteed. That is, we are not getting the optimal values $(\mathbf{x}^{*}, \lambda^{*},\mu^{*})$ that maximize the lower bound and minimize the upped bound in each iteration. Instead, we are optimizing the dual problem by SA algorithm and the master problem by QA, so that none of these methods guarantees the optimal solution to its combinatorial optimization problem.
+In order to explain the protocol in accordance to what has been shown in the previous section we use the same notation $f(\mathbf{x}, \mathbf{y})$ to describe the upper bound of the primal problem and $q(\lambda,\mu)$ to describe the lower bound, where $(\lambda,\mu)$ represents the penalties of our problem, that is, the Lagrange multipliers, and $\mathbf{x},\mathbf{y}$ represent the decision variables. We are showing a heuristic approach, meaning that the convergence is not guaranteed. That is, we are not getting the optimal values $(\mathbf{x}^{*}, \lambda^{*},\mu^{*})$ that maximize the lower bound and minimize the upper bound in each iteration. Instead, we are optimizing the dual problem by a SA algorithm and the master problem by QA, so that none of these methods guarantees the optimal solution to the combinatorial optimization problem.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{Figures/QASAProtocol.pdf} 
@@ -319,7 +319,7 @@ In order to explain the protocol in accordance to what has been shown in previou
 \begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{}{}{\left[q: \mathbb{R}^{m+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq \mathbf{0}}{}
-	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid q(\lambda, \mu)\quad \text{Bounded} \}}.
+	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid q(\lambda, \mu)\quad \textrm{Bounded} \}}.
 \end{maxi!}
 Notice that the parameters $\lambda$ and $\mu$ do not have to be the optimal parameters. SA does not guarantee to obtain the optimal solution of the dual problem.
     \item Update the master problem with $\{\lambda, \mu\}$ 
