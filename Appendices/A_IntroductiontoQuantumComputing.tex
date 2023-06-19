@@ -277,26 +277,25 @@ Even though the advantage of using quantum computing with respect to classical c
 In this section we show the advantages of quantum computing by considering a specific example, that of Grover's algorithm.\\
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
 \begin{figure}[H]
-    \includegraphics[width=\textwidth]{Figures/Grover_Circuit.pdf}
+    \includegraphics[width=0.9\textwidth]{Figures/Grover_Circuit.pdf}
     \caption{Circuit scheme of Grover's algorithm for an $n$-qubit system.}
     \label{fig:Grover_circuit}
 \end{figure}
 \subsubsection{Grover's Algorithm Steps for a Two-qubit System ($N=4$)}
-In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search}.\\
-As an example consider the following table,
+In this section we show what is the state of the system at each step -- after the application of the quantum gates -- and a geometrical representation based on Ref. \cite{Lavor2008Search}.
 \begin{table}[H]
 \centering
-\label{tab:GroverSearch}
 \begin{tabular}{ | c | c | c | c | c | }
   \hline			
-  \textbf{Binary} Index & 00 & 01 & 10 & 11 \\
+  \textbf{Binary Index} & 00 & 01 & 10 & 11 \\
     \hline		
   \textbf{Item} & 0 & 1 & 2 & 3 \\
   \hline  
 \end{tabular}
 \caption{Grover's search example. Different items described by its binary expansion.}
+\label{tab:GroverSearchExample}
 \end{table}
-and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the state $\ket{\omega} = \ket{10}$.\\\\
+As an example consider the Table\,\ref{tab:GroverSearchExample}, and suppose we want to find the item 2, where the index -- binary expansion of decimal index starting from zero -- represents the eigenstate of the system we are looking for. Then, if we are interested in finding the item 2, we are looking for the state $\ket{\omega} = \ket{10}$.\\\\
 \textbf{(0)Initialize single qubit states:} all the qubits are initialized at $\ket{0}$ so the state of the system is given by the tensor product of the qubits,
 \begin{equation}
     \ket{\psi_{0}} = \ket{0}\otimes \ket{0} = \ket{00}.
