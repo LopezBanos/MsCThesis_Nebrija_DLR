@@ -41,9 +41,9 @@ We can show why completeness of space is a necessary condition. Suppose that our
     \ket{\psi(t)} = e^{-\frac{i\mathcal{H}}{\hbar}t}\ket{\psi(0)} = \lim_{n \to \infty} \sum_{i = 0}^{n}\frac{(-it)^{k}}{k!h^{k}}\mathcal{H}^{k}\ket{\psi(0)}.
 \end{equation}
 \begin{definition}{Completeness of an orthonormal set of functions}{}
-A set of orthonormal functions $\{\psi_{i}\}$ is complete if any function $\psi(x)$ in Hilbert space can be written as a linear combination of the $\psi_{i}(x)$\footnote{Here we do not ask for point convergence, we weaken the convergence criteria to mean convergence. Otherwise, there would not exist a complete set of orthonormal functions in the Hilbert space.}:
+A set of orthonormal functions $\{\psi_{i}\}$ is complete if any function $\psi(x)$ in Hilbert space can be written as a linear combination of the $\psi_{i}(x)$:
 \begin{equation}
-    \lim_{n\to \infty}\| \psi(x) - \sum_{i=1}^{n}c_{i}\psi_{i}(x)\|^{2} = 0.
+    \lim_{n\to \infty}\| \psi(x) - \underbrace{\sum_{i=1}^{n}c_{i}\psi_{i}(x)}_{\psi_{n}}\|^{2}= 0\ .
 \end{equation}
 \end{definition}
 \begin{theorem}{Riesz-Fischer}{}
@@ -55,7 +55,7 @@ then there exist a square (Lebesgue) integrable function $\psi(x)$ to which the 
 \begin{equation}
     \lim_{n\to \infty} \int_{a}^{b} \|\psi - \psi_{n}\|^{2}dx = 0.
 \end{equation}
-Equivalently, let $\psi_{n}$ be a Cauchy sequence and $\psi$ a value inside the given space. Then, the Cauchy sequence converges to $\psi(x)$ \textit{in the mean}, i.e, we allow the difference $\|\psi(x) - \psi_{n}(x)\|^{2}\neq 0$ at some points $x$, so that the integral $\lim_{n\to \infty} \int_{a}^{b} \|\psi - \psi_{n}\|^{2}dx$ is zero when taking into account the whole interval.
+Equivalently, let $\psi_{n}$ be a Cauchy sequence and $\psi$ a value inside the given space. Then, the Cauchy sequence converges to $\psi(x)$ in the mean\footnote{Here we do not ask for point convergence, we weaken the convergence criteria to converge in the mean, i.e., we allow the difference $\|\psi(x) - \psi_{n}(x)\|^{2}\neq 0$ at some points $x$, so that there exists an $N(\epsilon)$ for which the integral $I =\lim_{n\to \infty} \int_{a}^{b} \|\psi - \psi_{n}\|^{2}dx$ is arbitrarily close to zero $I<\epsilon$ for $n>N(\epsilon)$. Otherwise, there would not exist a complete set of orthonormal functions in the Hilbert space.}. 
 \end{theorem}
 \begin{definition}{Orthonormality}{}
 A given set of functions $\{\psi_{i}\}$ is said to be orthonormal if
@@ -278,7 +278,7 @@ In this section we show the advantages of quantum computing by considering a spe
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
 \begin{figure}[H]
     \includegraphics[width=\textwidth]{Figures/Grover_Circuit.pdf}
-    \caption{Circuit scheme of Grover's algorithm for an n-qubit system.}
+    \caption{Circuit scheme of Grover's algorithm for an $n$-qubit system.}
     \label{fig:Grover_circuit}
 \end{figure}
 \subsubsection{Grover's Algorithm Steps for a Two-qubit System ($N=4$)}
