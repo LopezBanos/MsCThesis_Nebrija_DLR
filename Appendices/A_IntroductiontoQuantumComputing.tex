@@ -262,7 +262,7 @@ We end up this appendix by discussing the main features of quantum behavior that
 The main power of quantum computers can be summarized in three properties,
 \begin{itemize}
     \item \textbf{Superposition:} a qubit can be a in a linear combination of states. We can build quantum algorithms that cross out those terms that are not interesting for us and increase the amplitudes of the ones we are interested in.
-    \item \textbf{Entanglement:} an entangled state is a state that cannot be written in term of the tensor product of pure states. Entangled states store information exponentially instead of linearly (as classical computing does). As an example, suppose we have the following two-qubit state, called \textit{Bell state}
+    \item \textbf{Entanglement:} an entangled state is a state that cannot be written in term of the tensor product of pure states, i.e., states whose trace $Tr(\rho^{2}) = 1$, where $\rho$ is the density matrix. Entangled states store information exponentially instead of linearly (as classical computing does). As an example, suppose we have the following two-qubit state, called \textit{Bell state}
 \begin{equation}
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right).
 \end{equation}
@@ -277,7 +277,8 @@ Even though the advantage of using quantum computing with respect to classical c
 In this section we show the advantages of quantum computing by considering a specific example, that of Grover's algorithm.\\
 Grover's algorithm is a search algorithm that uses qubits in superposition adjusting their phases to make the computations by quantum parallelism. Given a table with a number of items \textit{N}, we are interested in a particular item $\omega$. The best known classical algorithm can solve the problem in $O(N)$ complexity, which means that in the worst case a classical algorithm has to check each entry of the data-set until finding the item $\omega$ in the last query. Grover's algorithm can solve the problem in $\sim$ $O(\sqrt{N})$ complexity, which represent a quadratic speed up compared with the classical approach, i.e., after $\sqrt{N}$ evaluations it is guaranteed to provide the desired state.
 \begin{figure}[H]
-    \includegraphics[width=0.9\textwidth]{Figures/Grover_Circuit.pdf}
+\centering
+    \includegraphics[width=0.8\textwidth]{Figures/Grover_Circuit.pdf}
     \caption{Circuit scheme of Grover's algorithm for an $n$-qubit system.}
     \label{fig:Grover_circuit}
 \end{figure}
