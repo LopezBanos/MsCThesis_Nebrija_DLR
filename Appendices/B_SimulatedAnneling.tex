@@ -32,7 +32,7 @@ Renaming variables,
     \label{eq:Renaming1}
     \Pi_{i}(t) \equiv P\left(X_{t} = i\right) \\
     \label{eq:Renaming2}
-    p_{i \leftarrow j} \equiv P\left(X_{t+1} = i | X_{t}=j\right) .
+    p_{i \leftarrow j} \equiv P\left(X_{t+1} = i | X_{t}=j\right)\ .
 \end{align}
 From equations Eq.\,\eqref{eq:Renaming1} and Eq.\,\eqref{eq:Renaming2}, we can write,
 \begin{align}
@@ -59,7 +59,7 @@ In case we deal with a continuous process, continuous in time but spatially disc
 so that the master equation can be written as
 \begin{equation}
 \label{eq: MasterEquationContinuous}
-    \frac{d\Pi_{i}(t)}{dt} = \sum_{j}\mathcal{L}_{i \leftarrow j} \Pi_{j}(t).
+    \frac{d\Pi_{i}(t)}{dt} = \sum_{j}\mathcal{L}_{i \leftarrow j} \Pi_{j}(t)\ .
 \end{equation}
 If we know $\Pi_{i}(t_{0})$ we can know the probability at later times. Assume our system has reached the steady state, i.e., $d\Pi_{i}/dt = 0$, which implies
 \begin{equation}
@@ -73,16 +73,16 @@ A sufficient but not necessary condition to fulfill Eq.\,\eqref{eq: StationaryCo
 which is known as the \textbf{detailed balanced condition}.\\
 The evolution of our system is determined by knowing an initial state and the transition rate expression. Metropolis \textit{et al.}\,\cite{Metropolis1953}, in connection to statistical mechanics, chose the Boltzmann distribution
 \begin{equation}
-    \Pi_{i}^{\mathrm{eq}} = \frac{1}{Z}\exp\left(- \frac{\mathcal{H}_{i}}{k_{B}T}\right), \;\;\; Z = \sum_{i}\exp\left(-\frac{\mathcal{H}_{i}}{k_{B}T}\right),
+    \Pi_{i}^{\mathrm{eq}} = \frac{1}{Z}\exp\left(- \frac{\mathcal{H}_{i}}{k_{B}T}\right), \;\;\; Z = \sum_{i}\exp\left(-\frac{\mathcal{H}_{i}}{k_{B}T}\right)\ ,
 \end{equation}
 which implies,
 \begin{equation}
-    \frac{\mathcal{L}_{j \leftarrow i}}{\mathcal{L}_{i \leftarrow j}} = \exp\left(\frac{\mathcal{H}_{i} - \mathcal{H}_{j}}{k_{B}T}\right)
+    \frac{\mathcal{L}_{j \leftarrow i}}{\mathcal{L}_{i \leftarrow j}} = \exp\left(\frac{\mathcal{H}_{i} - \mathcal{H}_{j}}{k_{B}T}\right)\ .
 \end{equation}
 The last expression does not define uniquely the transition rate so we need a criterion for that. There are two common criteria:
 \begin{itemize}
     \item\textbf{Metropolis criterion:} $\mathcal{L}_{j \leftarrow i} = \min \left[1,\exp\left(\mathcal{H}_{i}-\mathcal{H}_{j}/\left(k_{B}T\right)\right)\right]$. This condition guarantees a transition into states with lower energy without forbidding a transition to higher energy states, where this transition rate depends on the energy difference. 
-    \item \textbf{Heat bath criterion:} $\mathcal{L}_{i \leftarrow j} = \frac{\Pi_{j}^{\mathrm{eq}}}{\Pi_{i}^{\mathrm{eq}} + \Pi_{j}^{\mathrm{eq}}} = \left[1 + \exp\left(\frac{\mathcal{H}_{j}- \mathcal{H}_{i}}{k_{B}T}\right)^{-1}\right]$ 
+    \item \textbf{Heat bath criterion:} $\mathcal{L}_{i \leftarrow j} = \frac{\Pi_{j}^{\mathrm{eq}}}{\Pi_{i}^{\mathrm{eq}} + \Pi_{j}^{\mathrm{eq}}} = \left[1 + \exp\left(\frac{\mathcal{H}_{j}- \mathcal{H}_{i}}{k_{B}T}\right)^{-1}\right]$. 
 \end{itemize}
  The transition rates do not guarantee the optimal value of our objective function. Hereafter, we will consider $k_B = 1$.
 \subsection{Annealing Schedules}
@@ -90,7 +90,7 @@ The annealing approach considers a temperature that starts from a high value and
 \begin{itemize}
     \item \textbf{Geman-Geman:} guarantees that the absolute minimum is reached when $t\to\infty$\,\cite{Geman1984StochasticImages}. It is given by
     \begin{equation}
-        T(t) = \frac{a}{b + \log{t}}.
+        T(t) = \frac{a}{b + \log{t}}\ .
     \end{equation}
 \end{itemize}
 Since we do not have infinite time to perform our simulations, we need schedules that are faster despite they not guarantee convergence to global minimum. 
@@ -105,12 +105,12 @@ Since we do not have infinite time to perform our simulations, we need schedules
 \section{Traveling Salesman Problem}
 The traveling salesman problem (TSP) is an NP-hard combinatorial optimization problem. That means it does not have a polynomial-time solution. The goal of our traveling salesman is to find the shortest path to visit all the $n$ regions in a given list $R$, which are represented by nodes in a graph, by annotating the position $P$ that each region has in the path, returning to the initial region. The distance between nodes $u,v \in R$, $D(u,v)$, measured in units of length, is calculated using the Euclidean metric
 \begin{equation}
-    D(u,v) \equiv D_{uv}= \sqrt{\left|x_{v} - x_{u}\right|^{2} + \left|y_{v} - y_{u} \right|^{2}}. 
+    D(u,v) \equiv D_{uv}= \sqrt{\left|x_{v} - x_{u}\right|^{2} + \left|y_{v} - y_{u} \right|^{2}}\ . 
 \end{equation}
 The objective function to minimize for a graph with $n$ nodes can be written as
 \begin{equation}
 \label{eq:TSP_noconstraints}
-    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1},
+    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1}\ ,
 \end{equation}
 where the coefficients $x_{v,i}$ are binary variables that indicate if node $v \in R$ is in the position $i\in P$ of the tour, represented by the vector $\mathbf{x}$. Furthermore the distance between nodes is symmetric $D_{uv} = D_{vu}$ which is taken into account when creating the matrix $D_{uv}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,18 +119,18 @@ where the coefficients $x_{v,i}$ are binary variables that indicate if node $v \
 \subsection{Constraints}
 The traveling salesman has to visit each node just once in the whole path
 \begin{equation}
-    \sum_{i=0}^{i<n}x_{u,i} = 1 \quad  \forall \; u \in R,
+    \sum_{i=0}^{i<n}x_{u,i} = 1 \quad  \forall \; u \in R\ ,
 \end{equation}
 and each stop of the tour has one node
 \begin{equation}
-    \sum_{u}x_{u, i} = 1 \quad  \forall \; i \in P.
+    \sum_{u}x_{u, i} = 1 \quad  \forall \; i \in P\ .
 \end{equation}
 The constraints can be taken into account in the cost function by using the Lagrange multipliers $\{\lambda_{i}\}_{i \in P}$ and $\{\lambda_{u}\}_{u \in R}$
 \begin{align}
         \label{eq: ObjectiveMatrixFunction}
     \begin{split}
    \min_{\vec{x}} f(\vec{x}) = \min_{\vec{x}} \sum_{v} \sum_{u} \sum_{i=0}^{i<n}D_{u,v}x_{v,i}x_{u, i+1}\\
-   - \sum_{i=0}^{i<n}\lambda_{i}\left(\sum_{u} x_{u, i} - 1\right)^{2} - \sum_{u}\lambda_{u} \left( \sum_{i=0}^{i<n}x_{u,i} - 1\right)^{2}.
+   - \sum_{i=0}^{i<n}\lambda_{i}\left(\sum_{u} x_{u, i} - 1\right)^{2} - \sum_{u}\lambda_{u} \left( \sum_{i=0}^{i<n}x_{u,i} - 1\right)^{2}\ .
 \end{split}
 \end{align}
 The problem can be re-written to have the functional form of a QUBO problem $\min_{x}x^{T}Qx$, where $Q$ is a matrix that stores the Hamiltonian coefficients. For this particular problem it is necessary to map the two indices of our binary variables $x_{u,i}$ into a single index, see Ref. \cite{Jain2021SolvingComputer}.
