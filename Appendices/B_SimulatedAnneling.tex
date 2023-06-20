@@ -48,7 +48,7 @@ Combining the last two equations,
 \end{align}
 we get the master equation of a Markov stochastic discrete process.
 \subsection{Continuous Processes}
-In case we deal with a continuous process, continuous in time but spatially discrete, we need to work with transition rates defined by
+In the case where we deal with a continuous process\footnote{In this thesis, a continuous process is understood as a stochastic process that is continuous in time but whose state space is discrete.} we need  to work with transition rates defined by
 \begin{equation}
     \mathcal{L}_{i \leftarrow j} = 
     \begin{cases}
@@ -93,7 +93,7 @@ The annealing approach considers a temperature that starts from a high value and
         T(t) = \frac{a}{b + \log{t}}\ .
     \end{equation}
 \end{itemize}
-Since we do not have infinite time to perform our simulations, we need schedules that are faster despite they not guarantee convergence to global minimum. 
+Since we do not have infinite time to perform our simulations, we need schedules that are faster despite their not guaranteeing convergence to the global minimum. 
 \begin{itemize}
     \item \textbf{Linear cooling:} $T(t) = a - bT$ where $a = T_{0}$ -- initial temperature -- and $b \in (0.01,0.2)$.
     \item \textbf{Exponential cooling:} $T(t) = ab^{t}$ where $a = T_{0}$ -- initial temperature -- and $b \in (0.8,0.999)$.
