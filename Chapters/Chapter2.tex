@@ -179,8 +179,8 @@ This equation expresses the coefficient $c_{n}(s)$ in terms of its initial value
 \end{equation}
 We can express the integrand of Eq.\,\eqref{eq:Coeff} as a difference between two terms,
 \begin{align}
-\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)}= \frac{i}{T}\Biggl[\frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g^{2}_{nm}(s^{\prime})}e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)}\right)\\
- - e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\Biggr]\ .
+\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})} e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} &= \frac{i}{T}\Biggl[\frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g^{2}_{nm}(s^{\prime})}e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)}\right)\\
+ &- e^{-iT\int_{0}^{s^{\prime}}\left(ds^{\prime \prime}g_{nm}(s^{\prime\prime}) \right)} \frac{d}{ds^{\prime}}\left(\frac{F_{nm}(s^{\prime})}{g_{nm}(s^{\prime})}\right)\Biggr]\ .
  \end{align}
  Substituting the previous result into Eq.\,\eqref{eq:Coeff} leads to
  \begin{equation}
@@ -269,7 +269,7 @@ $x_{1} + x_{2} \geq 1$ &   $P\left(1-x_{1}-x_{2}+x_{1}x_{2}\right)$ \\
 \end{table}
 There are constraints that require of additional binary variables -- slack variables -- in order to reformulate them into QUBO. These type of constraints can be written as a binary expansion as follows. Suppose we have the following constraint,
 \begin{equation}
-    \sum_{i}w_{i}x_{i}\leq W,
+    \sum_{i}w_{i}x_{i}\leq W\ ,
 \end{equation}
 where the $W$ for simplicity is an integer value. The QUBO penalty of that constraint is
 \begin{equation}
@@ -306,7 +306,7 @@ We have to assign the assets to two heirs, Alice and Bob -- represented by $\{0,
 Notice we are not interested in the sign of our cost function. Therefore, to avoid dealing with signs we take the square of the difference so we know we are minimising a positive quantity.\\\\
 Expanding the square we arrive at the Ising formulation, $\vec{s}^{T}\mathcal{J}\vec{s}$. Notice that for $s_{i} \in \{-1,1\}$ the following relation holds $s_{i}^{2}=1$. 
 \begin{align}
-    \left[\sum_{i}s_{i}v_{i}\right]^{2} = \sum_{i}\left(s_{i}v_{i}\right)^{2} + 2\sum_{i<j}s_{i}v_{i}v_{j}s_{j} = \underbrace{\sum_{i}v_{i}^{2}}_{\textrm{Constant}} + \sum_{i<j}s_{i}2v_{i}v_{j}s_{j}\ .
+    \left[\sum_{i}s_{i}v_{i}\right]^{2} = \sum_{i}\left(s_{i}v_{i}\right)^{2} + 2\sum_{i<j}s_{i}v_{i}v_{j}s_{j} = \underbrace{\sum_{i}v_{i}^{2}}_{\mathrm{Constant}} + \sum_{i<j}s_{i}2v_{i}v_{j}s_{j}\ .
 \end{align}
 Therefore, the Ising matrix of this example is
 \begin{equation}

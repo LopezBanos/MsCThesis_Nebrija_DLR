@@ -47,24 +47,24 @@ We can relax the primal problem\,\eqref{eq: MILP} by associating a penalty to ea
 \end{equation}
 also known as Lagrange multipliers. Then the Lagrangian of the primal problem is
 \begin{equation}
-    \mathcal{L}(\mathbf{x},\mathbf{y}, \lambda, \mu) = f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x},\mathbf{y}) + \mu^{\intercal}g(\mathbf{x}).
+    \mathcal{L}(\mathbf{x},\mathbf{y}, \lambda, \mu) = f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x},\mathbf{y}) + \mu^{\intercal}g(\mathbf{x})\ .
 \end{equation}
 The Lagrangian allows us to reformulate the problem by augmenting the objective function with a set of constraint functions weighted by the Lagrange multipliers, so that our new problem has zero constraints.
 \begin{definition}{Dual function}{}
 The dual function, $q: \left[\mathbb{R}^{q+p}\rightarrow\mathbb{R}\right]$, maps the set of parameters $\lambda$ and $\mu$ to a minimization problem
 \begin{equation}
-    q(\lambda, \mu) = \min_{\mathbf{x}, \mathbf{y}}\mathcal{L}(\mathbf{x},\mathbf{y}, \lambda, \mu),
+    q(\lambda, \mu) = \min_{\mathbf{x}, \mathbf{y}}\mathcal{L}(\mathbf{x},\mathbf{y}, \lambda, \mu)\ ,
 \end{equation}
 where $q$ and $p$ are the number of equality and inequality constraints and
 \begin{equation}
-    \lambda\in\mathbb{R}^{q}\,\, \textrm{and}\, \mu\in\mathbb{R}^{p},
+    \lambda\in\mathbb{R}^{q}\,\, \textrm{and}\, \mu\in\mathbb{R}^{p}\ ,
 \end{equation}
 are the penalty parameters.
 \end{definition}
 Notice that the dual function is an unconstrained problem because all the constraints have been moved into the Lagrangian.
 Considering the MILP problem \eqref{eq: MILP}, the inequality constraint $g(\mathbf{x})\leq \mathbf{0}$ is violated if $g(\mathbf{x})>\mathbf{0}$. To take into account this in the cost function we need to introduce a positive cost, so $\mu^{\intercal}g(\mathbf{x})>0$ which implies $\mu$ has positive coefficients, that is
 \begin{equation}
-    \mu \geq \mathbf{0}.
+    \mu \geq \mathbf{0}\ .
 \end{equation}
 \begin{theorem}{}{}
 The dual of a linear optimization problem is another linear optimization problem.
@@ -79,7 +79,7 @@ Suppose that $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is an optimal solution -- so it 
 \end{equation}
 is a lower bound of the primal problem, for
 \begin{equation}
-    \lambda\in\mathbb{R}^{q}\, \textrm{and}\, \mu\in\mathbb{R}^{p}.
+    \lambda\in\mathbb{R}^{q}\, \textrm{and}\, \mu\in\mathbb{R}^{p}\ .
 \end{equation}
 \end{theorem}
 \begin{proof}
@@ -98,13 +98,13 @@ We want to find the best possible lower bound by solving the following optimizat
 \begin{maxi!}[2]
 	{\lambda, \mu}{q(\lambda, \mu)}{\label{eq: Abstract_Dual}}{}{\left[q: \mathbb{R}^{q+p} \rightarrow \mathbb{R}\right]}
 	\addConstraint{\mu}{\geq \mathbf{0}}{}
-	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu)\,  \textrm{Bounded} \}.}
+	\addConstraint{(\lambda, \mu)}{}{\in \{\lambda, \mu \,\mid\, q(\lambda, \mu)\,  \textrm{Bounded} \}\ .}
 \end{maxi!}
 Notice that we are choosing the penalties in such a way that the dual problem is bounded.
 \begin{theorem}{Weak Duality}{}
 If $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is the optimal solution of the primal, and $(\lambda^{*}, \mu^{*})$ is the optimal solution of the dual, then
 \begin{equation}
-    q(\lambda^{*}, \mu^{*}) \leq f(\mathbf{x}^{*}, \mathbf{y}^{*}).
+    q(\lambda^{*}, \mu^{*}) \leq f(\mathbf{x}^{*}, \mathbf{y}^{*})\ .
 \end{equation}
 This inequality holds even for non-convex problems.
 \end{theorem}
@@ -112,7 +112,7 @@ The difference between the lower bound and the upper bound is known as the optim
 \begin{theorem}{Strong Duality}{}
 If $(\mathbf{x}^{*}, \mathbf{y}^{*})$ is the optimal solution of a convex\footnote{There are conditions beyond convexity under which the strong duality holds. However, we are not going to discuss them in the present work.} primal problem, and $(\lambda^{*}, \mu^{*})$ is the optimal solution of its dual, then
 \begin{equation}
-    q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}, \mathbf{y}^{*}).
+    q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}, \mathbf{y}^{*})\ .
 \end{equation}
 \end{theorem}
 In other words, the strong duality theorem guarantees that the upper bound and lower bound are going to converge into a point for the optimal solution, see Fig.\,\ref{fig:BD_Convergence} adapted from\,\cite{Zhao2021HybridProgramming}.
@@ -142,7 +142,7 @@ then they are optimal.
 \begin{proof}
 Consider a feasible solution of the primal problem, $(\mathbf{x}, \mathbf{y})$, and a feasible solution of the dual problem, $(\lambda, \mu)$, then
 \begin{equation}
-    f(\mathbf{x}, \mathbf{y}) \geq q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}, \mathbf{y}^{*}) \geq q(\lambda, \mu).
+    f(\mathbf{x}, \mathbf{y}) \geq q(\lambda^{*}, \mu^{*}) = f(\mathbf{x}^{*}, \mathbf{y}^{*}) \geq q(\lambda, \mu)\ .
 \end{equation}
 \end{proof}
 %%%%%%%%%%%%%%
@@ -150,7 +150,7 @@ Consider a feasible solution of the primal problem, $(\mathbf{x}, \mathbf{y})$, 
 In this section we introduce a first-order necessary conditions for a solution of convex problems to be optimal, the \textit{Karush–Kuhn–Tucker} (KKT) conditions. For a deeper understanding see Ref.\,\cite{Boyd2004}.\\\\
 Suppose we are given an LP problem, i.e., a problem with real variables $x_{i}\in\mathbf{x}$ whose functions are differentiable. Then its Lagrangian can be written as
 \begin{equation}
-    \mathcal{L}(\mathbf{x}, \lambda, \mu) = f(\mathbf{x}) + \lambda^{\intercal}h(\mathbf{x}) + \mu^{\intercal}g(\mathbf{x}).
+    \mathcal{L}(\mathbf{x}, \lambda, \mu) = f(\mathbf{x}) + \lambda^{\intercal}h(\mathbf{x}) + \mu^{\intercal}g(\mathbf{x})\ .
 \end{equation}
 We can get the dual problem of \,\eqref{eq: MILP} by writing a set of equations from the Lagrangian and the constraints of the primal problem. The following set of equations 
 \begin{align}
@@ -163,12 +163,12 @@ MILP problems mix real and integer variables which implies they are not convex a
 From previous sections, we know that a MILP problem can be written as,
 \begin{align}
     \max_{\lambda,\mu} q(\lambda,\mu) &=\max_{\lambda,\mu}\left[\min_{\mathbf{x},\mathbf{y}}\mathcal{L}(\mathbf{x}, \mathbf{y},\lambda,\mu)\right] \\
-    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}, \mathbf{y}}f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{MILP problem}} ,
+    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}\ , \mathbf{y}}f(\mathbf{x}, \mathbf{y}) + \lambda^{\intercal}h(\mathbf{x}\ , \mathbf{y}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{MILP problem}} \ ,
 \end{align}
 where the outer optimization problem is a maximization over the Lagrange multipliers $\left(\lambda,\mu\right)$ and the inner optimization problem is a minimization over the primal variables $\mathbf{x}$ and $\mathbf{y}$. Notice that the inner problem is an unconstrained problem since the constraints of the original problem are already taken into account as penalties in the Lagrangian. The inner problem has integer variables so we cannot use the KKT conditions but if the integer variables are fixed, $\mathbf{y}^{*}$, then the inner problem is a LP
 \begin{align}
-    \max_{\lambda,\mu} q(\lambda,\mu) &=\max_{\lambda,\mu}\left[\min_{\mathbf{x}}\mathcal{L}(\mathbf{x}, \mathbf{y}^{*},\lambda,\mu)\right] \\
-    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}}f(\mathbf{x}, \mathbf{y}^{*}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}^{*}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{LP problem}} ,
+    \max_{\lambda,\mu} q(\lambda,\mu) &=\max_{\lambda,\mu}\left[\min_{\mathbf{x}}\mathcal{L}(\mathbf{x}\ , \mathbf{y}^{*},\lambda,\mu)\right] \\
+    &= \max_{\lambda,\mu}\underbrace{\left[\min_{\mathbf{x}}f(\mathbf{x}\ , \mathbf{y}^{*}) + \lambda^{\intercal}h(\mathbf{x}, \mathbf{y}^{*}) + \mu^{\intercal}g(\mathbf{x})\right]}_{\textrm{LP problem}}\ ,
 \end{align}
   \vspace{6pt}
     \hrule
@@ -177,17 +177,17 @@ where the outer optimization problem is a maximization over the Lagrange multipl
 Consider the following optimization problem,
 \begin{mini!}[2]
 	{x}{f(x) = mx^{2} + nx}{}{}{\quad \left[f: \mathbb{R} \rightarrow \mathbb{R}\right]}
-	\addConstraint{h(x)= ax - b }{=0}{\quad\left[h: \mathbb{R} \rightarrow \mathbb{R}\right]}.
+	\addConstraint{h(x)= ax - b }{=0}{\quad\left[h: \mathbb{R} \rightarrow \mathbb{R}\right]}\ .
 \end{mini!}
 The KKT conditions of this problem are
 \begin{align}
     ax^{*}-b=0 \\
-    2mx^{*}+n + a\lambda^{*}= 0,
+    2mx^{*}+n + a\lambda^{*}= 0\ .
 \end{align}
 The solution of this set of equations are the optimal primal and dual variables,
 \begin{align}
     x^{*} &= \frac{b}{a} \\
-    \lambda^{*} &= - \left(\frac{2mb}{a^{2}} + \frac{n}{a}\right)
+    \lambda^{*} &= - \left(\frac{2mb}{a^{2}} + \frac{n}{a}\right)\ .
 \end{align}
 We can solve the problem in a different way by using the dual theory. First, reformulate the problem as an unconstrained inner minimization problem and an outer maximization problem
 \begin{equation}

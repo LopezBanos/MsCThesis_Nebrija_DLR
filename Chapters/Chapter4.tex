@@ -64,9 +64,9 @@ In this section we introduce the notation of the TEP problem. Let $N$ be the set
 There are two ways of formulating the TEP, shown in Figure\,\ref{fig: ThreeNode}. On the one hand, the brownfield model considers the power flow of existing lines in a network $f_{kl}^{0}$ among with the power flow of a set of candidate lines $f_{kl}^{1}$. On the other hand, the greenfield model considers an empty network and a set of candidate lines $f_{kl}^{1}$. For simplicity, we are going to consider the greenfield approach so that we do not have to take into account the constants associated with the existing lines. We can map two indices $ij$ to a single index $k$ by using a bijective function for a given number of nodes $N$, see Ref.\,\cite{Jain2021SolvingComputer},
 \begin{equation}
 k(i,j,N) = \begin{cases}
-    iN - i\left(i+1\right)/2 + j - (i+1), & i<j\\
-    \text{None},& i=j \\
-    k(j,i,N), & i>j
+    iN - i\left(i+1\right)/2 + j - (i+1)\ , & i<j\\
+    \text{None}\ ,& i=j \\
+    k(j,i,N)\ , & i>j
 \end{cases}
     \label{eq: TwoIndexesmap}
 \end{equation}
@@ -84,13 +84,13 @@ The TEP problems usually consider the building of new lines in existing connecti
 We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\cite{Dilwali2016} as follows
 \begin{mini!}[2]
 	{\mathbf{x},\mathbf{g},\mathbf{r},\mathbf{f}^{0},\mathbf{f}^{1}}{\underbrace{\sum_{kl\in C}c_{kl}x_{kl}}_{\textrm{Investment cost}} + \underbrace{\sum_{h\in H}\sum_{k}c_{k}^{(\textrm{oc})}g_{k}(h)}_{\textrm{Operational cost}} + \underbrace{\sum_{h\in H}\sum_{k}r_{k}(h)c_{k}}_{\textrm{Load shedding cost}}}{}{}{\label{eq: objective}}
-	\addConstraint{d_{k}(h)-\left(\sum_{l\in E_{k}}f_{kl}^{0}(h) + \sum_{l\in C_{k}}f_{kl}^{1}(h) + g_{k}(h) + r_{k}(h)\right)}{=0,\quad}{\forall k\in N ,h\in H}{\label{const: PowerBalance}}
-    \addConstraint{\abs{f_{kl}^{0}(h)} - \bar{f_{kl}^{0}}(h)}{\leq 0,\,}{\forall\, kl \in E,h\in H }{\label{const: ExistingLimits}}
-     \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0,\,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
-     \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0,\,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
-    \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0,\,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
-    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{}
-    \addConstraint{x_{kl}}{\in \{0,1\},\,}{\forall\, kl \in C,}
+	\addConstraint{d_{k}(h)-\left(\sum_{l\in E_{k}}f_{kl}^{0}(h) + \sum_{l\in C_{k}}f_{kl}^{1}(h) + g_{k}(h) + r_{k}(h)\right)}{=0\ ,\quad}{\forall k\in N ,h\in H}{\label{const: PowerBalance}}
+    \addConstraint{\abs{f_{kl}^{0}(h)} - \bar{f_{kl}^{0}}(h)}{\leq 0\ ,}{\forall\, kl \in E,h\in H }{\label{const: ExistingLimits}}
+     \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0\ ,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
+     \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0\ ,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
+    \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0\ ,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0}{}{}
+    \addConstraint{x_{kl}}{\in \{0,1\}\ ,}{\forall\, kl \in C,}
 \end{mini!}
 where the variables are described in Table\,\ref{table:TEPNomenclature}. We next briefly describe each equation:
 \begin{itemize}
@@ -161,7 +161,7 @@ The demand at node $2$ is $12$ energy units, so it cannot be fulfilled by its ow
 %       BENDERS DECOMPOSITION for TEP [Large Problems]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Benders Decomposition in TEP}
-In Chapter\,\ref{Chapter3} we showed three hybrid approaches that combine classical and quantum solvers. In this work, we decided to explore the Benders' decomposition approach due to two main points. Firstly, the convergence properties of Benders' decomposition allows us to know how good a solution is. Secondly, TEP problems have diagonal structure which means they are suitable for a Benders' decomposition approach. We propose a quantum Benders' decomposition scheme for a general formulation of TEP problems, but its implementation is left for a future work. However, we present the results of a few TEP problem solved by D-Wave hybrid solvers. This results are going to be compared in the future with the results we get from our quantum BD algorithm.\\\\\
+In Chapter\,\ref{Chapter3} we showed three hybrid approaches that combine classical and quantum solvers. In this work, we decided to explore the Benders' decomposition approach due to two main points. Firstly, the convergence properties of Benders' decomposition allows us to know how good a solution is. Secondly, TEP problems have diagonal structure which means they are suitable for a Benders' decomposition approach. We propose a quantum Benders' decomposition scheme for a general formulation of TEP problems, but its implementation is left for a future work. However, we present the results of a few TEP problem solved by D-Wave hybrid solvers. These results will be be compared in the future with the results we get from our quantum BD algorithm.\\\\\
 In order to simplify the problem we consider a single snapshot so that we can drop the $h$ index. As discussed in Ch.\,\ref{Chapter3}, we can formulate the problem by maximizing a dual function or by minimizing the primal problem with the dual as penalties. The Benders' decomposition algorithm that we propose consists of four steps:
 \begin{itemize}
     \item \textbf{Step 1} (\textit{Initialization of Benders’ decomposition})\textbf{:} we initialize the iteration counter $t$, the upper bound $\bar{z}^{0}$, the lower bound $\underline{z}^{0}$, the load shedding and operational cost $\alpha^{0}$ and the penalty term associated with the violation of power flow constraints of candidate lines $\Pi_{f_{kl}^{1}}$.
