@@ -261,13 +261,13 @@ where $\hat{\mathcal{H}}$ is the Hamiltonian operator, $\hbar$ is the reduced Pl
 We end up this appendix by discussing the main features of quantum behavior that provide a speed-up for some algorithms versus their classical approach.\\\\
 The main power of quantum computers can be summarized in three properties,
 \begin{itemize}
-    \item \textbf{Superposition:} a qubit can be a in a linear combination of states. We can build quantum algorithms that cross out those terms that are not interesting for us and increase the amplitudes of the ones we are interested in.
+    \item \textbf{Superposition:} a qubit can be a in a linear combination of states. A quantum memory register can exist in a superposition of states. If we perform an operation on this quantum register, this operation is applied to all states of that superposition. Notice that we have applied an operation to all the states in that superposition by performing the function just once.
     \item \textbf{Entanglement:} an entangled state is a state that cannot be written in term of the tensor product of pure states, i.e., states whose trace $Tr(\rho^{2}) = 1$, where $\rho$ is the density matrix. Entangled states store information exponentially instead of linearly (as classical computing does). As an example, suppose we have the following two-qubit state, called \textit{Bell state}
 \begin{equation}
     \ket{\psi} = \frac{1}{\sqrt{2}}\left(\ket{00} + \ket{11}\right).
 \end{equation}
 If we measure the first qubit in the Z-basis, we can get either the state $\ket{0}$ or $\ket{1}$. We can see that both qubits are entangled in the sense that knowing the state of the first qubit allows us to determine the state of the second qubit. In this case, if the first qubit measurement is $\ket{0}$ we know that the second qubit must be in state $\ket{0}$.\footnote{Einstein termed this effect \emph{spooky action at a distance} in an attempt to ridicule quantum mechanics.}  
-    \item \textbf{Parallelism:} a quantum memory register can exist in a superposition of states. If we perform an operation on this quantum register, this operation is applied to all states of that superposition. Notice that we have applied an operation to all the states in that superposition by performing the function just once.
+    \item \textbf{Interference:} we can build quantum algorithms that cross out those terms that are not interesting for us and increase the amplitudes of the ones we are interested in.
 \end{itemize}
 Even though the advantage of using quantum computing with respect to classical computing has been proven theoretically for some specific problems, see Ref. \cite{Grover19961996Search}, the real world problems are yet far away from being addressed fully by quantum computing. The best we can do nowadays is to solve problems by splitting them into a quantum part that can be done by a quantum computer and a classical part that is solved by using an HPC.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
