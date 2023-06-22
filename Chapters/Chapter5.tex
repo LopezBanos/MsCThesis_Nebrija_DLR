@@ -49,7 +49,7 @@ The implementation of TEP problems into D-Wave annealer requires of hybrid solve
 \caption{D-Wave's feasible solutions to the TEP combinatorial optimization problem.}
 \label{tab:SmallNetworkResultsHybrid}
 \end{table}
-Notice that there are two solutions with the same cost. The first one has been shown in the previous section. However, the new solution produced by the hybrid solver build two lines whose cummalated cost is the same as the one connecting the node $3$ and the node $2$.
+Notice that there are two solutions with the same cost. The first one has been shown in the previous section. However, the new solution produced by the hybrid solver build two lines whose accumulated cost is the same as the one connecting the node $3$ and the node $2$.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.4\textwidth]{Figures/3NodeGreenHybrid.pdf}
@@ -57,3 +57,12 @@ Notice that there are two solutions with the same cost. The first one has been s
   \caption{Graphical solution of three node problem.}
   \label{fig: Green_final_Hybrid}
 \end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+\includegraphics[width=0.8\textwidth]{Figures/ExecutionTimes.pdf}
+  \end{center}
+  \caption{Execution times for different test cases of small networks with D-Wave \textit{LeapHybridCQMSampler}.}
+  \label{fig: ExecutionTimes}
+\end{figure}
+
