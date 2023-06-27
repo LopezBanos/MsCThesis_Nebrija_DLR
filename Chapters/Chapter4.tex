@@ -89,7 +89,7 @@ We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\
      \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0\ ,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
      \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0\ ,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
     \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0\ ,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
-    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0}{}{}
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0}{}{}
     \addConstraint{x_{kl}}{\in \{0,1\}\ ,}{\forall\, kl \in C,}  
 \end{mini!}
 where the variables are described in Table\,\ref{table:TEPNomenclature}. We next briefly describe each equation:
@@ -141,7 +141,7 @@ To summarise, given the energy demand for a set of nodes $N$ for a set of snapsh
 \label{tab:SmallNetwork}
 \end{table}
 We use synthetic data for our TEP problem described in Table\,\ref{tab:SmallNetwork}.\\
-The objective function for the three node fully connected network described above is
+The objective function for the three-node fully-connected network described above is
 \begin{mini!}[2]
 	{\mathbf{x}, \mathbf{g}}{\underbrace{\mathbf{C}^{\intercal}\mathbf{x}}_{\textrm{Investment Cost}} + \underbrace{\mathbf{C}_{\textrm{oc}}^{\intercal}\mathbf{g}}_{\textrm{Operational Cost}}}{}{}{}
  	\addConstraint{g_{k}}{\leq \bar{g}_{k} }{\forall\, k \in N}{}
@@ -158,8 +158,8 @@ Notice that we are not considering the power flow limits $f_{kl}^{1}$ of candida
   \label{fig: Green_inital}
 \end{figure}
 The demand at node $2$ is $12$ energy units, so it cannot be fulfilled by its own generator and requires energy from at least one of the neighboring nodes which means we need to build at least one transmission line connected to node $2$.
-\subsection{D-Wave CQM ExactSolver()}
-Since the problem we are tackling has just a few variables we can sample all the configuration space. For this task we use the \textit{CQM ExactSolver} class. One of the advantage of CQM is that it writes down if the solution is feasible, i.e.,  if that solution satisfy all the constraints of our problem. The solution of the problem is represented graphically in Figure\,\ref{fig: Green_final}.
+\subsection{D-Wave ExactSolver}
+Since the problem we are tackling has just a few variables we can sample all the configuration space. For this task we use the \textit{ ExactCQMSolver} class. One of the advantages of CQM is that it writes down if the solution is feasible, i.e.,  if that solution satisfies all the constraints of our problem. The solution of the problem is represented graphically in Figure\,\ref{fig: Green_final}.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.4\textwidth]{Figures/Green_Final.pdf}
@@ -187,8 +187,8 @@ The Table\,\ref{tab:SmallNetworkResults} represents only feasible solutions whic
 \label{tab:SmallNetworkResults}
 \end{table}
 The optimal solution decides to build the most expensive transmission line, i.e., the one connecting nodes 2 and 3, and to use the maximum capacity of the cheapest generator, the one at node 3, see Table\,\ref{tab:SmallNetwork}.
-\subsection{D-Wave LeapHybridCQMSampler()}
-The complete implementation of TEP problems -- taking into account integer or real variables -- requires of hybrid solvers. For this reason, we implemented the TEP problem from\,\eqref{eq:StatementTEP} in Python and use a D-Wave hybrid solver. As you may guess the results should be the same as the ones stated in the previous sections. However, in Table\,\ref{tab:SmallNetworkResultsHybrid} there are columns that did not appear before. The problem as stated here is general and takes into account every variable of TEP problems which do not happen with the formulation of last section.
+\subsection{D-Wave LeapHybridCQMSampler}
+The complete implementation of TEP problems -- taking into account integer or real variables -- requires of hybrid solvers. For this reason, we implemented the TEP problem from\,\eqref{eq:StatementTEP} in Python and used a D-Wave hybrid solver. We would expect the solution to the problem to be the same as above. However, in order to exploit the capabilities of the hybrid solver, we have taken into account every variable of the TEP problem which were not considered in the previous section. This is why Table\,\ref{tab:SmallNetworkResultsHybrid} displays more columns than Table\,\ref{tab:SmallNetworkResults}.
  \begin{table}[H]
 \centering
 \begin{tabular}{ |c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c| }
@@ -203,7 +203,7 @@ The complete implementation of TEP problems -- taking into account integer or re
 \caption{D-Wave's feasible solutions to the TEP combinatorial optimization problem.}
 \label{tab:SmallNetworkResultsHybrid}
 \end{table}
-Notice that there are two solutions with the same cost. The first one has been shown in the previous section. However, the new solution produced by the hybrid solver build two lines whose accumulated cost is the same as the one connecting the node $3$ and the node $2$. Taking into account the complete formulation of the problem and not just a simplification allow us to get new solutions that otherwise do not appear. In this case, the complete formulation of the problem allow the current to flow between nodes until it reach the destination node.
+Notice that there are two solutions with the same cost. The first one was shown in the previous section. However, the new solution produced by the hybrid solver builds two lines whose accumulated cost is the same as the one connecting nodes $3$ and $2$. Taking into account the complete formulation of the problem and not just a simplified version allows us to get new solutions that otherwise would not appear. In this case, the complete formulation of the problem allows the current to flow between nodes until it reaches the destination node.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.4\textwidth]{Figures/3NodeGreenHybrid.pdf}
@@ -211,8 +211,9 @@ Notice that there are two solutions with the same cost. The first one has been s
   \caption{Graphical solution of three node problem.}
   \label{fig: Green_final_Hybrid}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Execution Times}
-Last, we run ten test for a different number of nodes in a network with a D-Wave hybrid solver known as \textit{LeapHybridCQMSampler}. Despite the execution time of the hybrid solvers can be set, the LeapHybridSampler will calculate a minimum time based on the size of our problem. We let the hybrid sampler to decide the amount of time each problem requires. The execution times for a set of TEP problem is shown in Figure\,\ref{fig: ExecutionTimes}. 
+Last, we run ten tests for a different number of nodes in a network with a D-Wave hybrid solver known as \textit{LeapHybridCQMSampler}. Although the execution time of the hybrid solvers can be set, the LeapHybridCQMSampler will calculate a minimum time based on the size of our problem. As we can observe, the execution times are nearly identical for any number of nodes Figure\,\ref{fig: ExecutionTimes}. This is because the execution time limit is set internally.  Although it can be modified, we were not able not perform as many trials as desired because of the limitations of Leap's free account. However, it would be more interesting to consider other quantities such as time-to-solution\,\cite{Mandr2018}, which will surely increase with the number of nodes. This will be the subject of future work.
 \begin{figure}[H]
   \begin{center}
 \includegraphics[width=0.8\textwidth]{Figures/ExecutionTimes.pdf}
@@ -242,7 +243,7 @@ In order to simplify the problem we consider a single snapshot so that we can dr
      \addConstraint{\abs{f_{kl}^{1}} - \bar{f}_{kl}^{1}x^{t}_{kl}}{\leq 0,\,}{\forall\, kl \in C}{}
      \addConstraint{g_{k}-\bar{g}_{k}}{\leq 0,\,}{\forall\, k\in N}{}
     \addConstraint{r_{k} - d_{k}}{\leq 0,\,}{\forall\, k \in N}{}
-    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}.
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0\,}{}{\label{const: positivevalues}}.
     \end{mini!}
     \item \textbf{Step 4} (\textit{Stopping criterion})\textbf{:} after minimizing $\alpha^{t}$ we reduce the upper bound
     \begin{equation}
