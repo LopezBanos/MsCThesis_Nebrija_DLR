@@ -89,7 +89,7 @@ We formulate the TEP problem according to the work of Dilwali \textit{et al.}\,\
      \addConstraint{\abs{f_{kl}^{1}(h)} - \bar{f_{kl}^{1}}(h)x_{kl}}{\leq 0\ ,}{\forall\, kl \in C,h\in H }{\label{const: CandidateLimits}}
      \addConstraint{g_{k}(h)-\bar{g}_{k}(h)}{\leq 0\ ,}{\forall\, k\in N,h\in H }{\label{const: BusLimits}}
     \addConstraint{r_{k}(h) - d_{k}(h)}{\leq 0\ ,}{\forall\, k \in N,h\in H }{\label{const: BusLoads}}
-    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{r}, \mathbf{f}^{0}, \mathbf{f}^{1}}{\geq 0}{}{}
+    \addConstraint{\mathbf{d}, \mathbf{g}, \mathbf{r}}{\geq 0}{}{}
     \addConstraint{x_{kl}}{\in \{0,1\}\ ,}{\forall\, kl \in C,}  
 \end{mini!}
 where the variables are described in Table\,\ref{table:TEPNomenclature}. We next briefly describe each equation:
